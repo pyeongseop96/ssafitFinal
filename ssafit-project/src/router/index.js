@@ -1,22 +1,47 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import ReviewCreate from '@/components/review/ReviewCreate.vue'
+import ReviewDetail from '@/components/review/ReviewDetail.vue'
+import ReviewList from '@/components/review/ReviewList.vue'
+import ReviewUpdate from '@/components/review/ReviewUpdate.vue'
+import ReviewView from '@/views/ReviewView.vue'
+import TheHeaderView from '@/components/common/TheHeaderNav.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView
+      name: 'header',
+      component: TheHeaderView
     },
+  
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
+      path: '/review',
+      name: 'review',
+      component: ReviewView,
+      children: [
+        {
+          path: '',
+          name: 'reviewList',
+          component: ReviewList,
+        },
+        {
+          path: 'detail',
+          name: 'reviewDetail',
+          component: ReviewDetail,
+        },
+        {
+          path: 'update',
+          name: 'reviewUpdate',
+          component: ReviewUpdate,
+        },
+        {
+          path: 'create',
+          name: 'reviewCreate',
+          component: ReviewCreate,
+        }
+      ]
+    },
   ]
 })
 
