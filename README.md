@@ -1,6 +1,6 @@
 # Ssafit
 
-ssafit입니다...
+ssafit입니다..
 
 ## Getting started
 
