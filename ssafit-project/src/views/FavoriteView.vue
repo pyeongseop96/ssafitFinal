@@ -4,7 +4,7 @@
 
 <template>
   <div>
-    <h2>홈</h2>
+    <h2>찜</h2>
     <RouterView/>
   </div>
 </template>
