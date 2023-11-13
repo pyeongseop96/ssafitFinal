@@ -1,12 +1,16 @@
 <template>
+     <div class="modal" tabindex="-1" role="dialog" style="display: block;">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
     <div>
+      댓글입력
         <br>
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" placeholder="제목">
+        <input type="text" class="form-control" id="floatingInput" placeholder="제목" v-model="title">
         <label for="floatingInput">제목</label>
       </div>
       <div class="form-floating">
-        <input type="text" class="form-control" id="floatingInputGrid" placeholder="내용">
+        <input type="text" class="form-control" id="floatingInputGrid" placeholder="내용" v-model="content">
         <label for="floatingInputGrid">내용</label>
       </div>
 
@@ -14,15 +18,32 @@
     <div>
         <form action="#">
             <br>
-            <button onclick="location.href='./리뷰 목록 화면.html'" type="button" class="shadow btn btn-outline-primary">등록</button>
-            <button onclick="location.href='./리뷰 목록 화면.html'" type="button" class="shadow btn btn-outline-danger">취소</button>
+            <button @click="store.createReview(content, title, sessionStorage.data, store.videoID)" type="button" class="shadow btn btn-outline-primary">등록</button>
+              <button @click="handleClose" type="button" class="shadow btn btn-outline-danger">취소</button>
         </form>
     </div>
     </div>
+</div>
+    </div>
+  </div>
 </template>
 
 <script setup>
+import {useReviewStore} from '@/stores/review'
+import { ref } from 'vue';
 
+//임시로 로그인한척
+import { useSessionStore } from '@/stores/store'
+ const sessionStorage = useSessionStore();
+ //임시끝
+
+const store = useReviewStore()
+const title = ref('')
+const content = ref('')
+
+const handleClose = () => {
+  store.showModal=false
+};
 </script>
 
 <style scoped>

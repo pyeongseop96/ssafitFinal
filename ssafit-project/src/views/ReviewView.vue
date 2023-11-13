@@ -1,15 +1,7 @@
 <template>
     <div>
-             <!-- 임시 태그 -->
-     <div>
-        <h2>(임시) 동영상 주소 입력 : </h2>
-      <input type="text" v-model="keyword">
-      <button @click="search">주소 변경</button>
-      <router-link :to="{ name: 'reviewList'}"></router-link>
-      <hr>
-        </div>
-        <!-- 임시 끝 -->
-        <p class="fw-bold fs-4 text-center" id="fontt"> ✏️ 운동영상 리뷰 ✏️ </p>
+
+        <p class="fw-bold fs-4 text-center" id="fontt"> ✏️ 운동영상 ✏️ </p>
     <hr>
     <br>
     <div align="center">
@@ -23,16 +15,10 @@
 <script setup>
 import { ref } from 'vue';
 import { useReviewStore } from '../stores/review';
-const router = VueRouter()
+import {RouterLink} from 'vue-router'
 
 
-//임시
-const keyword = ref('')
 const store = useReviewStore()
-const search = function() {
-    store.selectedYoutube = `https://www.youtube.com/embed/${keyword.value}`
-}
-//임시 끝
 
 
 

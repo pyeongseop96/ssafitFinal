@@ -5,14 +5,22 @@ import ReviewList from '@/components/review/ReviewList.vue'
 import ReviewUpdate from '@/components/review/ReviewUpdate.vue'
 import ReviewView from '@/views/ReviewView.vue'
 import TheHeaderView from '@/components/common/TheHeaderNav.vue'
+import HomeView from '@/views/HomeView.vue'
+import VideoView from '@/views/VideoView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'header',
-      component: TheHeaderView
+      name: 'homeView',
+      component: HomeView
+    },
+
+    {
+      path: '/video',
+      name: 'videoView',
+      component: VideoView,
     },
   
     {

@@ -1,7 +1,10 @@
 <template>
   <div>
-      <THeHeaderNav />
+
+      <TheHeaderNav />
+ 
       <RouterView></RouterView>
+
   </div>
 </template>
 

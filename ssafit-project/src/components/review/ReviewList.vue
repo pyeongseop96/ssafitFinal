@@ -1,9 +1,13 @@
 <template>
+    <h3>댓글: {{ store.reviews.length }}개</h3>
     <div>
+     
         <div class="buttons">
         <form action="#">
-          <button onclick="location.href='./리뷰 등록 화면.html'" type="button" class="shadow btn btn-outline-primary">글 작성</button>
+          <button @click="openModal" type="button" class="shadow btn btn-outline-primary">댓글 작성</button>
         </form>
+        <ReviewCreate v-if="store.showModal" @closeModal="closeModal" />
+        <ReviewUpdate v-if="store.showUpdate" @closeModal="closeUpdate" />
         <form action="#">
           <input class="form-control" placeholder="🔎제목, 내용으로 검색">
         </form>
@@ -11,25 +15,31 @@
     <hr>
     <!--게시판 목록 작성 https://getbootstrap.kr/docs/5.2/content/tables/ 참고-->
     <table class="table table-striped">
-        <div class="flex-container">
-            <div><th>번호</th></div>
-            <div><th>제목</th></div>
-            <div><th>작성자</th></div>
-            <div><th>조회수</th></div>
-            <div><th>작성시간</th></div>
-        </div>
-        <div class="flex-container">
-          
-          <tr >
-                <div><td>123</td></div>
-                <div><td>와! 효과만점 운동 영상입니다.</td></div>
-                <div><td>a</td></div>
-                <div><td>123</td></div>
-                <div><td>2023-08-11 13:36</td></div>
-            </tr>     
-        </div>
-       
+
+            <th>제목</th>
+            <th>작성자</th>
+           <th>내용</th>
+           <th>작성시간</th>
+            <th>수정</th>
+            <th>삭제</th>
+
+            <tr v-for="(item, index) in store.reviews.slice(0, 10)" :key="index">
+        <td>{{ item.title }}</td>
+        <td>{{ item.userID }}</td>
+        <td>{{ item.content }}</td>
+        <td>{{ item.regDate }}</td>
+        <td>
+          <button v-if="sessionStorage.data==item.userID"  @click="openUpdate(item.reviewID)" type="button" class="shadow btn btn-outline-primary">수정</button>
+        </td>
+        <td>
+          <button v-if="sessionStorage.data==item.userID" @click="store.deleteReview(item.reviewID)" type="button" class="shadow btn btn-outline-danger">삭제</button>
+        </td>
+      </tr>     
+     
     </table>
+
+
+
     <footer>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
@@ -46,22 +56,49 @@
           </nav>
     </footer>
     
-    {{ store.reviews }}
 
     <span class="border-bottom"></span>
     </div>
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import {onMounted, onUpdated, ref, watchEffect} from 'vue'
 import {useReviewStore} from '@/stores/review'
-import { onMounted } from 'vue';
+import ReviewCreate from './ReviewCreate.vue';
+
+//임시로 로그인한척
+import { useSessionStore } from '@/stores/store'
+import ReviewUpdate from './ReviewUpdate.vue';
+ const sessionStorage = useSessionStore();
+ //임시끝
+
+const store = useReviewStore()
 
 onMounted(() => {
   store.getReviewList()
 })
 
-const store = useReviewStore()
+
+
+
+const openModal = () => {
+  store.showModal = true;
+};
+
+const openUpdate = (reviewID) => {
+  store.reviewID = reviewID
+  store.showUpdate = true;
+};
+
+const closeModal = () => {
+  store.showModal = false;
+};
+
+const closeUpdate = () => {
+  store.showUpdate = false;
+};
+
+
 
 
 </script>
