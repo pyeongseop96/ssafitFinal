@@ -2,10 +2,6 @@
     <div>
         일기쓰기
         <input type="month" v-model="month">
-        {{ start }}<br>
-        {{ month }}<br>
-        {{ store.records }}<br>
-        {{ day }}
     </div>
 
     <table>
@@ -22,18 +18,32 @@
     <td v-for="col in [0,1,2,3,4,5,6]" :key="col" @click="out(-start + row * 7 + col+1)">
         <div v-if="start<=row * 7 + col && -start + row * 7 + col+1 <= lastDate">
             {{-start + row * 7 + col+1 }}
+            {{ tagByDate(-start + row * 7 + col+1) }}
         </div>
         </td>
   </tr>
         
     </table>
     <div>
-       <!-- {{ filteredRecords }}숙제 -->
-    </div>
+        누른곳 출력공간<br>
+        날짜:{{ month }}-{{ day }}<br>
+        <!-- smile값 나중에 바뀌면 따라 바꿀것 -->
+        <div v-if="tagByDate(day)!='smile'">
+        -내용-<br>
+        <div v-if="weightInfo!=''">체중:{{ weightInfo[0] }}</div>
+        <div v-if="eatCalInfo!=''">섭취 칼로리:{{ eatCalInfo[0] }}</div>
+        <div v-if="burnCalInfo!=''">소모 칼로리:{{ burnCalInfo[0] }}</div>
+        <div v-if="textInfo!=''">글자:{{ textInfo[0] }}</div>
+        </div>
+        <!-- smile값 나중에 바뀌면 따라 바꿀것 -->
+        <div v-if="tagByDate(day)=='smile'">작성된 내용이 없어요!</div>
+        <button>내용 변경</button>
+        <button>내용 삭제</button>
+</div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'; 
+import { ref, computed, onMounted, watch, toRaw } from 'vue'; 
 import {useRecordStore} from '@/stores/record'
 
 //임시로 로그인한척
@@ -44,9 +54,26 @@ import { useSessionStore } from '@/stores/store'
 const store = useRecordStore();
 
 const day = ref('')
+const weightInfo = ref('')
+const eatCalInfo = ref('')
+const burnCalInfo = ref('')
+const textInfo = ref('')
 
 const out = function(out){
-    day.value = out
+    if(out<=0 || out > lastDate.value){
+        return
+    }
+    if (out >= 1 && out <= 9) {
+    day.value = `0${out}`;
+  } else {
+    day.value = out;
+  }
+  if(store.records.length>0){
+  weightInfo.value = store.records.filter(record =>record.recordDate.split(' ')[0]==`${month.value}-${day.value}`).map(record => record.weight)
+  eatCalInfo.value = store.records.filter(record =>record.recordDate.split(' ')[0]==`${month.value}-${day.value}`).map(record => record.eatCal)
+ burnCalInfo.value = store.records.filter(record =>record.recordDate.split(' ')[0]==`${month.value}-${day.value}`).map(record => record.burnCal)
+  textInfo.value = store.records.filter(record =>record.recordDate.split(' ')[0]==`${month.value}-${day.value}`).map(record => record.text)
+  }
 }
 
     const date = ref(new Date());
@@ -61,21 +88,66 @@ const out = function(out){
 
   onMounted(() => {
     store.getRecordList(`${month.value}-01`,sessionStorage.data)
+    out(new Date().getDate())
 })
 
 watch(() => month.value, (newMonth) => {
     store.getRecordList(`${newMonth}-01`,sessionStorage.data)
 })
 
-//숙제
-// const filteredRecords = ref([]);
-// watch(() => {
-//   filteredRecords.value = store.records.filter(record => {
-//     const date = new Date(record.recordDate);
-//     return date.getDate() == day.value;
-//   });
-// });
+//누른 날짜의 상세 기록, tagByDate로 모두 대체(기능 다 만들고 필요없어보이면 삭제)
+// const RecordByDate = ref('')
 
+// watch(() => day.value, (newDay) => {
+//     if(store.records==[]){
+//         RecordByDate.value = ''
+//     }
+//     else{
+//     RecordByDate.value = store.records.filter(record =>record.recordDate.split(' ')[0]==`${month.value}-${newDay}`)
+//     if(RecordByDate.value.length==0){
+//         RecordByDate.value = ''
+//     }
+//     console.log(RecordByDate.value)
+// }
+// })
+
+// watch(() => store.records, (newRecords) => {
+//     if(newRecords==[]){
+//         RecordByDate.value = ''
+//     }
+//     else{
+//     RecordByDate.value = store.records.filter(record =>record.recordDate.split(' ')[0]==`${month.value}-${day.value}`)
+//     if(RecordByDate.value.length==0){
+//         RecordByDate.value = ''
+//     }
+// }
+// })
+
+
+//캘린더에서 tag출력
+const tagByDate = ((num) => {
+    const tmp = ref(num)
+    if(num<10){
+        tmp.value = `0${num}`
+    }
+    const tag = ref('')
+    if(store.records.length>0){
+
+     tag.value = store.records.filter(record =>record.recordDate.split(' ')[0]==`${month.value}-${tmp.value}`).map(record => record.tag)
+    }
+
+    //달력 표시, @@나중에 image경로로 바꿀 것@@
+    if(tag.value==''){
+        return "smile"
+    }
+    else if (tag.value=='bad') {
+        return "sad"
+    } else if (tag.value=='good'){
+        return "happy"
+    }
+
+    return tag
+})
 
 
     
