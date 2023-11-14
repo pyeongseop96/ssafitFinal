@@ -1,3 +1,9 @@
+<template>
+    <div>
+        <h2>HomeView</h2>
+    </div>
+</template>
+
 <script setup>
     import {RouterView} from 'vue-router'
 </script>
