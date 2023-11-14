@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafit.board.model.dao.ReviewDao">
+	
+	<resultMap type="Review" id="reviewMap">
+		<result column="reviewID" property="reviewID"/>
+		<result column="videoID" property="videoID"/>
+		<result column="userID" property="userID"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="reviewCnt" property="reviewCnt"/>
+		<result column="regDate" property="regDate"/>
+	</resultMap>
+
+	<!-- 전체글 조회 -->
+	<select id="selectAllReview" resultType="Review" parameterType="String">
+		SELECT *
+		FROM reviews
+		WHERE videoID = #{videoID};
+	</select>
+
+	<!-- 상세글 조회 -->
+	<select id="selectReview" resultMap="reviewMap" parameterType="int">
+		SELECT *
+		FROM reviews
+		WHERE reviewID = #{reviewID};
+	</select>
+
+	<insert id="insertReview" parameterType="Review" keyProperty="reviewID" useGeneratedKeys="true">
+		INSERT INTO reviews (reviewID, videoID, userID, title, content, regDate, reviewCnt)
+		VALUES (#{reviewID}, #{videoID}, #{userID}, #{title}, #{content}, now(), 0);
+	</insert>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteReview" parameterType="int">
+		DELETE FROM reviews
+		WHERE reviewID = #{reviewID};
+	</delete>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateReviewCnt" parameterType="int">
+		UPDATE reviews
+		SET reviewCnt = reviewCnt+1
+		WHERE reviewID = #{reviewID};
+	</update>
+	
+	<update id="updateReview" parameterType="Review">
+		UPDATE reviews
+		SET title = #{title}, content = #{content}, regDate = now()
+		WHERE reviewID = #{reviewID};
+	</update>
+	
+</mapper>
