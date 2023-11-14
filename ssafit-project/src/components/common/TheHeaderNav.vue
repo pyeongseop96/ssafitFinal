@@ -7,7 +7,7 @@
             <nav>임시헤더
                 <RouterLink to="/">home</RouterLink> | 
                 <RouterLink to="/video">video</RouterLink> | 
-                <RouterLink to="/video">video</RouterLink> | 
+                <RouterLink to="/record">record</RouterLink> | 
                 <RouterLink to="/video">video</RouterLink> | 
                 <RouterLink to="/video">video</RouterLink> 
             </nav>

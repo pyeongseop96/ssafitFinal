@@ -7,6 +7,7 @@ import ReviewView from '@/views/ReviewView.vue'
 import TheHeaderView from '@/components/common/TheHeaderNav.vue'
 import HomeView from '@/views/HomeView.vue'
 import VideoView from '@/views/VideoView.vue'
+import RecordView from '@/views/RecordView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +22,12 @@ const router = createRouter({
       path: '/video',
       name: 'videoView',
       component: VideoView,
+    },
+
+    {
+      path: '/record',
+      name: 'recordView',
+      component: RecordView,
     },
   
     {

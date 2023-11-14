@@ -42,7 +42,7 @@
 </template>
 
 <script setup>
-import {onMounted, onUpdated, ref, watch } from 'vue';
+import {onMounted, ref, watch } from 'vue';
 import { useVideoStore } from '../stores/video';
 import { useReviewStore } from '../stores/review';
 import router from '../router';
