@@ -96,3 +96,25 @@ INSERT INTO videos (videoID, title, channelName, viewCnt, partInfo) VALUES ('ZW1
 select * from users;
 select * from videos;
 select * from reviews;
+
+drop table records;
+CREATE TABLE if not exists records(
+recordDate TIMESTAMP NOT NULL,
+userID varchar(50) NOT NULL,
+tag varchar(50) NOT NULL,
+weight INT ,
+eatCal INT,
+burnCal INT,
+text varchar(300),
+UNIQUE KEY (recordDate, userID)
+);
+
+insert into records
+values('2023-11-13','철수', 'bad',null,null,null,'룰루루')
+ON DUPLICATE KEY update
+tag = VALUES(tag),
+weight = VALUES(weight),
+eatCal = VALUES(eatCal),
+burnCal = VALUES(burnCal);
+
+select * from records;
