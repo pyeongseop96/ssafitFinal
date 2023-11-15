@@ -8,6 +8,9 @@ import TheHeaderView from '@/components/common/TheHeaderNav.vue'
 import HomeView from '@/views/HomeView.vue'
 import VideoView from '@/views/VideoView.vue'
 import RecordView from '@/views/RecordView.vue'
+import CalorieView from '@/views/CalorieView.vue'
+import CalorieBurnCalculator from '@/components/calorie/CalorieBurnCalculator.vue'
+import CalorieEatCalculator from '@/components/calorie/CalorieEatCalculator.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,6 +31,23 @@ const router = createRouter({
       path: '/record',
       name: 'recordView',
       component: RecordView,
+    },
+    {
+      path: '/calorie',
+      name: 'calorieView',
+      component: CalorieView,
+      children: [
+        {
+          path: '',
+          name: 'CalorieBurnCalculator',
+          component: CalorieBurnCalculator,
+        },
+        {
+          path: 'eat',
+          name: 'CalorieEatCalculator',
+          component: CalorieEatCalculator,
+        }
+      ]
     },
     
   

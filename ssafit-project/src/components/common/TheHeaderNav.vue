@@ -8,7 +8,7 @@
                 <RouterLink to="/">home</RouterLink> | 
                 <RouterLink to="/video">video</RouterLink> | 
                 <RouterLink to="/record">record</RouterLink> | 
-                <RouterLink to="/video">video</RouterLink> | 
+                <RouterLink to="/calorie">calorie</RouterLink> | 
                 <RouterLink to="/video">video</RouterLink> 
             </nav>
             <div>
