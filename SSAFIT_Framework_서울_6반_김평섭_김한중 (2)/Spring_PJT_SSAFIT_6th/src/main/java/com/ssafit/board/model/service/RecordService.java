@@ -6,4 +6,6 @@ import com.ssafit.board.model.dto.Record;
 
 public interface RecordService {
 	List<Record> getRecord(Record record);
+	void removeRecord(Record record);
+	void modifyRecord(Record record);
 }

@@ -5,7 +5,9 @@ import axios from 'axios'
 const RecordURL = 'http://localhost:8080/api-record'
 
 export const useRecordStore = defineStore('record', () => {
+  const month = ref('')
   const records = ref([])
+  const showUpdate = ref(false)
 
   const getRecordList = function (recordDate, userID) {
     axios.get(RecordURL + `/recordAll?recordDate=${recordDate}&userID=${userID}`)
@@ -19,9 +21,18 @@ export const useRecordStore = defineStore('record', () => {
       });
   }
 
- 
+  const deleteRecord = function (recordDate, userID) {
+    axios.delete(RecordURL + `/record?recordDate=${recordDate}&userID=${userID}`)
+      .then((response) => {
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
 
-  return { records, getRecordList}
+
+  return {month, RecordURL, records, getRecordList, deleteRecord}
 })
 

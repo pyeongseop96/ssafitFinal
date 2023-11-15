@@ -13,4 +13,23 @@
       	AND MONTH(recordDate) = MONTH(#{recordDate});
 	</select>
 	
+	<delete id="deleteRecord" parameterType="Record">
+		DELETE FROM records
+		WHERE userID = #{userID}
+		AND YEAR(recordDate) = YEAR(#{recordDate})
+      	AND MONTH(recordDate) = MONTH(#{recordDate})
+      	AND DAY(recordDate) = DAY(#{recordDate});
+	</delete>
+	
+	<insert id="updateRecord" parameterType="Record">
+		insert into records
+values(#{recordDate}, #{userID}, #{tag}, #{weight}, #{eatCal}, #{burnCal}, #{text})
+ON DUPLICATE KEY update
+tag = VALUES(tag),
+weight = VALUES(weight),
+eatCal = VALUES(eatCal),
+burnCal = VALUES(burnCal),
+text = VALUES(text);
+	</insert>
+	
 </mapper>

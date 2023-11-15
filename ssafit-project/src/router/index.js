@@ -29,6 +29,7 @@ const router = createRouter({
       name: 'recordView',
       component: RecordView,
     },
+    
   
     {
       path: '/review',

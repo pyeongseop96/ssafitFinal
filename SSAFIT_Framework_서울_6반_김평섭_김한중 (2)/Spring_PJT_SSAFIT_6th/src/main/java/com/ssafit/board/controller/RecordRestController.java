@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.ssafit.board.model.dto.Record;
+import com.ssafit.board.model.dto.Review;
 import com.ssafit.board.model.service.RecordService;
 
 import io.swagger.annotations.Api;
@@ -30,6 +31,38 @@ public class RecordRestController {
 		if (list == null || list.size() == 0)
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<Record>>(list, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/record")
+	@ApiOperation(value = "기록 삭제", notes = "유저 ID, 날짜에 따른 리뷰를 삭제합니다.")
+	@CrossOrigin(origins = "*")
+	public void delete(@RequestParam String userID, @RequestParam String recordDate) {
+		Record record = new Record();
+		record.setUserID(userID);
+		record.setRecordDate(recordDate);
+		recordService.removeRecord(record);
+	}
+	
+	@PutMapping("/record")
+	@ApiOperation(value = "기록 변경", notes = "리뷰 ID, 내용에 따라 리뷰를 추가/수정합니다.")
+	@CrossOrigin(origins = "*")
+	public void update(
+			@RequestParam String recordDate,
+			@RequestParam String userID,
+			@RequestParam String tag,
+			@RequestParam Integer weight,
+			@RequestParam Integer eatCal,
+			@RequestParam Integer burnCal,
+			@RequestParam String text) {
+		Record record = new Record();
+		record.setUserID(userID);
+		record.setRecordDate(recordDate);
+		record.setTag(tag);
+		record.setWeight(weight);
+		record.setEatCal(eatCal);
+		record.setBurnCal(burnCal);
+		record.setText(text);
+		recordService.modifyRecord(record);
 	}
 
 }

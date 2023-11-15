@@ -18,6 +18,17 @@ public class RecordServiceImpl implements RecordService{
 	public List<Record> getRecord(Record record) {
 		return recordDao.selectAll(record);
 	}
+
+	@Override
+	public void removeRecord(Record record) {
+		recordDao.deleteRecord(record);
+		
+	}
+
+	@Override
+	public void modifyRecord(Record record) {
+		recordDao.updateRecord(record);
+	}
 	
 	
 }
