@@ -11,17 +11,30 @@
         <label for="3week">주 3~5회 운동<input id="3week" value="3week" name="exercise" type="radio"></label> | 
         <label for="6week">주 6~7회 운동<input id="6week" value="6week" name="exercise" type="radio"></label><br>
 
-        <input type="range" class="form-range" min="0" max="10" id="customRange2">
-  
-
-        
+        섭취 영양소 조절<br>
+        <input type="range" class="form-range" min="1" max="10" step="1" v-model="slider1" @change="add"><br>
+        <input type="range" class="form-range" min="1" max="10" step="1" v-model="slider2" @change="add"><br>
+        <input type="range" class="form-range" min="1" max="10" step="1" v-model="slider3" @change="add"><br>
+        탄{{ ((slider1*100) / sum).toFixed(1) }}%
+        단{{ ((slider2*100) / sum).toFixed(1) }}%
+        지{{ ((slider3*100) / sum).toFixed(1) }}%
+        {{ sum }}
     </div>
 </template>
 
 <script setup>
-
+import { ref } from 'vue';
+const slider1 = ref(5)
+const slider2 = ref(5)
+const slider3 = ref(5)
+const sum = ref(slider1.value*1 + slider2.value*1 + slider3.value*1)
+const add = (() => {
+    sum.value = slider1.value*1 + slider2.value*1 + slider3.value*1
+})
 </script>
 
 <style scoped>
-    
+    .form-range{
+        width: 10%;
+    }
 </style>
