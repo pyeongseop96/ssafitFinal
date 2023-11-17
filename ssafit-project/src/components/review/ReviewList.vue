@@ -29,10 +29,10 @@
         <td>{{ item.content }}</td>
         <td>{{ item.regDate }}</td>
         <td>
-          <button v-if="sessionStorage.data==item.userID"  @click="openUpdate(item.reviewID)" type="button" class="shadow btn btn-outline-primary">수정</button>
+          <button v-if="id==item.userID"  @click="openUpdate(item.reviewID)" type="button" class="shadow btn btn-outline-primary">수정</button>
         </td>
         <td>
-          <button v-if="sessionStorage.data==item.userID" @click="store.deleteReview(item.reviewID)" type="button" class="shadow btn btn-outline-danger">삭제</button>
+          <button v-if="id==item.userID" @click="reviewStore.deleteReview(item.reviewID)" type="button" class="shadow btn btn-outline-danger">삭제</button>
         </td>
       </tr>     
      
@@ -65,13 +65,10 @@
 import {onMounted, onUpdated, ref, watchEffect} from 'vue'
 import {useReviewStore} from '@/stores/review'
 import ReviewCreate from './ReviewCreate.vue';
-
-//임시로 로그인한척
-import { useSessionStore } from '@/stores/store'
+import { useUserStore } from '@/stores/user';
 import ReviewUpdate from './ReviewUpdate.vue';
- const sessionStorage = useSessionStore();
- //임시끝
 
+const id = useUserStore().user.userID;
 const reviewStore = useReviewStore()
 
 onMounted(() => {

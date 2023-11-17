@@ -42,12 +42,9 @@
 import { ref } from 'vue';
 import {useRecordStore} from '@/stores/record'
 import axios from 'axios'
+import { useUserStore } from '@/stores/user';
 
-//임시로 로그인한척
-import { useSessionStore } from '@/stores/store'
- const sessionStorage = useSessionStore();
- //임시끝
-
+const id = useUserStore().user.userID;
 const tag = ref('')
 const weight = ref('')
 const eatCal = ref('')
@@ -74,7 +71,7 @@ const updateRecord = () => {
     updateRecord();
     console.log(store.month)
     setTimeout(() => {
-    store.getRecordList(`${store.month}-01`, sessionStorage.data);
+    store.getRecordList(`${store.month}-01`, id);
   }, 100);
 })
 </script>
