@@ -1,14 +1,14 @@
 <template>
     <div>
-        <MypageNav/>
-        <p>마이페이지입니다....</p>
-        <RouterView/>
-
+        <p>마이페이지 뷰</p>
+  <FavChannelList/>
+    <FavVideoList/>
     </div>
 </template>
 
 <script setup>
-import MypageNav from '../components/mypage/MypageNav.vue';
+import FavChannelList from '../components/favorite/FavChannelList.vue';
+import FavVideoList from '../components/favorite/FavVideoList.vue';
 </script>
 
 

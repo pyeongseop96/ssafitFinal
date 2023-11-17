@@ -22,13 +22,12 @@ export const useUserStore = defineStore('user', () => {
     axios.post(API_USER + '/signup', newUser.value)
     .then((res) => {
       alert("가입 성공! 가입한 아이디로 로그인해주세요.")
-      router.push({ name: "login" })
+      router.push({name: "userLogin"}) 
     })
     .catch((err) => {
       console.log(err)
       alert("가입 실패! 다시 시도해주세요;;")
     })
-
   }
 
   const user = ref({ // 현재 로그인한 유저
@@ -40,47 +39,18 @@ export const useUserStore = defineStore('user', () => {
   })
 
 
-  const loginUser = (id, password) => { // 유저 로그인 기능
-    // 유저 정보 담기
-    user.value.userID = id;
-    user.value.password = password;
-
+  const loginUser = () => { // 유저 로그인 기능
     axios.post(API_USER + '/login', user.value)
     .then((res) => {
-      sessionStorage.setItem('access-token', res.data["access-token"])
-
-      const token = res.data["access-token"].split('.');
-      let payload = JSON.parse(atob(token[1]))
-      
-      user.value = {
-        userID: payload['id'],
-        password: '',
-        name: b64DecodeUnicode(payload['name']),
-        email: payload['email'],
-        age: payload['age'],
-      }
-      // 한글 깨짐 수정하는 함수 ( BASE64 => UTF-8 변환)
-      function b64DecodeUnicode(str) {
-        // Going backwards: from bytestream, to percent-encoding, to original string.
-        return decodeURIComponent(
-          atob(str).split('').map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-          }).join(''));
-      }
-
-      alert("로그인 성공")
-      router.push({ path: "/" })
+      user.value = res.data
+      console.log(user.value)
+      alert("로긴 성공")
+      router.push({path: "/"})
     })
-    // 에러 처리
     .catch((err) => {
-      console.log(err)
-      user.value.userID = '';
-      alert("로그인 실패")
+      alert("로긴 실패")
     })
-    // 비밀번호 초기화
-    .finally(() => {user.value.password = ''})
-}
-
+  }
   
 const logoutUser = () => {  // 로그아웃 기능
     axios.get(API_USER + "/logout")

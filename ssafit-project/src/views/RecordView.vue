@@ -46,10 +46,14 @@
 import { ref, computed, onMounted, watch, toRaw } from 'vue'; 
 import {useRecordStore} from '@/stores/record'
 import RecordUpdate from '../components/record/RecordUpdate.vue';
-import { useUserStore } from '@/stores/user';
 
-const id = useUserStore().user.userID;
+//임시로 로그인한척
+import { useSessionStore } from '@/stores/store'
+ const sessionStorage = useSessionStore();
+ //임시끝
+
 const recordStore = useRecordStore();
+
 const day = ref('')
 const weightInfo = ref('')
 const eatCalInfo = ref('')
@@ -84,18 +88,18 @@ const out = function(out){
 
 
   onMounted(() => {
-    recordStore.getRecordList(`${recordStore.month}-01`,id)
+    recordStore.getRecordList(`${recordStore.month}-01`,sessionStorage.data)
     out(new Date().getDate())
 })
 
 watch(() => recordStore.month, (newMonth) => {
-    recordStore.getRecordList(`${newMonth}-01`,id)
+    recordStore.getRecordList(`${newMonth}-01`,sessionStorage.data)
 })
 
 const clickDeleteButton = (()=>{
-    recordStore.deleteRecord(`${recordStore.month}-${day.value}`,id);
+    recordStore.deleteRecord(`${recordStore.month}-${day.value}`,sessionStorage.data);
     setTimeout(() => {
-        recordStore.getRecordList(`${recordStore.month}-01`, id);
+        recordStore.getRecordList(`${recordStore.month}-01`, sessionStorage.data);
   }, 100);
 })
 
