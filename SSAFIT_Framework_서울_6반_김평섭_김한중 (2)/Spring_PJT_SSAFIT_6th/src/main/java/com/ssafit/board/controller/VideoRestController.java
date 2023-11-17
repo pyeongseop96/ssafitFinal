@@ -34,7 +34,7 @@ public class VideoRestController {
 	@ApiOperation(value="전체 영상 조회", notes="검색조건 없이 전체 조회합니다.")
 	public ResponseEntity<List<Video>> getList(){
 		List<Video> list = videoService.getList();
-		System.out.println(list.toString());
+		System.out.println(list);
 		return new ResponseEntity<List<Video>>(list, HttpStatus.OK);
 	}
 
@@ -43,6 +43,7 @@ public class VideoRestController {
 	@ApiOperation(value="영상 상세 조회", notes="해당 ID를 가진 영상을 조회합니다.")
 	public ResponseEntity<?> detail(@PathVariable String videoID){
 		Video video = videoService.getVideo(videoID);
+		System.out.println(video);
 		if (video != null) {
 			return new ResponseEntity<Video>(video, HttpStatus.OK);
 		}
@@ -76,7 +77,7 @@ public class VideoRestController {
 	// 6. 영상 검색
 	@GetMapping("/video/search")
 	@ApiOperation(value="영상 검색하기", notes="해당 정보를 가진 영상을 조회합니다.")
-	public ResponseEntity<?> search(SearchCondition condition){
+	public ResponseEntity<?> search(@RequestBody SearchCondition condition){
 		List<Video> list = videoService.search(condition);
 		if (list != null) {
 			return new ResponseEntity<List<Video>>(list, HttpStatus.OK);

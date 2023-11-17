@@ -54,5 +54,52 @@
 		</if>
 	</select>
 	
+	<!-- 다른 mapper 파일로 분리한 코드들 
+	<select id="selectFavVideos" resultType="Video" parameterType="String">
+		SELECT *
+		FROM videos
+		WHERE videoID
+		IN (SELECT videoID FROM favoriteVideos WHERE userID = #{userID});
+	</select>
+	
+	
+	<select id="selectAll">
+		SELECT f.userID, v.* 
+		FROM videos v LEFT OUTER JOIN favoriteVideos f 
+		ON v.videoID = f.videoID
+	</select>
+	
+	
+	<insert id="insertFavoriteVideo" parameterType="String">
+		INSERT INTO favoriteVideos
+		VALUES (#{userID}, #{videoID})
+	</insert>
+	
+	
+	<delete id="deleteFavoriteVideo" parameterType="String">
+		DELETE FROM favoriteVideos
+		WHERE userID=#{userID} AND videoID=#{videoID}
+	</delete>
+	
+	
+	<select id="selectFavChannels" resultType="String" parameterType="String">
+		SELECT channelName
+		FROM videos
+		WHERE channelName
+		IN (SELECT channelName FROM favoriteChannels WHERE userID = #{userID});
+	</select>
+	
+	
+	<insert id="insertFavoriteChannel" parameterType="String">
+		INSERT INTO favoriteChannels
+		VALUES (#{userID}, #{channelName})
+	</insert>
+	
+
+	<delete id="deleteFavoriteChannel" parameterType="String">
+		DELETE FROM favoriteChannels
+		WHERE userID=#{userID}, channelName=#{channelName}
+	</delete>
+	-->
 
 </mapper>

@@ -18,7 +18,7 @@
     <div>
         <form action="#">
             <br>
-            <button @click="store.createReview(content, title, sessionStorage.data, store.videoID)" type="button" class="shadow btn btn-outline-primary">등록</button>
+            <button @click="reviewStore.createReview(content, title, sessionStorage.data, reviewStore.videoID)" type="button" class="shadow btn btn-outline-primary">등록</button>
               <button @click="handleClose" type="button" class="shadow btn btn-outline-danger">취소</button>
         </form>
     </div>
@@ -37,12 +37,12 @@ import { useSessionStore } from '@/stores/store'
  const sessionStorage = useSessionStore();
  //임시끝
 
-const store = useReviewStore()
+const reviewStore = useReviewStore()
 const title = ref('')
 const content = ref('')
 
 const handleClose = () => {
-  store.showModal=false
+  reviewStore.showModal=false
 };
 </script>
 

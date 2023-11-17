@@ -5,7 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafit.board.model.dto.Review;
 import com.ssafit.board.model.service.ReviewService;
@@ -49,7 +56,6 @@ public class ReviewRestController {
 	// 4. 리뷰 삭제
 	@DeleteMapping("/review/{reviewID}")
 	@ApiOperation(value = "리뷰 삭제", notes = "리뷰 ID에 따른 리뷰를 삭제합니다.")
-	@CrossOrigin(origins = "*")
 	public ResponseEntity<Void> delete(@PathVariable int reviewID) {
 		reviewService.removeReview(reviewID);
 		return new ResponseEntity<Void>(HttpStatus.OK);
@@ -58,7 +64,6 @@ public class ReviewRestController {
 	// 5. 리뷰 수정
 	@PutMapping("/review")
 	@ApiOperation(value = "리뷰 수정", notes = "리뷰 ID에 따른 리뷰를 수정합니다.")
-	@CrossOrigin(origins = "*")
 	public ResponseEntity<Review> update(Review review) {
 		reviewService.modifyReview(review);
 		return new ResponseEntity<Review>(review, HttpStatus.OK);

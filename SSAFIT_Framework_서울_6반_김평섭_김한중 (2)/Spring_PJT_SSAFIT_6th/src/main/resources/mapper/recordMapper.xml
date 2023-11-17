@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafit.board.model.dao.RecordDao">
+	
+	<!-- 전체글 조회 -->
+	<select id="selectAll" resultType="Record" parameterType="Record">
+		SELECT *
+		FROM records
+		WHERE userID = #{userID}
+		AND YEAR(recordDate) = YEAR(#{recordDate})
+      	AND MONTH(recordDate) = MONTH(#{recordDate});
+	</select>
+	
+	<delete id="deleteRecord" parameterType="Record">
+		DELETE FROM records
+		WHERE userID = #{userID}
+		AND YEAR(recordDate) = YEAR(#{recordDate})
+      	AND MONTH(recordDate) = MONTH(#{recordDate})
+      	AND DAY(recordDate) = DAY(#{recordDate});
+	</delete>
+	
+	<insert id="updateRecord" parameterType="Record">
+		insert into records
+values(#{recordDate}, #{userID}, #{tag}, #{weight}, #{eatCal}, #{burnCal}, #{text})
+ON DUPLICATE KEY update
+tag = VALUES(tag),
+weight = VALUES(weight),
+eatCal = VALUES(eatCal),
+burnCal = VALUES(burnCal),
+text = VALUES(text);
+	</insert>
+	
+</mapper>

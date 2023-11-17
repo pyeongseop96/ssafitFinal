@@ -47,4 +47,6 @@ public class ReviewServiceImpl implements ReviewService {
 	public void removeReview(int reviewID) {
 		reviewDao.deleteReview(reviewID);
 	}
+	
+
 }
