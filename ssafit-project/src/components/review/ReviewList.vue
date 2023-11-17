@@ -1,13 +1,13 @@
 <template>
-    <h3>댓글: {{ store.reviews.length }}개</h3>
+    <h3>댓글: {{ reviewStore.reviews.length }}개</h3>
     <div>
      
         <div class="buttons">
         <form action="#">
           <button @click="openModal" type="button" class="shadow btn btn-outline-primary">댓글 작성</button>
         </form>
-        <ReviewCreate v-if="store.showModal" @closeModal="closeModal" />
-        <ReviewUpdate v-if="store.showUpdate" @closeModal="closeUpdate" />
+        <ReviewCreate v-if="reviewStore.showModal" @closeModal="closeModal" />
+        <ReviewUpdate v-if="reviewStore.showUpdate" @closeModal="closeUpdate" />
         <form action="#">
           <input class="form-control" placeholder="🔎제목, 내용으로 검색">
         </form>
@@ -23,7 +23,7 @@
             <th>수정</th>
             <th>삭제</th>
 
-            <tr v-for="(item, index) in store.reviews.slice(0, 10)" :key="index">
+            <tr v-for="(item, index) in reviewStore.reviews.slice(0, 10)" :key="index">
         <td>{{ item.title }}</td>
         <td>{{ item.userID }}</td>
         <td>{{ item.content }}</td>
@@ -72,30 +72,30 @@ import ReviewUpdate from './ReviewUpdate.vue';
  const sessionStorage = useSessionStore();
  //임시끝
 
-const store = useReviewStore()
+const reviewStore = useReviewStore()
 
 onMounted(() => {
-  store.getReviewList()
+  reviewStore.getReviewList()
 })
 
 
 
 
 const openModal = () => {
-  store.showModal = true;
+  reviewStore.showModal = true;
 };
 
 const openUpdate = (reviewID) => {
-  store.reviewID = reviewID
-  store.showUpdate = true;
+  reviewStore.reviewID = reviewID
+  reviewStore.showUpdate = true;
 };
 
 const closeModal = () => {
-  store.showModal = false;
+  reviewStore.showModal = false;
 };
 
 const closeUpdate = () => {
-  store.showUpdate = false;
+  reviewStore.showUpdate = false;
 };
 
 

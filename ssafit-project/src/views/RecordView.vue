@@ -1,9 +1,9 @@
 <template>
     <div>
         일기쓰기
-        <input type="month" v-model="store.month">
+        <input type="month" v-model="recordStore.month">
     </div>
-    <RecordUpdate v-if="store.showUpdate" @closeModal="closeUpdate" />
+    <RecordUpdate v-if="recordStore.showUpdate" @closeModal="closeUpdate" />
     <table>
         <tr>
             <th>일</th>
@@ -26,7 +26,7 @@
     </table>
     <div>
         누른곳 출력공간<br>
-        날짜:{{ store.month }}-{{ day }}<br>
+        날짜:{{ recordStore.month }}-{{ day }}<br>
         <!-- smile값 나중에 바뀌면 따라 바꿀것 -->
         <div v-if="tagByDate(day)!='smile'">
         -내용-<br>
@@ -37,7 +37,7 @@
         </div>
         <!-- smile값 나중에 바뀌면 따라 바꿀것 -->
         <div v-if="tagByDate(day)=='smile'">작성된 내용이 없어요!</div>
-        <button @click="openUpdate(`${store.month}-${day}`,sessionStorage.data)">내용 변경</button>
+        <button @click="openUpdate(`${recordStore.month}-${day}`,sessionStorage.data)">내용 변경</button>
         <button @click="clickDeleteButton">내용 삭제</button>
 </div>
 </template>
@@ -52,7 +52,7 @@ import { useSessionStore } from '@/stores/store'
  const sessionStorage = useSessionStore();
  //임시끝
 
-const store = useRecordStore();
+const recordStore = useRecordStore();
 
 const day = ref('')
 const weightInfo = ref('')
@@ -69,37 +69,37 @@ const out = function(out){
   } else {
     day.value = out;
   }
-  if(store.records.length>0){
-  weightInfo.value = store.records.filter(record =>record.recordDate.split(' ')[0]==`${store.month}-${day.value}`).map(record => record.weight)
-  eatCalInfo.value = store.records.filter(record =>record.recordDate.split(' ')[0]==`${store.month}-${day.value}`).map(record => record.eatCal)
- burnCalInfo.value = store.records.filter(record =>record.recordDate.split(' ')[0]==`${store.month}-${day.value}`).map(record => record.burnCal)
-  textInfo.value = store.records.filter(record =>record.recordDate.split(' ')[0]==`${store.month}-${day.value}`).map(record => record.text)
+  if(recordStore.records.length>0){
+  weightInfo.value = recordStore.records.filter(record =>record.recordDate.split(' ')[0]==`${recordStore.month}-${day.value}`).map(record => record.weight)
+  eatCalInfo.value = recordStore.records.filter(record =>record.recordDate.split(' ')[0]==`${recordStore.month}-${day.value}`).map(record => record.eatCal)
+ burnCalInfo.value = recordStore.records.filter(record =>record.recordDate.split(' ')[0]==`${recordStore.month}-${day.value}`).map(record => record.burnCal)
+  textInfo.value = recordStore.records.filter(record =>record.recordDate.split(' ')[0]==`${recordStore.month}-${day.value}`).map(record => record.text)
   }
 }
 
     const date = ref(new Date());
-    store.month = ref(`${date.value.getFullYear()}-${date.value.getMonth()+1}`);
+    recordStore.month = ref(`${date.value.getFullYear()}-${date.value.getMonth()+1}`);
     //선택한 달의 막날
-    const lastDate = computed(() => new Date(store.month.slice(0,4),store.month.slice(5,7),0).getDate())
+    const lastDate = computed(() => new Date(recordStore.month.slice(0,4),recordStore.month.slice(5,7),0).getDate())
 
     //선택한 달의 첫날이 무슨요일
-    const start = computed(() => {const slicedMonth = new Date(store.month.slice(0,4),store.month.slice(5,7)-1,1);
+    const start = computed(() => {const slicedMonth = new Date(recordStore.month.slice(0,4),recordStore.month.slice(5,7)-1,1);
   return slicedMonth.getDay();})
 
 
   onMounted(() => {
-    store.getRecordList(`${store.month}-01`,sessionStorage.data)
+    recordStore.getRecordList(`${recordStore.month}-01`,sessionStorage.data)
     out(new Date().getDate())
 })
 
-watch(() => store.month, (newMonth) => {
-    store.getRecordList(`${newMonth}-01`,sessionStorage.data)
+watch(() => recordStore.month, (newMonth) => {
+    recordStore.getRecordList(`${newMonth}-01`,sessionStorage.data)
 })
 
 const clickDeleteButton = (()=>{
-    store.deleteRecord(`${store.month}-${day.value}`,sessionStorage.data);
+    recordStore.deleteRecord(`${recordStore.month}-${day.value}`,sessionStorage.data);
     setTimeout(() => {
-    store.getRecordList(`${store.month}-01`, sessionStorage.data);
+        recordStore.getRecordList(`${recordStore.month}-01`, sessionStorage.data);
   }, 100);
 })
 
@@ -139,9 +139,9 @@ const tagByDate = ((num) => {
         tmp.value = `0${num}`
     }
     const tag = ref('')
-    if(store.records.length>0){
+    if(recordStore.records.length>0){
 
-     tag.value = store.records.filter(record =>record.recordDate.split(' ')[0]==`${store.month}-${tmp.value}`).map(record => record.tag)
+     tag.value = recordStore.records.filter(record =>record.recordDate.split(' ')[0]==`${recordStore.month}-${tmp.value}`).map(record => record.tag)
     }
 
     //달력 표시, @@나중에 image경로로 바꿀 것@@
@@ -158,14 +158,14 @@ const tagByDate = ((num) => {
 })
 
 const openUpdate = (recordDate, userID) => {
-  store.recordDate = recordDate;
-  store.userID = userID;
-  store.showUpdate = true;
+    recordStore.recordDate = recordDate;
+    recordStore.userID = userID;
+    recordStore.showUpdate = true;
 
 };
 
 const closeUpdate = () => {
-  store.showUpdate = false;
+    recordStore.showUpdate = false;
 };
     
 </script>

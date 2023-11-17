@@ -3,10 +3,10 @@
       음식 칼로리 계산
   
       <div>
-        검색:<input type="text" :value="store.word" @input="updateWord">
+        검색:<input type="text" :value="foodStore.word" @input="updateWord">
       </div>
       <table>
-        <tr v-for="item in store.foods">
+        <tr v-for="item in foodStore.foods">
           <td>{{ item.desc_KOR }}(1회 제공량:{{ item.serving_SIZE }}g)</td>
           <td>열량:{{ item.nutr_CONT1 }}kcal</td>
           <td>탄수화물:{{ item.nutr_CONT2 }}g</td>
@@ -37,7 +37,7 @@
   <script setup>
   import { useFoodStore } from '@/stores/food';
   import { ref } from 'vue';
-  const store = useFoodStore();
+  const foodStore = useFoodStore();
   const array = ref([]);
   const sum = ref(0);
   
@@ -50,8 +50,8 @@
   const updateWord = (event) => {
     const inputValue = event.target.value;
     if (inputValue !== '' && !isKoreanWithConsonant(inputValue)) {
-      store.word = inputValue;
-      store.getFoodList();
+      foodStore.word = inputValue;
+      foodStore.getFoodList();
     }
   };
 

@@ -1,10 +1,10 @@
 <script setup>
-import { useSsafitStore } from '../../stores/ssafit';
+import { useUserStore } from '@/stores/user';
 
-const store = useSsafitStore();
+const userStore = useUserStore();
 
 const login = () => {
-   store.loginUser();
+    userStore.loginUser();
 }
 
 
@@ -16,18 +16,14 @@ const login = () => {
         <h2>로그인</h2>
         <div>
             <label for="floatingInput">🖊️아이디</label>
-            <input type="text" id="floatingInput" placeholder="아이디"
-            v-model="store.user.userID">
+            <input type="text" id="floatingInput" placeholder="아이디" v-model="userStore.user.userID">
         </div>
         <div>
             <label for="floatingPassword">🔒비밀번호</label>
-            <input type="password" id="floatingPassword" placeholder="Password"
-            v-model="store.user.password">
+            <input type="password" id="floatingPassword" placeholder="Password" v-model="userStore.user.password">
         </div>
         <button @click="login">로그인</button>
     </div>
 </template>
 
-<style>
-
-</style>
+<style></style>

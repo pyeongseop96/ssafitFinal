@@ -28,12 +28,14 @@
             <th>제목</th>
             <th>트레이너</th>
             <th>운동부위</th>
+            <th> --- 찜하기 --- </th>
         </tr>
 
-        <tr v-for="(video, index) in store.videos.slice(1, 11)" :key="index">
+        <tr v-for="(video, index) in videoStore.videos.slice(1, 11)" :key="index">
             <td @click="goToVideo(video.videoID)">{{ video.title }}</td>
             <td>{{ video.channelName }}</td>
             <td>{{ video.partInfo }}</td>
+            <td @click="toggleFav(video)">{{ video.userID !== null ? "O" : "X" }}</td>
         </tr>
 
     </table>
@@ -46,13 +48,14 @@ import {onMounted, ref, watch } from 'vue';
 import { useVideoStore } from '../stores/video';
 import { useReviewStore } from '../stores/review';
 import router from '../router';
-import { computed } from '@vue/reactivity';
+import { useFavoriteStore } from '../stores/favorite';
 
-const store = useVideoStore()
+const videoStore = useVideoStore()
 const reviewStore = useReviewStore()
+const favStore = useFavoriteStore();
 const changeWord = (word) => {
-  store.word = word
-  store.getVideoList()
+    videoStore.word = word
+    videoStore.getVideoList()
 };
 
 const goToVideo = (id) => {
@@ -62,10 +65,20 @@ router.push('/review')
 }
 
 onMounted(() => {
-  store.getVideoList()
+    videoStore.getVideoList();
+  favStore.getAllVideos();
 })
 
+const toggleFav = (video) => {
+    favStore.setFavVideo(video)
 
+    if (video.userID !== null) {
+        video.userID = null;
+    } else {
+        video.userID = videoStore.user.userID;
+    }
+
+}
 
 
 </script>

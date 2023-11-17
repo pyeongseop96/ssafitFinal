@@ -16,7 +16,7 @@
     <div>
         <form action="#">
             <br>
-            <button @click="store.updateReview(content, title, store.reviewID)" type="button" class="shadow btn btn-outline-primary">수정</button>
+            <button @click="reviewStore.updateReview(content, title, reviewStore.reviewID)" type="button" class="shadow btn btn-outline-primary">수정</button>
             <button @click="handleClose" type="button" class="shadow btn btn-outline-danger">취소</button>
         </form>
     </div>
@@ -29,11 +29,11 @@
 <script setup>
 import { ref } from 'vue';
 import {useReviewStore} from '@/stores/review'
-const store = useReviewStore()
+const reviewStore = useReviewStore()
 const title = ref('')
 const content = ref('')
 const handleClose = () => {
-  store.showUpdate=false
+  reviewStore.showUpdate=false
 };
 </script>
 
