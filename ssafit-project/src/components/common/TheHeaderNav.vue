@@ -11,7 +11,6 @@
                     <RouterLink :to="{name:'userRegist'}">회원가입</RouterLink> | 
                 </span>
                 <span v-else>
-                    <RouterLink :to="{name:'favoriteView'}">좋아요</RouterLink> | 
                     <RouterLink :to="{name:'mypageView'}">마이페이지</RouterLink> | 
                     <a @click="logout">로그아웃</a> | 
                 </span>

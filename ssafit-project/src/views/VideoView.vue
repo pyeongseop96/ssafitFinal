@@ -66,7 +66,7 @@ router.push('/review')
 
 onMounted(() => {
     videoStore.getVideoList();
-  favStore.getAllVideos();
+//   favStore.getAllVideos();
 })
 
 const toggleFav = (video) => {

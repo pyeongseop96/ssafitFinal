@@ -1,8 +1,10 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import {useRouter} from 'vue-router'
 
 const VideoURL = 'http://localhost:8080/api-video/video/search?key=partInfo&word='
+const router = useRouter();
 
 export const useVideoStore = defineStore('video', () => {
   const showModal = ref(false)
@@ -12,10 +14,17 @@ export const useVideoStore = defineStore('video', () => {
   const word = ref('%EC%A0%84%EC%8B%A0');
   const getVideoList = function () {
 
-    axios.get(VideoURL + word.value)
+    axios.get(VideoURL + word.value, {
+      headers: {
+        'access-token': sessionStorage.getItem('access-token')
+      }
+    })
+
       .then((response) => {
-      videos.value = response.data
+        videos.value = response.data
       })
+      .catch((err) => console.log(err))
+
   }
 
 
