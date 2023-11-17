@@ -28,4 +28,6 @@ public interface VideoDao {
 	// 검색 기능
 	public List<Video> search(SearchCondition condition);
 
+
+
 }
