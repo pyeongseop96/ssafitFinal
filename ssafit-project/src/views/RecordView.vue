@@ -46,7 +46,7 @@
 import { ref, computed, onMounted, watch, toRaw } from 'vue'; 
 import {useRecordStore} from '@/stores/record'
 import RecordUpdate from '../components/record/RecordUpdate.vue';
-import { useUserStore } from './user';
+import { useUserStore } from '@/stores/user';
 
 const id = useUserStore().user.userID;
 const recordStore = useRecordStore();

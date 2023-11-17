@@ -42,7 +42,7 @@
 import { ref } from 'vue';
 import {useRecordStore} from '@/stores/record'
 import axios from 'axios'
-import { useUserStore } from './user';
+import { useUserStore } from '@/stores/user';
 
 const id = useUserStore().user.userID;
 const tag = ref('')

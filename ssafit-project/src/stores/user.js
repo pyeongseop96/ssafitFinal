@@ -55,7 +55,7 @@ export const useUserStore = defineStore('user', () => {
 const logoutUser = () => {  // 로그아웃 기능
     axios.get(API_USER + "/logout")
     .then((res) => {
-      user = {
+      const user = {
         userID: '',
         name: '',
         email: '',

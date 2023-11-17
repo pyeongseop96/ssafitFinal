@@ -31,7 +31,7 @@
 <script setup>
 import {useReviewStore} from '@/stores/review'
 import { ref } from 'vue';
-import { useUserStore } from './user';
+import { useUserStore } from '@/stores/user';
 
 const id = useUserStore().user.userID;
 const reviewStore = useReviewStore()
