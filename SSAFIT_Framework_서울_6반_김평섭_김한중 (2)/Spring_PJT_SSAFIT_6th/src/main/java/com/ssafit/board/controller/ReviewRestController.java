@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ public class ReviewRestController {
 
 	// 1. 리뷰 전체 조회
 	@GetMapping("/reviewAll")
+	@CrossOrigin(origins = "*")
 	@ApiOperation(value = "전체 리뷰 조회", notes = "영상 ID에 따른 모든 리뷰가 나옵니다.")
 	public ResponseEntity<?> list(@RequestParam String videoID) {
 		List<Review> list = reviewService.getReviewList(videoID);
@@ -39,6 +41,7 @@ public class ReviewRestController {
 
 	// 2. 리뷰 상세 조회
 	@GetMapping("/review")
+	@CrossOrigin(origins = "*")
 	@ApiOperation(value = "리뷰 상세 보기", notes = "리뷰 ID에 따른 상세 내용이 나옵니다.")
 	public ResponseEntity<Review> detail(@RequestParam int reviewID) {
 		Review review = reviewService.getReview(reviewID);
@@ -47,6 +50,7 @@ public class ReviewRestController {
 
 	// 3. 리뷰 등록
 	@PostMapping("/review")
+	@CrossOrigin(origins = "*")
 	@ApiOperation(value = "리뷰 등록하기", notes = "리뷰를 등록합니다.")
 	public ResponseEntity<Review> write( Review review) {
 		reviewService.writeReview(review);
@@ -55,6 +59,7 @@ public class ReviewRestController {
 
 	// 4. 리뷰 삭제
 	@DeleteMapping("/review/{reviewID}")
+	@CrossOrigin(origins = "*")
 	@ApiOperation(value = "리뷰 삭제", notes = "리뷰 ID에 따른 리뷰를 삭제합니다.")
 	public ResponseEntity<Void> delete(@PathVariable int reviewID) {
 		reviewService.removeReview(reviewID);
@@ -63,6 +68,7 @@ public class ReviewRestController {
 
 	// 5. 리뷰 수정
 	@PutMapping("/review")
+	@CrossOrigin(origins = "*")
 	@ApiOperation(value = "리뷰 수정", notes = "리뷰 ID에 따른 리뷰를 수정합니다.")
 	public ResponseEntity<Review> update(Review review) {
 		reviewService.modifyReview(review);
