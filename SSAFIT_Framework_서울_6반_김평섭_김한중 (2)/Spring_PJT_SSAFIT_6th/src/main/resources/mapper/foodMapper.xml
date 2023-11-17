@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafit.board.model.dao.FoodDao">
+
+
+	<!-- 상세글 조회 -->
+	<select id="selectOne" resultType="Food" parameterType="String">
+		SELECT *
+		FROM foods
+		WHERE DESC_KOR LIKE concat('%', #{DESC_KOR}, '%')
+		LIMIT 10;
+	</select>
+	
+
+</mapper>

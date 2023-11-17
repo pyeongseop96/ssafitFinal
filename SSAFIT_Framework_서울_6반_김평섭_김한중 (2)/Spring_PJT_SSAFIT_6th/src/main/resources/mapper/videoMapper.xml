@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafit.board.model.dao.VideoDao">
+
+	<!-- 전체글 조회 -->
+	<select id="selectAll" resultType="Video">
+		SELECT *
+		FROM videos;
+	</select>
+
+	<!-- 상세글 조회 -->
+	<select id="selectOne" resultType="Video" parameterType="String">
+		SELECT *
+		FROM videos
+		WHERE videoID = ${videoID};
+	</select>
+	
+	<insert id="insertVideo" parameterType="Video">
+		INSERT INTO videos (videoID, title, channelName, viewCnt, partInfo)
+		VALUES (${videoID},#{title},#{channelName},${viewCnt},#{partInfo});
+	</insert>
+	
+	<delete id="deleteVideo" parameterType="String">
+		DELETE FROM videos
+		WHERE videoID = ${videoID};
+	</delete>
+	
+	<update id="updateVideo" parameterType="Video">
+		UPDATE videos
+		SET title = #{title}, channelName = #{channelName}, partInfo = #{partInfo}
+		WHERE videoID = ${videoID};
+	</update>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateVideoCnt" parameterType="String">
+		UPDATE videos
+		SET viewCnt = viewCnt+1
+		WHERE videoID = ${videoID};
+	</update>
+	
+	<!-- 검색기능  -->
+	<select id="search" resultType="Video" parameterType="SearchCondition">
+		SELECT videoID, title, channelName, viewCnt, partInfo
+		FROM videos
+		<!-- 검색 조건 (동적쿼리)-->
+		<if test="key != 'none'">
+			WHERE ${key} LIKE concat('%', #{word}, '%')
+		</if>
+		<!-- 어떤 기준으로 어떤 방향으로 정렬 -->
+		<if test="orderBy != 'none'">
+			ORDER BY ${orderBy} ${orderByDir}
+		</if>
+	</select>
+	
+	<!-- 다른 mapper 파일로 분리한 코드들 
+	<select id="selectFavVideos" resultType="Video" parameterType="String">
+		SELECT *
+		FROM videos
+		WHERE videoID
+		IN (SELECT videoID FROM favoriteVideos WHERE userID = #{userID});
+	</select>
+	
+	
+	<select id="selectAll">
+		SELECT f.userID, v.* 
+		FROM videos v LEFT OUTER JOIN favoriteVideos f 
+		ON v.videoID = f.videoID
+	</select>
+	
+	
+	<insert id="insertFavoriteVideo" parameterType="String">
+		INSERT INTO favoriteVideos
+		VALUES (#{userID}, #{videoID})
+	</insert>
+	
+	
+	<delete id="deleteFavoriteVideo" parameterType="String">
+		DELETE FROM favoriteVideos
+		WHERE userID=#{userID} AND videoID=#{videoID}
+	</delete>
+	
+	
+	<select id="selectFavChannels" resultType="String" parameterType="String">
+		SELECT channelName
+		FROM videos
+		WHERE channelName
+		IN (SELECT channelName FROM favoriteChannels WHERE userID = #{userID});
+	</select>
+	
+	
+	<insert id="insertFavoriteChannel" parameterType="String">
+		INSERT INTO favoriteChannels
+		VALUES (#{userID}, #{channelName})
+	</insert>
+	
+
+	<delete id="deleteFavoriteChannel" parameterType="String">
+		DELETE FROM favoriteChannels
+		WHERE userID=#{userID}, channelName=#{channelName}
+	</delete>
+	-->
+
+</mapper>
