@@ -6,17 +6,23 @@
         검색:<input type="text" :value="foodStore.word" @input="updateWord">
       </div>
       <table>
-        <tr v-for="item in foodStore.foods">
-          <td>{{ item.desc_KOR }}(1회 제공량:{{ item.serving_SIZE }}g)</td>
-          <td>열량:{{ item.nutr_CONT1 }}kcal</td>
-          <td>탄수화물:{{ item.nutr_CONT2 }}g</td>
-          <td>단백질:{{ item.nutr_CONT3 }}g</td>
-          <td>지방:{{ item.nutr_CONT4 }}g</td>
-          <td>나트륨:{{ item.nutr_CONT6 }}mg</td>
-          <td><input type="number" v-model=item.cnt min=1 placeholder="1">개</td>
-          <td><button @click="add(item.desc_KOR, item.nutr_CONT1, item.cnt)">추가</button></td>
-        </tr>
-      </table>
+  <tr v-for="item in foodStore.foods" :key="item.desc_KOR">
+    <div>
+    <td>{{ item.desc_KOR }}(1회 제공량:{{ item.serving_SIZE }}g)</td>
+    <td>열량:{{ item.nutr_CONT1 }}kcal</td>
+    <td v-if="item.nutr_CONT2">탄수화물:{{ item.nutr_CONT2 }}g</td>
+    <td v-if="item.nutr_CONT3">단백질:{{ item.nutr_CONT3 }}g</td>
+    <td v-if="item.nutr_CONT4">지방:{{ item.nutr_CONT4 }}g</td>
+    <td v-if="item.nutr_CONT6">나트륨:{{ item.nutr_CONT6 }}mg</td>
+    </div>
+    <div>
+    <td>
+      <input type="number" v-model="item.cnt" min="1">개
+      <button @click="add(item.desc_KOR, item.nutr_CONT1, item.cnt)">추가</button>
+    </td>
+    </div>
+  </tr>
+</table>
       <br>
       <div>
         결과화면
