@@ -29,10 +29,10 @@
         <td>{{ item.content }}</td>
         <td>{{ item.regDate }}</td>
         <td>
-          <button v-if="sessionStorage.data==item.userID"  @click="openUpdate(item.reviewID)" type="button" class="shadow btn btn-outline-primary">수정</button>
+          <button v-if="loginID==item.userID"  @click="openUpdate(item.reviewID)" type="button" class="shadow btn btn-outline-primary">수정</button>
         </td>
         <td>
-          <button v-if="sessionStorage.data==item.userID" @click="store.deleteReview(item.reviewID)" type="button" class="shadow btn btn-outline-danger">삭제</button>
+          <button v-if="loginID==item.userID" @click="store.deleteReview(item.reviewID)" type="button" class="shadow btn btn-outline-danger">삭제</button>
         </td>
       </tr>     
      
@@ -64,13 +64,13 @@
 <script setup>
 import {onMounted, onUpdated, ref, watchEffect} from 'vue'
 import {useReviewStore} from '@/stores/review'
-import ReviewCreate from './ReviewCreate.vue';
+import ReviewCreate from '@/components/review/ReviewCreate.vue';
+import ReviewUpdate from '@/components/review/ReviewUpdate.vue';
+import { useUserStore } from '@/stores/user';
 
-//임시로 로그인한척
-import { useSessionStore } from '@/stores/store'
-import ReviewUpdate from './ReviewUpdate.vue';
- const sessionStorage = useSessionStore();
- //임시끝
+const userStore = useUserStore();
+
+const loginID = ref(userStore.user.name);
 
 const store = useReviewStore()
 

@@ -18,7 +18,7 @@
     <div>
         <form action="#">
             <br>
-            <button @click="store.createReview(content, title, sessionStorage.data, store.videoID)" type="button" class="shadow btn btn-outline-primary">등록</button>
+            <button @click="store.createReview(content, title, loginID, store.videoID)" type="button" class="shadow btn btn-outline-primary">등록</button>
               <button @click="handleClose" type="button" class="shadow btn btn-outline-danger">취소</button>
         </form>
     </div>
@@ -31,11 +31,11 @@
 <script setup>
 import {useReviewStore} from '@/stores/review'
 import { ref } from 'vue';
+import { useUserStore } from '@/stores/user';
 
-//임시로 로그인한척
-import { useSessionStore } from '@/stores/store'
- const sessionStorage = useSessionStore();
- //임시끝
+const userStore = useUserStore();
+
+const loginID = ref(userStore.user.name);
 
 const store = useReviewStore()
 const title = ref('')
