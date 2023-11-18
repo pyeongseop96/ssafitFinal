@@ -1,11 +1,12 @@
 import {ref} from 'vue';
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import { useVideoStore } from './video';
 import { useUserStore } from './user';
 
 const API_FAVORITE = 'http://localhost:8080/api-favorite'
 
-export const useFavoriteStore = defineStore('favorite', () => {
+export const useFavoriteStore = defineStore('favorite', () => {    
 
     const favChannels = ref([]);
     const getFavChannels = () => {

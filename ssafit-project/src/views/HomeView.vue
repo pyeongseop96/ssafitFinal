@@ -1,18 +1,13 @@
-
-
-<script setup>
-    import {RouterView} from 'vue-router'
-</script>
-
 <template>
-  <div>
-    <h2>홈</h2>
-    <RouterView/>
-  </div>
+    <div>
+        <h2>HomeView</h2>
+        <RouterView />
+    </div>
 </template>
 
+<script setup>
 
-<style>
 
+</script>
 
-</style>
+<style></style>

@@ -1,13 +1,13 @@
 <template>
-    <h3>댓글: {{ reviewStore.reviews.length }}개</h3>
+    <h3>댓글: {{ store.reviews.length }}개</h3>
     <div>
      
         <div class="buttons">
         <form action="#">
           <button @click="openModal" type="button" class="shadow btn btn-outline-primary">댓글 작성</button>
         </form>
-        <ReviewCreate v-if="reviewStore.showModal" @closeModal="closeModal" />
-        <ReviewUpdate v-if="reviewStore.showUpdate" @closeModal="closeUpdate" />
+        <ReviewCreate v-if="store.showModal" @closeModal="closeModal" />
+        <ReviewUpdate v-if="store.showUpdate" @closeModal="closeUpdate" />
         <form action="#">
           <input class="form-control" placeholder="🔎제목, 내용으로 검색">
         </form>
@@ -23,16 +23,16 @@
             <th>수정</th>
             <th>삭제</th>
 
-            <tr v-for="(item, index) in reviewStore.reviews.slice(0, 10)" :key="index">
+            <tr v-for="(item, index) in store.reviews.slice(0, 10)" :key="index">
         <td>{{ item.title }}</td>
         <td>{{ item.userID }}</td>
         <td>{{ item.content }}</td>
         <td>{{ item.regDate }}</td>
         <td>
-          <button v-if="id==item.userID"  @click="openUpdate(item.reviewID)" type="button" class="shadow btn btn-outline-primary">수정</button>
+          <button v-if="sessionStorage.data==item.userID"  @click="openUpdate(item.reviewID)" type="button" class="shadow btn btn-outline-primary">수정</button>
         </td>
         <td>
-          <button v-if="id==item.userID" @click="reviewStore.deleteReview(item.reviewID)" type="button" class="shadow btn btn-outline-danger">삭제</button>
+          <button v-if="sessionStorage.data==item.userID" @click="store.deleteReview(item.reviewID)" type="button" class="shadow btn btn-outline-danger">삭제</button>
         </td>
       </tr>     
      
@@ -65,34 +65,37 @@
 import {onMounted, onUpdated, ref, watchEffect} from 'vue'
 import {useReviewStore} from '@/stores/review'
 import ReviewCreate from './ReviewCreate.vue';
-import { useUserStore } from '@/stores/user';
-import ReviewUpdate from './ReviewUpdate.vue';
 
-const id = useUserStore().user.userID;
-const reviewStore = useReviewStore()
+//임시로 로그인한척
+import { useSessionStore } from '@/stores/store'
+import ReviewUpdate from './ReviewUpdate.vue';
+ const sessionStorage = useSessionStore();
+ //임시끝
+
+const store = useReviewStore()
 
 onMounted(() => {
-  reviewStore.getReviewList()
+  store.getReviewList()
 })
 
 
 
 
 const openModal = () => {
-  reviewStore.showModal = true;
+  store.showModal = true;
 };
 
 const openUpdate = (reviewID) => {
-  reviewStore.reviewID = reviewID
-  reviewStore.showUpdate = true;
+  store.reviewID = reviewID
+  store.showUpdate = true;
 };
 
 const closeModal = () => {
-  reviewStore.showModal = false;
+  store.showModal = false;
 };
 
 const closeUpdate = () => {
-  reviewStore.showUpdate = false;
+  store.showUpdate = false;
 };
 
 

@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import { ref, onMounted } from 'vue';
-import { useFavoriteStore } from '@/stores/favorite';
+import { useFavoriteStore } from '../../stores/favorite';
 
 const favStore = useFavoriteStore();
 
