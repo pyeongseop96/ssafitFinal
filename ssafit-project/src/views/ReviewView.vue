@@ -5,7 +5,7 @@
     <hr>
     <br>
     <div align="center">
-        <iframe :src=reviewStore.selectedYoutube width="400px" height="300px"></iframe>
+        <iframe :src=store.selectedYoutube width="400px" height="300px"></iframe>
     </div>
     <hr>
         <RouterView />
@@ -13,11 +13,13 @@
 </template>
 
 <script setup>
-import { useReviewStore } from '@/stores/review';
+import { ref } from 'vue';
+import { useReviewStore } from '../stores/review';
+import {RouterLink} from 'vue-router'
+import { useFavoriteStore } from '../stores/favorite';
 
-const reviewStore = useReviewStore()
 
-
+const store = useReviewStore()
 
 </script>
 
