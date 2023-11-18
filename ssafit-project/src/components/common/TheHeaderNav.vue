@@ -3,14 +3,14 @@
         <header>
             <nav>
                 <RouterLink to="/">Home</RouterLink> | 
-                <RouterLink to="/video">비디오</RouterLink> | 
-                <RouterLink to="/record">운동기록</RouterLink> | 
+                <RouterLink to="/video">비디오</RouterLink> |  
                 <RouterLink to="/calorie">칼로리계산기</RouterLink> | 
                 <span v-if="userStore.user.name == ''"> <!-- userStore.loginUser.id == null -->
                     <RouterLink :to="{name:'login'}">로그인</RouterLink> | 
                     <RouterLink :to="{name:'regist'}">회원가입</RouterLink> | 
                 </span>
                 <span v-else>
+                    <RouterLink to="/record">운동기록</RouterLink> |
                     <RouterLink :to="{name:'mypage'}">마이페이지</RouterLink> | 
                     <a @click="logout">로그아웃</a> | 
                 </span>
@@ -24,7 +24,6 @@
 </template>
 
 <script setup>
-import {ref, onMounted} from 'vue';
 import { useUserStore } from '../../stores/user';
 
 const userStore = useUserStore();

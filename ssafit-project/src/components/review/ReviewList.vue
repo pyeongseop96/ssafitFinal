@@ -4,16 +4,12 @@
      
         <div class="buttons">
         <form action="#">
-          <button @click="openModal" type="button" class="shadow btn btn-outline-primary">댓글 작성</button>
+          <button v-if="loginID" @click="openModal" type="button" class="shadow btn btn-outline-primary">댓글 작성</button>
         </form>
         <ReviewCreate v-if="store.showModal" @closeModal="closeModal" />
         <ReviewUpdate v-if="store.showUpdate" @closeModal="closeUpdate" />
-        <form action="#">
-          <input class="form-control" placeholder="🔎제목, 내용으로 검색">
-        </form>
     </div>
     <hr>
-    <!--게시판 목록 작성 https://getbootstrap.kr/docs/5.2/content/tables/ 참고-->
     <table class="table table-striped">
 
             <th>제목</th>
@@ -38,8 +34,6 @@
      
     </table>
 
-
-
     <footer>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
@@ -55,72 +49,43 @@
             </ul>
           </nav>
     </footer>
-    
 
     <span class="border-bottom"></span>
     </div>
 </template>
 
 <script setup>
-import {onMounted, onUpdated, ref, watchEffect} from 'vue'
+import {onMounted, ref} from 'vue'
 import {useReviewStore} from '@/stores/review'
 import ReviewCreate from '@/components/review/ReviewCreate.vue';
 import ReviewUpdate from '@/components/review/ReviewUpdate.vue';
 import { useUserStore } from '@/stores/user';
 
 const userStore = useUserStore();
-
 const loginID = ref(userStore.user.name);
-
 const store = useReviewStore()
 
 onMounted(() => {
   store.getReviewList()
 })
 
-
-
-
+//댓글 작성창
 const openModal = () => {
   store.showModal = true;
 };
-
+const closeModal = () => {
+  store.showModal = false;
+};
+//댓글 수정창
 const openUpdate = (reviewID) => {
   store.reviewID = reviewID
   store.showUpdate = true;
 };
-
-const closeModal = () => {
-  store.showModal = false;
-};
-
 const closeUpdate = () => {
   store.showUpdate = false;
 };
 
-
-
-
 </script>
 
 <style scoped>
-.youtubev{
-            display: flexbox;
-            justify-content: center;
-        }
-        p{ margin-top: 40px; }
-        .form-floating { margin: 25px 35px 0px; }
-        .btn-outline-primary {margin-left: 35px;}
-        .btn-outline-danger {margin-right: 35px;}
-        .buttons {display: flex; justify-content: space-between;}
-        .form-control{    box-sizing: border-box; list-style: none;}
-        .flex-container > div:nth-child(1){
-            flex-grow: 1;
-        }
-        .flex-container > div:nth-child(2){
-            flex-grow: 10;
-        }
-        .flex-container > div:nth-child(5){
-            flex-grow: 1;
-        }
 </style>

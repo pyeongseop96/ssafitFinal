@@ -25,11 +25,11 @@
         insert into records
         values(#{recordDate}, #{userID}, #{tag}, #{weight}, #{eatCal}, #{burnCal}, #{text})
         ON DUPLICATE KEY update
-        tag = VALUES(tag),
-        weight = VALUES(weight),
-        eatCal = VALUES(eatCal),
-        burnCal = VALUES(burnCal),
-        text = VALUES(text);
+        tag = NULLIF(VALUES(tag), ''),
+        weight = NULLIF(VALUES(weight), ''),
+        eatCal = NULLIF(VALUES(eatCal), ''),
+        burnCal = NULLIF(VALUES(burnCal), ''),
+        text = NULLIF(VALUES(text), '');
     </insert>
 
 </mapper>
