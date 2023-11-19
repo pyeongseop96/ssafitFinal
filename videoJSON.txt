@@ -140,6 +140,27 @@ CREATE TABLE foods
     NUTR_CONT8	VARCHAR(512) DEFAULT NULL,
     NUTR_CONT9	VARCHAR(512) DEFAULT NULL
 );
+
+CREATE TABLE if not exists video_ratings (
+  videoID varchar(50) NOT NULL PRIMARY KEY,
+  averageRating DECIMAL(2, 1) DEFAULT 0.0 NOT NULL,
+  totalReviews int DEFAULT 0 NOT NULL
+);
+
+INSERT INTO video_ratings
+values(123,2,3);
+
+select * from video_ratings;
 select * from users;
 select * from records;
 select * from foods;
+select * from reviews;
+
+INSERT INTO video_ratings (videoID, averageRating, totalReviews)
+SELECT videoID, AVG(reviewCnt), COUNT(*)
+FROM reviews
+WHERE videoID = 'bfhvdE_3bzs'
+GROUP BY videoID
+ON DUPLICATE KEY UPDATE
+averageRating = VALUES(averageRating),
+totalReviews = VALUES(totalReviews);
