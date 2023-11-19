@@ -50,6 +50,9 @@ const handleClose = () => {
 
 const clickRegister = () => {
   store.createReview(content, title, loginID, store.videoID, rating);
+  store.updateRating(store.videoID);
+  
+  store.showModal = false;
 }
 </script>
 

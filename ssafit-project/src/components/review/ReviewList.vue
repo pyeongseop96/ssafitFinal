@@ -67,6 +67,7 @@ import ReviewUpdate from '@/components/review/ReviewUpdate.vue';
 import { useUserStore } from '@/stores/user';
 import {useVideoStore} from '@/stores/video';
 import axios from 'axios';
+import { watch } from 'vue';
 
 const userStore = useUserStore();
 const loginID = ref(userStore.user.name);
@@ -76,14 +77,21 @@ const rating = ref('');
 
 //영상 별점 가져오는 메서드
 const getVideoRating = function () {
-  axios.get(`http://localhost:8080/api-video/rating?videoID=${videoStore.videoID}`)
+  axios.get(`http://localhost:8080/api-video/rating?videoID=${store.videoID}`)
   .then((res) => {
+    console.log(res)
     rating.value = res.data
     if(rating.value==''){
     rating.value = {averageRating:'0.0'}
   }
   })
 }
+
+watch(() => store.showModal, (neww, old) => {
+  setTimeout(() => {
+    getVideoRating(store.videoID);
+  }, 100); // 0.1초 (100밀리초) 후에 실행
+});
 
 onMounted(() => {
   store.getReviewList()

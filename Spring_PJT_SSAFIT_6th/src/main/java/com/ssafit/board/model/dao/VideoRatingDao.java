@@ -9,4 +9,6 @@ public interface VideoRatingDao {
     public VideoRating selectRating(String videoID);
 
     public List<VideoRating> selectRatingAll();
+
+    public void updateRating(String videoID);
 }

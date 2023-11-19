@@ -2,8 +2,8 @@ package com.ssafit.board.model.dto;
 
 public class VideoRating {
     private String videoID;
-    private Integer averageRating = 0;
-    private Integer totalReviews = 0;
+    private float averageRating = 0;
+    private float totalReviews = 0;
 
     public VideoRating() {
     }
@@ -16,19 +16,19 @@ public class VideoRating {
         this.videoID = videoID;
     }
 
-    public Integer getAverageRating() {
+    public float getAverageRating() {
         return averageRating;
     }
 
-    public void setAverageRating(Integer averateRating) {
+    public void setAverageRating(float averateRating) {
         this.averageRating = averateRating;
     }
 
-    public Integer getTotalReviews() {
+    public float getTotalReviews() {
         return totalReviews;
     }
 
-    public void setTotalReviews(Integer totalReviews) {
+    public void setTotalReviews(float totalReviews) {
         this.totalReviews = totalReviews;
     }
 }

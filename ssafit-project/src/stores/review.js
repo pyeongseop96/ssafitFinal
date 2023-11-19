@@ -24,7 +24,6 @@ export const useReviewStore = defineStore('review', () => {
     .then(function (response) {
       console.log(response);
       getReviewList();
-      showModal.value = false;
     })
     .catch(function (error) {
       console.log(error);
@@ -45,6 +44,11 @@ export const useReviewStore = defineStore('review', () => {
     });
   }
 
+  const updateRating = function (videoID) {
+    console.log(videoID)
+    axios.get(`http://localhost:8080/api-video/review?videoID=${videoID}`)
+  }
+
   const deleteReview = function (id) {
     axios.delete(ReviewURL+`/review/${id}`)
     .then(function (response) {
@@ -52,6 +56,6 @@ export const useReviewStore = defineStore('review', () => {
     })
   }
 
-  return { reviewID, reviews,showUpdate, selectedYoutube,deleteReview,updateReview,  getReviewList, videoID, showModal, createReview}
+  return { reviewID, reviews,showUpdate, selectedYoutube,deleteReview,updateReview,  getReviewList, videoID, showModal, createReview, updateRating}
 })
 

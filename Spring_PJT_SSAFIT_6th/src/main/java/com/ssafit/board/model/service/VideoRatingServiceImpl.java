@@ -21,4 +21,9 @@ public class VideoRatingServiceImpl implements  VideoRatingService {
     public List<VideoRating> getRatingAll() {
         return videoRatingDao.selectRatingAll();
     }
+
+    @Override
+    public void updateRating(String videoID) {
+        videoRatingDao.updateRating(videoID);
+    }
 }

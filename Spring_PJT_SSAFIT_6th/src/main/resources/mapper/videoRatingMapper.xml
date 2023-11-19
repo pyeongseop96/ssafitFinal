@@ -18,5 +18,15 @@
         FROM video_ratings;
     </select>
 
+    <insert id="updateRating" parameterType="String">
+        INSERT INTO video_ratings (videoID, averageRating, totalReviews)
+        SELECT videoID, AVG(reviewCnt), COUNT(*)
+        FROM reviews
+        WHERE videoID = #{videoID}
+        GROUP BY videoID
+        ON DUPLICATE KEY UPDATE
+        averageRating = VALUES(averageRating),
+        totalReviews = VALUES(totalReviews);
+    </insert>
 
 </mapper>

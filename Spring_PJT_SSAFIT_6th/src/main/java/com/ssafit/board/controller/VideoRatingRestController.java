@@ -39,4 +39,11 @@ public class VideoRatingRestController {
         List<VideoRating> rating = videoRatingService.getRatingAll();
         return new ResponseEntity<List<VideoRating>>(rating, HttpStatus.OK);
     }
+
+    // 3. 영상 하나 별점 업데이트
+    @GetMapping("/review")
+    @ApiOperation(value="영상 별점 업데이트", notes="별점")
+    public void updateRating(@RequestParam String videoID) {
+        videoRatingService.updateRating(videoID);
+    }
 }
