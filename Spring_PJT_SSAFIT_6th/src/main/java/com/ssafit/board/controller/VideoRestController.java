@@ -28,6 +28,7 @@ public class VideoRestController {
 	
 	@Autowired
 	private VideoService videoService;
+
 	
 	// 1. 영상 목록 조회
 	@GetMapping("/video")
