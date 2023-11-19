@@ -1,5 +1,6 @@
 <template>
     <h3>댓글: {{ store.reviews.length }}개</h3>
+    <h3>별점: {{ rating[0] }}점</h3>
     <div>
      
         <div class="buttons">
@@ -60,13 +61,31 @@ import {useReviewStore} from '@/stores/review'
 import ReviewCreate from '@/components/review/ReviewCreate.vue';
 import ReviewUpdate from '@/components/review/ReviewUpdate.vue';
 import { useUserStore } from '@/stores/user';
+import {useVideoStore} from '@/stores/video';
 
 const userStore = useUserStore();
 const loginID = ref(userStore.user.name);
 const store = useReviewStore()
+const videoStore = useVideoStore();
+const rating = ref({});
+
+//별점저장
+const showScore = function(out){
+  console.log(videoStore.ratings)
+if(videoStore.ratings.length > 0){
+    const filter = videoStore.ratings.filter(rating => rating.videoID == `123`);
+    rating.value = filter.map(rating => rating.averageRating)
+    console.log(rating.value)
+    if(rating.value==''){
+      rating.value = ['0.0'];
+    }
+}
+}
 
 onMounted(() => {
   store.getReviewList()
+  videoStore.getVideoRatingAll()
+  showScore()
 })
 
 //댓글 작성창

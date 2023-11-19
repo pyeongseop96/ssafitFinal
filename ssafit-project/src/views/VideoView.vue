@@ -90,6 +90,7 @@ const toggleFav = (video) => {
 }
 
 
+
 </script>
 
 <style scoped></style>
