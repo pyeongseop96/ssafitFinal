@@ -23,5 +23,7 @@ public interface VideoService {
 
 	//검색 버튼을 눌렀을 때 처리할 메서드
 	List<Video> search(SearchCondition condition);
+
+	void addViewCnt(String videoID);
 	
 }

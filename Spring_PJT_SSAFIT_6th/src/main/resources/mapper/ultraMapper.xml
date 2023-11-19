@@ -6,7 +6,7 @@
 
     <!-- 전체글 조회 -->
     <select id="selectList" resultType="Ultra" parameterType="SortInfo">
-        SELECT v.title AS title, v.channelName AS channelName, v.partInfo AS partInfo, v.viewCnt AS viewCnt, vr.averageRating AS averageRating, vr.totalReviews AS totalReviews,
+        SELECT v.videoID AS videoID, v.title AS title, v.channelName AS channelName, v.partInfo AS partInfo, v.viewCnt AS viewCnt, vr.averageRating AS averageRating, vr.totalReviews AS totalReviews,
         CASE WHEN fv.videoID IS NOT NULL THEN 'yes' ELSE 'no' END AS favorite
         FROM videos v
         LEFT JOIN video_ratings vr ON v.videoID = vr.videoID

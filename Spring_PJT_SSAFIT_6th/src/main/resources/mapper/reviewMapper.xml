@@ -30,7 +30,7 @@
 
 	<insert id="insertReview" parameterType="Review" keyProperty="reviewID" useGeneratedKeys="true">
 		INSERT INTO reviews (reviewID, videoID, userID, title, content, regDate, reviewCnt)
-		VALUES (#{reviewID}, #{videoID}, #{userID}, #{title}, #{content}, now(), 0);
+		VALUES (#{reviewID}, #{videoID}, #{userID}, #{title}, #{content}, now(), #{reviewCnt});
 	</insert>
 	
 	<!-- 게시글 삭제 -->

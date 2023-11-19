@@ -22,7 +22,7 @@
     <div>
         <form action="#">
             <br>
-            <button @click="store.createReview(content, title, loginID, store.videoID)" type="button" class="shadow btn btn-outline-primary">등록</button>
+            <button @click="clickRegister()" type="button" class="shadow btn btn-outline-primary">등록</button>
               <button @click="handleClose" type="button" class="shadow btn btn-outline-danger">취소</button>
         </form>
     </div>
@@ -38,16 +38,19 @@ import { ref } from 'vue';
 import { useUserStore } from '@/stores/user';
 
 const userStore = useUserStore();
-
 const loginID = ref(userStore.user.name);
-
 const store = useReviewStore()
 const title = ref('')
 const content = ref('')
+const rating = ref(0)
 
 const handleClose = () => {
   store.showModal=false
 };
+
+const clickRegister = () => {
+  store.createReview(content, title, loginID, store.videoID, rating);
+}
 </script>
 
 <style scoped>

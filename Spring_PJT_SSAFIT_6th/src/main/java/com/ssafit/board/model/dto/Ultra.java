@@ -1,7 +1,18 @@
 package com.ssafit.board.model.dto;
 
 public class Ultra {
+
+    private String videoID;
     private String title;
+
+    public String getVideoID() {
+        return videoID;
+    }
+
+    public void setVideoID(String videoID) {
+        this.videoID = videoID;
+    }
+
     private String channelName;
     private String viewCnt;
 

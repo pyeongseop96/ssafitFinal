@@ -1,6 +1,6 @@
 <template>
     <h3>댓글: {{ store.reviews.length }}개</h3>
-    <h3>별점: {{ rating[0] }}점</h3>
+    <h3>별점: ⭐{{ rating.averageRating }}점</h3>
     <div>
      
         <div class="buttons">
@@ -14,17 +14,21 @@
     <table class="table table-striped">
 
             <th>제목</th>
+            <th>내용</th>
+            <th>별점</th>
             <th>작성자</th>
-           <th>내용</th>
-           <th>작성시간</th>
+           <th>작성일</th>
             <th>수정</th>
             <th>삭제</th>
 
             <tr v-for="(item, index) in store.reviews.slice(0, 10)" :key="index">
         <td>{{ item.title }}</td>
-        <td>{{ item.userID }}</td>
         <td>{{ item.content }}</td>
-        <td>{{ item.regDate }}</td>
+        <td>
+          <span v-for="i in item.reviewCnt" :key="i">⭐</span>
+        </td>
+        <td>{{ item.userID }}</td>
+        <td>{{ item.regDate.slice(5,10) }}</td>
         <td>
           <button v-if="loginID==item.userID"  @click="openUpdate(item.reviewID)" type="button" class="shadow btn btn-outline-primary">수정</button>
         </td>
@@ -62,30 +66,28 @@ import ReviewCreate from '@/components/review/ReviewCreate.vue';
 import ReviewUpdate from '@/components/review/ReviewUpdate.vue';
 import { useUserStore } from '@/stores/user';
 import {useVideoStore} from '@/stores/video';
+import axios from 'axios';
 
 const userStore = useUserStore();
 const loginID = ref(userStore.user.name);
 const store = useReviewStore()
 const videoStore = useVideoStore();
-const rating = ref({});
+const rating = ref('');
 
-//별점저장
-const showScore = function(out){
-  console.log(videoStore.ratings)
-if(videoStore.ratings.length > 0){
-    const filter = videoStore.ratings.filter(rating => rating.videoID == `123`);
-    rating.value = filter.map(rating => rating.averageRating)
-    console.log(rating.value)
+//영상 별점 가져오는 메서드
+const getVideoRating = function () {
+  axios.get(`http://localhost:8080/api-video/rating?videoID=${videoStore.videoID}`)
+  .then((res) => {
+    rating.value = res.data
     if(rating.value==''){
-      rating.value = ['0.0'];
-    }
-}
+    rating.value = {averageRating:'0.0'}
+  }
+  })
 }
 
 onMounted(() => {
   store.getReviewList()
-  videoStore.getVideoRatingAll()
-  showScore()
+  getVideoRating(store.videoID)
 })
 
 //댓글 작성창
@@ -107,4 +109,8 @@ const closeUpdate = () => {
 </script>
 
 <style scoped>
+
+span{
+  padding: 0px;
+}
 </style>

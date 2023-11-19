@@ -2,7 +2,7 @@
     <div>
         <h2>비디오</h2>
         <h5> 트레이너 선택</h5>
-        <input @click="changeTrainer('ThankyouBuBu')" type="radio" name="partInfo" id="ThankyouBUBU"><label for="ThankyouBUBU"> ThankyouBUBU </label> |
+        <input checked @click="changeTrainer('ThankyouBuBu')" type="radio" name="partInfo" id="ThankyouBUBU"><label for="ThankyouBUBU"> ThankyouBUBU </label> |
         <input @click="changeTrainer('GYM%EC%A2%85%EA%B5%AD')" type="radio" name="partInfo" id="GYM종국"><label for="GYM종국"> GYM종국 </label> |
         <input @click="changeTrainer('SomiFit')" type="radio" name="partInfo" id="SomiFit"><label for="SomiFit"> SomiFit </label>
         <h5> 운동 부위 선택 </h5>
@@ -26,7 +26,7 @@
             </div>
         </div>
         정렬방법
-        <input @click="changeSort('vr.averageRating')" type="radio" name="sort" id="averageRating"><label for="averageRating"> 평점 </label> |
+        <input checked @click="changeSort('vr.averageRating')" type="radio" name="sort" id="averageRating"><label for="averageRating"> 평점 </label> |
         <input @click="changeSort('v.viewCnt')" type="radio" name="sort" id="viewCnt"><label for="viewCnt"> 조회수 </label> |
         <input @click="changeSort('favorite')" type="radio" name="sort" id="favorite"><label for="favorite"> 찜 </label>
         <table>
@@ -36,7 +36,7 @@
                 <th>트레이너</th>
                 <th>운동부위</th>
                 <th>조회수</th>
-                <th>평점</th>
+                <th>별점</th>
                 <th> --- 찜하기 --- </th>
             </tr>
 
@@ -45,8 +45,8 @@
                 <td>{{ video.channelName }}</td>
                 <td>{{ video.partInfo }}</td>
                 <td>{{ video.viewCnt }}</td>
-                <td>{{ video.averageRating }}({{ video.totalReviews }})</td>
-                <td>{{ video.favorite }}</td>
+                <td>⭐{{ video.averageRating !== null ? video.averageRating : '0.0' }}({{ video.totalReviews !== null ? video.totalReviews : '0' }})</td>
+                <td @click="toggleFav(video.videoID, video.favorite)">{{ video.favorite }}</td>
             </tr>
 
         </table>
@@ -55,24 +55,24 @@
 </template>
 
 <script setup>
-import { onMounted, onUpdated, ref, watch } from 'vue';
-import { useVideoStore } from '../stores/video';
-import { useReviewStore } from '../stores/review';
-import { useFavoriteStore } from '../stores/favorite';
-import router from '../router';
-import { computed } from '@vue/reactivity';
-
-
-//
+import { onMounted, ref} from 'vue';
 import axios from 'axios';
 import { useUserStore } from '@/stores/user';
+import router from '@/router';
+import { useReviewStore } from '@/stores/review';
+import { useVideoStore } from '@/stores/video';
 
 const userID = useUserStore().user.userID;
 const videos = ref([]);
 const trainer = ref('ThankyouBuBu')
-const part = ref('전신')
+const part = ref('%EC%A0%84%EC%8B%A0')
 const sort = ref('vr.averageRating')
 
+onMounted(() => {
+    ultraPunch();
+})
+
+//영상 관련 정보 다 가져옵니다.
 const ultraPunch = function () {
         axios.get(`http://localhost:8080/api-video/ultra?userID=${userID}&channelName=${trainer.value}&partInfo=${part.value}&sort=${sort.value}`)
         .then((res) => {
@@ -97,14 +97,24 @@ const changeSort = ((newSort) => {
     ultraPunch()
 })
 
+//동영상 클릭 -> 조회수+1 -> reviewView 이동
+const reviewStore = useReviewStore();
+const videoStore = useVideoStore();
+const goToVideo = (videoID) => {
+    console.log(videoID)
+    videoStore.addViewCount(videoID)
+    reviewStore.videoID = videoID
+    reviewStore.selectedYoutube = `https://www.youtube.com/embed/${videoID}`
+    router.push('/review')
+}
 
-//
-
-
-
-
-
-
+//찜 클릭 -> 토글
+const toggleFav = (videoID, favorite) => {
+    favorite=='yes'?videoStore.setFavVideo(videoID,true):videoStore.setFavVideo(videoID,false)
+    setTimeout(() => {
+        ultraPunch();
+  }, 100);//db업데이트 시간 조금 기다리기
+}
 
 // const store = useVideoStore()
 // const reviewStore = useReviewStore()
@@ -114,12 +124,6 @@ const changeSort = ((newSort) => {
 //     // store.getVideoList()
 //     store.getFavPartList();
 // };
-
-// const goToVideo = (id) => {
-//     reviewStore.videoID = id
-//     reviewStore.selectedYoutube = `https://www.youtube.com/embed/${id}`
-//     router.push('/review')
-// }
 
 // onMounted(() => {
 //     // store.getVideoList();

@@ -14,110 +14,110 @@ export const useVideoStore = defineStore('video', () => {
   const selectedVideo = ref(null)
   const word = ref('전신');
 
-  const getVideoList = function () {
+  //클릭한 영상 조회수 1 늘리기
+  const addViewCount = ((videoID) => {
+    axios.get(`http://localhost:8080/api-video/video/addViewCnt?videoID=${videoID}`)
+  })
 
-    axios.get(VideoURL + word.value, {
-      headers: {
-        'access-token': sessionStorage.getItem('access-token')
-      }
-    })
-      .then((response) => {
-        videos.value = response.data
-      })
-      .catch((err) => console.log(err))
-  }
+  // const getVideoList = function () {
+
+  //   axios.get(VideoURL + word.value, {
+  //     headers: {
+  //       'access-token': sessionStorage.getItem('access-token')
+  //     }
+  //   })
+  //     .then((response) => {
+  //       videos.value = response.data
+  //     })
+  //     .catch((err) => console.log(err))
+  // }
 
   /////////////////////////////////////////////////////////////////////
 
 
-  const getFavPartList = function () {
+  // const getFavPartList = function () {
 
-    axios.get(API_FAVORITE + "/video", {
-      headers: {
-        'access-token': sessionStorage.getItem('access-token')
-      },
-      params: {
-        partInfo: useVideoStore().word,
-        userID: useUserStore().user.userID
-      }
-    })
-      .then((response) => {
-        videos.value = response.data
-      })
-      .catch((err) => console.log(err))
-  }
+  //   axios.get(API_FAVORITE + "/video", {
+  //     headers: {
+  //       'access-token': sessionStorage.getItem('access-token')
+  //     },
+  //     params: {
+  //       partInfo: useVideoStore().word,
+  //       userID: useUserStore().user.userID
+  //     }
+  //   })
+  //     .then((response) => {
+  //       videos.value = response.data
+  //     })
+  //     .catch((err) => console.log(err))
+  // }
 
 
   
-      const favChannels = ref([]);
-      const getFavChannels = () => {
-          const id = useUserStore().user.userID;
-          console.log(id)
-          axios.put(API_FAVORITE + '/channel', id)
-          .then((res) => {
-              favChannels.value = res.data
-          })
-          .catch((err) => console.log(err));
-      }
+  //     const favChannels = ref([]);
+  //     const getFavChannels = () => {
+  //         const id = useUserStore().user.userID;
+  //         console.log(id)
+  //         axios.put(API_FAVORITE + '/channel', id)
+  //         .then((res) => {
+  //             favChannels.value = res.data
+  //         })
+  //         .catch((err) => console.log(err));
+  //     }
       
-      const favVideos = ref([]);
-      const allVideos = ref([]);
+  //     const favVideos = ref([]);
+  //     const allVideos = ref([]);
   
-      const getAllVideos = () => {
-          const id = useUserStore().user.userID;
-          axios.put(API_FAVORITE + '/video/all', id)
-          .then((res) => {
-              console.log(res)
-              videos.value = res.data
-          })
-          .catch((err) => console.log(err));
-      }
+  //     const getAllVideos = () => {
+  //         const id = useUserStore().user.userID;
+  //         axios.put(API_FAVORITE + '/video/all', id)
+  //         .then((res) => {
+  //             console.log(res)
+  //             videos.value = res.data
+  //         })
+  //         .catch((err) => console.log(err));
+  //     }
   
-      const setFavVideo = (video) => {
+      //찜 토글
+      const setFavVideo = (video, favorite) => {
           console.log(video)
           axios.post(API_FAVORITE + '/toggle/video', null, {
               params: {
                   userID: useUserStore().user.userID, // 찜하지 않았면 null값을 전송하고 찜하면 로그인한 유저의 ID 전송
-                  videoID: video.videoID,
-                  isFavorite: video.userID !== null,
+                  videoID: video,
+                  isFavorite: favorite,
               }
           })
-          .then((res) => {
-              console.log(res);
-          })
-          .catch((err) => {
-              console.log(err)
-          });
       }
   
-      const getFavVideos = () => {
-          axios.put(API_FAVORITE + '/video/favorite', useUserStore().user.userID)
-          .then((res) => {
-              console.log(res)
-              favVideos.value = res.data
-          })
-          .catch((err) => console.log(err));
-      }
+      // const getFavVideos = () => {
+      //     axios.put(API_FAVORITE + '/video/favorite', useUserStore().user.userID)
+      //     .then((res) => {
+      //         console.log(res)
+      //         favVideos.value = res.data
+      //     })
+      //     .catch((err) => console.log(err));
+      // }
 
     
-      //영상 하나 별점 가져오는 메서드
-      const getVideoRating = function (videoID) {
-        axios.get(`http://localhost:8080/api-video/rating?videoID=${videoID}`)
-        .then((res) => {
-          console.log(res.data)
-        })
-        .catch((err) => console.log(err));
-    }
-    const ratings = ref([])
+    //   //영상 하나 별점 가져오는 메서드
+    //   const getVideoRating = function (videoID) {
+    //     axios.get(`http://localhost:8080/api-video/rating?videoID=${videoID}`)
+    //     .then((res) => {
+    //       console.log(res.data)
+    //     })
+    //     .catch((err) => console.log(err));
+    // }
+    // const ratings = ref([])
 
-    //모든 영상 별점 가져오는 메서드
-    const getVideoRatingAll = function () {
-      axios.get(`http://localhost:8080/api-video/ratingAll`)
-      .then((res) => {
-          ratings.value = res.data
-      })
-      .catch((err) => console.log(err));
-  }
+  //   //모든 영상 별점 가져오는 메서드
+  //   const getVideoRatingAll = function () {
+  //     axios.get(`http://localhost:8080/api-video/ratingAll`)
+  //     .then((res) => {
+  //         ratings.value = res.data
+  //     })
+  //     .catch((err) => console.log(err));
+  // }
   
 
 
@@ -128,5 +128,5 @@ export const useVideoStore = defineStore('video', () => {
 
 
 
-  return { videos, selectedVideo, getVideoList, word, showModal, getVideoList, favChannels, favVideos, getFavChannels, allVideos, getAllVideos, getFavVideos, setFavVideo, getFavPartList, getVideoRating, ratings, getVideoRatingAll}
+  return {addViewCount, setFavVideo}
 })
