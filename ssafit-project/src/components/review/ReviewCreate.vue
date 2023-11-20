@@ -14,8 +14,14 @@
         <label for="floatingInputGrid">내용</label>
       </div>
       <div class="form-floating">
-        <input type="text" class="form-control" id="floatingInputGrid" placeholder="별점" v-model="rating">
-        <label for="floatingInputGrid">별점</label>
+ 
+        별점:<select v-model="rating">
+            <option value="1">⭐</option>
+            <option value="2">⭐⭐</option>
+            <option value="3">⭐⭐⭐</option>
+            <option value="4">⭐⭐⭐⭐</option>
+            <option value="5">⭐⭐⭐⭐⭐</option>
+        </select>
       </div>
 
     <span class="border-bottom"></span>
@@ -49,7 +55,7 @@ const handleClose = () => {
 };
 
 const clickRegister = () => {
-  store.createReview(content, title, loginID, store.videoID, rating);
+  store.createReview(content, title, userStore.user.userID, store.videoID, rating);
   store.updateRating(store.videoID);
   
   store.showModal = false;

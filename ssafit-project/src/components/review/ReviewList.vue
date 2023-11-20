@@ -16,7 +16,7 @@
             <th>제목</th>
             <th>내용</th>
             <th>별점</th>
-            <th>작성자</th>
+            <th>글쓴이</th>
            <th>작성일</th>
             <th>수정</th>
             <th>삭제</th>
@@ -90,7 +90,7 @@ const getVideoRating = function () {
 watch(() => store.showModal, (neww, old) => {
   setTimeout(() => {
     getVideoRating(store.videoID);
-  }, 100); // 0.1초 (100밀리초) 후에 실행
+  }, 200); // 0.1초 (100밀리초) 후에 실행 -> ssafy컴이 느려서 0.2초로 변경
 });
 
 onMounted(() => {
