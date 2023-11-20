@@ -9,15 +9,48 @@ const API_FAVORITE = 'http://localhost:8080/api-favorite'
 export const useFavoriteStore = defineStore('favorite', () => {    
 
     const favChannels = ref([]);
+
     const getFavChannels = () => {
-        const id = useUserStore().user.userID;
-        console.log(id)
-        axios.put(API_FAVORITE + '/channel', id)
+        axios.put(API_FAVORITE + '/channel', useUserStore().user.userID)
         .then((res) => {
-            favChannels.value = res.data
+            favChannels.value = res.data;
         })
         .catch((err) => console.log(err));
     }
+
+    const isFavChan = ref(false);
+    const isFavChannel = (videoID) => {
+        axios.get(API_FAVORITE + '/channel', {
+            params: {
+                userID: useUserStore().user.userID,
+                videoID: videoID,
+            }
+        })
+        .then((res) => {
+            console.log(res.data);
+        })
+        .catch((err) => console.log(err));
+    }
+
+
+    const setFavChannel = (channelName, isFav) => {
+        console.log(channelName)
+        axios.post(API_FAVORITE + '/toggle/channel', null, {
+           params: {            
+                userID: useUserStore().user.userID,
+                channelName: channelName,
+                isFavorite: isFav,
+            }
+        })
+        .then((res) => {
+            console.log(res)
+            isFavChan.value = !isFavChan.value
+        })
+        .catch((err) => console.log(err));
+    }
+
+
+
     
     const favVideos = ref([]);
     const allVideos = ref([]);
@@ -59,5 +92,5 @@ export const useFavoriteStore = defineStore('favorite', () => {
     }
 
 
-    return {favChannels, favVideos, getFavChannels, allVideos, getAllVideos, getFavVideos, setFavVideo,}
+    return {favChannels, favVideos, getFavChannels, allVideos, getAllVideos, getFavVideos, setFavVideo, setFavChannel, isFavChan, isFavChannel}
 });

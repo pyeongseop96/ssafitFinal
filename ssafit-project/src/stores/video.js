@@ -11,6 +11,7 @@ export const useVideoStore = defineStore('video', () => {
   const router = useRouter();
   const showModal = ref(false)
   const videos = ref([])
+  const video = ref({})
   const selectedVideo = ref(null)
   const word = ref('전신');
 
@@ -33,6 +34,15 @@ export const useVideoStore = defineStore('video', () => {
   // }
 
   /////////////////////////////////////////////////////////////////////
+
+  // 비디오 ID로 영상 정보 가져오기
+  const getVideo = ((videoID) => {
+    axios.get(`http://localhost:8080/api-video//video/${videoID}`)
+      .then((res) => {
+        video.value = res.data;
+      })
+      .catch((err) =>  console.log(err))
+  })
 
 
   // const getFavPartList = function () {
@@ -128,5 +138,5 @@ export const useVideoStore = defineStore('video', () => {
 
 
 
-  return {addViewCount, setFavVideo}
+  return {addViewCount, setFavVideo, video, getVideo}
 })
