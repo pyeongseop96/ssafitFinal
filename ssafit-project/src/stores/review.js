@@ -32,6 +32,7 @@ export const useReviewStore = defineStore('review', () => {
   }
 
   const updateReview = function (content, title, reviewID, rating) {
+    console.lo
     console.log(content.value)
     axios.put(ReviewURL+`/review?content=${content.value}&regDate=0&reviewCnt=${rating.value}&reviewID=${reviewID}&title=${title.value}&userID=aa&videoID=aa`)
     .then(function (response) {

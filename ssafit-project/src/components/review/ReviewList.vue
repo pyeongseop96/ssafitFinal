@@ -30,10 +30,10 @@
         <td>{{ item.userID }}</td>
         <td>{{ item.regDate.slice(5,10) }}</td>
         <td>
-          <button v-if="loginID==item.userID"  @click="openUpdate(item.reviewID)" type="button" class="shadow btn btn-outline-primary">수정</button>
+          <button v-if="userID==item.userID"  @click="openUpdate(item.reviewID)" type="button" class="shadow btn btn-outline-primary">수정</button>
         </td>
         <td>
-          <button v-if="loginID==item.userID" @click="store.deleteReview(item.reviewID)" type="button" class="shadow btn btn-outline-danger">삭제</button>
+          <button v-if="userID==item.userID" @click="clickDelete(item.reviewID)" type="button" class="shadow btn btn-outline-danger">삭제</button>
         </td>
       </tr>     
      
@@ -71,9 +71,19 @@ import { watch } from 'vue';
 
 const userStore = useUserStore();
 const loginID = ref(userStore.user.name);
+const userID = ref(userStore.user.userID);
+
 const store = useReviewStore()
 const videoStore = useVideoStore();
 const rating = ref('');
+
+const clickDelete = (reviewID) => {
+  store.deleteReview(reviewID);
+  setTimeout(() => {
+    store.updateRating(store.videoID);
+  }, 200);
+  store.showModal = false;
+}
 
 //영상 별점 가져오는 메서드
 const getVideoRating = function () {
@@ -88,10 +98,16 @@ const getVideoRating = function () {
 }
 
 watch(() => store.showModal, (neww, old) => {
+  console.log(123)
   setTimeout(() => {
     getVideoRating(store.videoID);
   }, 200); // 0.1초 (100밀리초) 후에 실행 -> ssafy컴이 느려서 0.2초로 변경
 });
+
+watch(() => rating.value, (neww, old) => {
+    getVideoRating(store.videoID);
+});
+
 
 onMounted(() => {
   store.getReviewList()

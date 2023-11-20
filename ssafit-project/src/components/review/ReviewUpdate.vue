@@ -46,9 +46,13 @@ const handleClose = () => {
 
 const clickUpdate = () => {
   store.updateReview(content, title, store.reviewID, rating);
-  store.updateRating(store.videoID);
+  setTimeout(() => {
+    store.updateRating(store.videoID);
+  }, 700);//ssafy컴이 느려서 0.7초
   store.showUpdate = false;
 }
+
+
 </script>
 
 <style scoped>
