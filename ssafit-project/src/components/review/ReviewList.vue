@@ -83,8 +83,8 @@ const clickDelete = (reviewID) => {
     store.updateRating(store.videoID);
   }, 50);
   setTimeout(() => {
-    store.getVideoRating();
-  }, 50);
+    getVideoRating(store.videoID);
+  }, 150);
 }
 
 //영상 별점 가져오는 메서드
