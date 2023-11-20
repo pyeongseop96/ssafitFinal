@@ -4,8 +4,49 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">  
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" placeholder="제목을 입력하세요" v-model="tag">
-        <label for="floatingInput">태그</label>
+        태그
+        <div>
+        <input v-model="tag" type="radio" id="love" name="tag" value="src/img/record/love.png">
+        <label for="love">
+          <img src="src/img/record/love.png">
+        </label> |
+
+          <input v-model="tag" type="radio" id="happy" name="tag" value="src/img/record/happy.png">
+        <label for="happy">
+          <img src="src/img/record/happy.png">
+          </label> |
+
+          <input v-model="tag" type="radio" id="angry" name="tag" value="src/img/record/angry.png">
+          <label for="angry">
+          <img src="src/img/record/angry.png">
+          </label> | 
+
+          <input v-model="tag" type="radio" id="sleep" name="tag" value="src/img/record/sleep.png">
+          <label for="sleep">
+          <img src="src/img/record/sleep.png">
+          </label> |
+
+          <input v-model="tag" type="radio" id="sad" name="tag" value="src/img/record/sad.png">
+          <label for="sad">
+          <img src="src/img/record/sad.png">
+          </label> |
+
+          <input v-model="tag" type="radio" id="hmm" name="tag" value="src/img/record/hmm.png">
+          <label for="hmm">
+          <img src="src/img/record/hmm.png">
+          </label> |
+
+          <input v-model="tag" type="radio" id="dog" name="tag" value="src/img/record/dog.png">
+          <label for="dog">
+          <img src="src/img/record/dog.png">
+          </label> |
+
+          <input v-model="tag" type="radio" id="pig" name="tag" value="src/img/record/pig.png">
+          <label for="pig">
+          <img src="src/img/record/pig.png">
+          </label>
+          </div>
+      
       </div>
       <div class="form-floating">
         <input type="text" class="form-control" id="floatingTextarea" placeholder="내용을 입력하세요" v-model="weight">
@@ -85,4 +126,8 @@ const updateRecord = () => {
 p{ margin-top: 120px; }
         .form-floating { margin: 25px 35px 0px; }
         .btn-outline-primary {margin-left: 35px;}
+img{
+  width:20px
+
+}
 </style>
