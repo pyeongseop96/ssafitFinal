@@ -81,8 +81,10 @@ const clickDelete = (reviewID) => {
   store.deleteReview(reviewID);
   setTimeout(() => {
     store.updateRating(store.videoID);
-  }, 200);
-  store.showModal = false;
+  }, 50);
+  setTimeout(() => {
+    store.getVideoRating();
+  }, 50);
 }
 
 //영상 별점 가져오는 메서드
@@ -101,11 +103,15 @@ watch(() => store.showModal, (neww, old) => {
   console.log(123)
   setTimeout(() => {
     getVideoRating(store.videoID);
-  }, 200); // 0.1초 (100밀리초) 후에 실행 -> ssafy컴이 느려서 0.2초로 변경
+  }, 200);
 });
 
-watch(() => rating.value, (neww, old) => {
+
+watch(() => store.showUpdate, (neww, old) => {
+  console.log(222)
+  setTimeout(() => {
     getVideoRating(store.videoID);
+  }, 200);
 });
 
 

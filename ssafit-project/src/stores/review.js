@@ -53,7 +53,7 @@ export const useReviewStore = defineStore('review', () => {
   const deleteReview = function (id) {
     axios.delete(ReviewURL+`/review/${id}`)
     .then(function (response) {
-      getReviewList();
+       getReviewList();
     })
   }
 

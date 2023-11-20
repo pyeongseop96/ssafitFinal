@@ -48,7 +48,7 @@ const clickUpdate = () => {
   store.updateReview(content, title, store.reviewID, rating);
   setTimeout(() => {
     store.updateRating(store.videoID);
-  }, 700);//ssafy컴이 느려서 0.7초
+  }, 100);
   store.showUpdate = false;
 }
 
