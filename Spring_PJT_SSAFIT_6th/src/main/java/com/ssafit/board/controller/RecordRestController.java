@@ -50,10 +50,10 @@ public class RecordRestController {
             @RequestParam String recordDate,
             @RequestParam String userID,
             @RequestParam String tag,
-            @RequestParam Integer weight,
-            @RequestParam Integer eatCal,
-            @RequestParam Integer burnCal,
-            @RequestParam String text) {
+            @RequestParam(required = false) Integer weight,
+            @RequestParam(required = false) Integer eatCal,
+            @RequestParam(required = false) Integer burnCal,
+            @RequestParam(required = false) String text) {
         Record record = new Record();
         record.setUserID(userID);
         record.setRecordDate(recordDate);

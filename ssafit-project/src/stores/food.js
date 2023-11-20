@@ -12,7 +12,7 @@ export const useFoodStore = defineStore('food', () => {
     axios.get(FoodURL + `/food?DESC_KOR=${word.value}`)
       .then((response) => {
         console.log(response)
-      foods.value = response.data
+        foods.value = response.data.map(food => ({ ...food, cnt: 1 }));
       })
       .catch(function (error) {
         console.log(error);

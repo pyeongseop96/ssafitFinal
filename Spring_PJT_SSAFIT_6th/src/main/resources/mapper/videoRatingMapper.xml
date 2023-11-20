@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafit.board.model.dao.VideoRatingDao">
+
+
+    <!-- 상세글 조회 -->
+    <select id="selectRating" resultType="VideoRating" parameterType="String">
+        SELECT *
+        FROM video_ratings
+        WHERE videoID = #{videoID};
+    </select>
+
+    <!-- 전체글 조회 -->
+    <select id="selectRatingAll" resultType="VideoRating">
+        SELECT *
+        FROM video_ratings;
+    </select>
+
+    <insert id="updateRating" parameterType="String">
+        INSERT INTO video_ratings (videoID, averageRating, totalReviews)
+        SELECT videoID, AVG(reviewCnt), COUNT(*)
+        FROM reviews
+        WHERE videoID = #{videoID}
+        GROUP BY videoID
+        ON DUPLICATE KEY UPDATE
+        averageRating = VALUES(averageRating),
+        totalReviews = VALUES(totalReviews);
+    </insert>
+
+</mapper>

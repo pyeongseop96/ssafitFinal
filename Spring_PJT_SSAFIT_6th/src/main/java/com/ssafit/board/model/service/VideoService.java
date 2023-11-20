@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ssafit.board.model.dto.SearchCondition;
 import com.ssafit.board.model.dto.Video;
+import com.ssafit.board.model.dto.VideoRating;
 
 public interface VideoService {
 	// 영상 전체 조회
@@ -23,5 +24,8 @@ public interface VideoService {
 
 	//검색 버튼을 눌렀을 때 처리할 메서드
 	List<Video> search(SearchCondition condition);
+
+	void addViewCnt(String videoID);
+
 	
 }

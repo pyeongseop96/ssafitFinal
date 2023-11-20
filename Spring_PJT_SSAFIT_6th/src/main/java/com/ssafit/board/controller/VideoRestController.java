@@ -5,13 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ssafit.board.model.dto.SearchCondition;
 import com.ssafit.board.model.dto.Video;
@@ -28,6 +22,7 @@ public class VideoRestController {
 	
 	@Autowired
 	private VideoService videoService;
+
 	
 	// 1. 영상 목록 조회
 	@GetMapping("/video")
@@ -83,5 +78,12 @@ public class VideoRestController {
 			return new ResponseEntity<List<Video>>(list, HttpStatus.OK);
 		}
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+
+	// 7. 조회수 증가
+	@GetMapping("/video/addViewCnt")
+	@ApiOperation(value="조회수 증가시키기", notes="조회수를 1 증가시킵니다.")
+	public void search(@RequestParam String videoID){
+		videoService.addViewCnt(videoID);
 	}
 }

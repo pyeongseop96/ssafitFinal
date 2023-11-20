@@ -14,158 +14,119 @@ export const useVideoStore = defineStore('video', () => {
   const selectedVideo = ref(null)
   const word = ref('전신');
 
-  const getVideoList = function () {
+  //클릭한 영상 조회수 1 늘리기
+  const addViewCount = ((videoID) => {
+    axios.get(`http://localhost:8080/api-video/video/addViewCnt?videoID=${videoID}`)
+  })
 
-    axios.get(VideoURL + word.value, {
-      headers: {
-        'access-token': sessionStorage.getItem('access-token')
-      }
-    })
-      .then((response) => {
-        videos.value = response.data
-      })
-      .catch((err) => console.log(err))
-  }
+  // const getVideoList = function () {
+
+  //   axios.get(VideoURL + word.value, {
+  //     headers: {
+  //       'access-token': sessionStorage.getItem('access-token')
+  //     }
+  //   })
+  //     .then((response) => {
+  //       videos.value = response.data
+  //     })
+  //     .catch((err) => console.log(err))
+  // }
 
   /////////////////////////////////////////////////////////////////////
 
 
-  const getFavPartList = function () {
+  // const getFavPartList = function () {
 
-    axios.get(API_FAVORITE + "/video", {
-      headers: {
-        'access-token': sessionStorage.getItem('access-token')
-      },
-      params: {
-        partInfo: useVideoStore().word,
-        userID: useUserStore().user.userID
-      }
-    })
-      .then((response) => {
-        videos.value = response.data
-      })
-      .catch((err) => console.log(err))
-  }
-
-
-  
-      const favChannels = ref([]);
-      const getFavChannels = () => {
-          const id = useUserStore().user.userID;
-          console.log(id)
-          axios.put(API_FAVORITE + '/channel', id)
-          .then((res) => {
-              favChannels.value = res.data
-          })
-          .catch((err) => console.log(err));
-      }
-      
-      const favVideos = ref([]);
-      const allVideos = ref([]);
-  
-      const getAllVideos = () => {
-          const id = useUserStore().user.userID;
-          axios.put(API_FAVORITE + '/video/all', id)
-          .then((res) => {
-              console.log(res)
-              videos.value = res.data
-          })
-          .catch((err) => console.log(err));
-      }
-  
-      const setFavVideo = (video) => {
-          console.log(video)
-          axios.post(API_FAVORITE + '/toggle/video', null, {
-              params: {
-                  userID: useUserStore().user.userID, // 찜하지 않았면 null값을 전송하고 찜하면 로그인한 유저의 ID 전송
-                  videoID: video.videoID,
-                  isFavorite: video.userID !== null,
-              }
-          })
-          .then((res) => {
-              console.log(res);
-          })
-          .catch((err) => {
-              console.log(err)
-          });
-      }
-  
-      const getFavVideos = () => {
-          axios.put(API_FAVORITE + '/video/favorite', useUserStore().user.userID)
-          .then((res) => {
-              console.log(res)
-              favVideos.value = res.data
-          })
-          .catch((err) => console.log(err));
-      }
-  
-
-
-
-
-  // ////////////////////////////////////////////////////
-  // const video = ref({})
-
-  // const getVideo = (id) => {
-  //   axios.get(API_VIDEO + `/video/${id}`)
-  //     .then((res) => {
-  //       console.log(video.value)
-  //       video.value = res.data
+  //   axios.get(API_FAVORITE + "/video", {
+  //     headers: {
+  //       'access-token': sessionStorage.getItem('access-token')
+  //     },
+  //     params: {
+  //       partInfo: useVideoStore().word,
+  //       userID: useUserStore().user.userID
+  //     }
+  //   })
+  //     .then((response) => {
+  //       videos.value = response.data
   //     })
   //     .catch((err) => console.log(err))
   // }
 
 
-  // const favoriteList = ref([
-  //   {
-  //     userID: "123",
-  //     videoID: [
-  //       "999",
-  //     ],
-  //   }, {
-  //     userID: "123",
-  //     videoID: [
-  //       "123",
-  //     ],
-  //   }
-  // ])
+  
+  //     const favChannels = ref([]);
+  //     const getFavChannels = () => {
+  //         const id = useUserStore().user.userID;
+  //         console.log(id)
+  //         axios.put(API_FAVORITE + '/channel', id)
+  //         .then((res) => {
+  //             favChannels.value = res.data
+  //         })
+  //         .catch((err) => console.log(err));
+  //     }
+      
+  //     const favVideos = ref([]);
+  //     const allVideos = ref([]);
+  
+  //     const getAllVideos = () => {
+  //         const id = useUserStore().user.userID;
+  //         axios.put(API_FAVORITE + '/video/all', id)
+  //         .then((res) => {
+  //             console.log(res)
+  //             videos.value = res.data
+  //         })
+  //         .catch((err) => console.log(err));
+  //     }
+  
+      //찜 토글
+      const setFavVideo = (video, favorite) => {
+          console.log(video)
+          axios.post(API_FAVORITE + '/toggle/video', null, {
+              params: {
+                  userID: useUserStore().user.userID, // 찜하지 않았면 null값을 전송하고 찜하면 로그인한 유저의 ID 전송
+                  videoID: video,
+                  isFavorite: favorite,
+              }
+          })
+      }
+  
+      // const getFavVideos = () => {
+      //     axios.put(API_FAVORITE + '/video/favorite', useUserStore().user.userID)
+      //     .then((res) => {
+      //         console.log(res)
+      //         favVideos.value = res.data
+      //     })
+      //     .catch((err) => console.log(err));
+      // }
 
-  // const getFavoriteList = () => {
-  //   // axios.get(API_VIDEO + '/favorite')
-  //   // .then((res) =>{
-  //   //   favoriteList.value = res.data
-  //   // })
-  //   // .catch((err) => console.log(err))
+    
+    //   //영상 하나 별점 가져오는 메서드
+    //   const getVideoRating = function (videoID) {
+    //     axios.get(`http://localhost:8080/api-video/rating?videoID=${videoID}`)
+    //     .then((res) => {
+    //       console.log(res.data)
+    //     })
+    //     .catch((err) => console.log(err));
+    // }
+    // const ratings = ref([])
 
-  // }
-
-  // const searchVideoList = (searchCondition) => {
-  //   axios.get(API_VIDEO + "/video/search", {
-  //     params: searchCondition
-  //   })
+  //   //모든 영상 별점 가져오는 메서드
+  //   const getVideoRatingAll = function () {
+  //     axios.get(`http://localhost:8080/api-video/ratingAll`)
   //     .then((res) => {
-  //       videoList.value = res.data
-  //     }).catch((err) => {
-  //       console.log(err)
+  //         ratings.value = res.data
   //     })
+  //     .catch((err) => console.log(err));
   // }
-
-  // const logoutUser = () => {
-  //   axios.get(API_USER + "/logout")
-  //     .then((res) => {
-  //       user = {
-  //         userID: '',
-  //         name: '',
-  //         email: '',
-  //         password: '',
-  //         age: 0,
-  //       }
-  //     }).catch((err) => {
-  //       console.log(err)
-  //     })
-  // }
+  
 
 
 
-  return { videos, selectedVideo, getVideoList, word, showModal, getVideoList, favChannels, favVideos, getFavChannels, allVideos, getAllVideos, getFavVideos, setFavVideo, getFavPartList}
+
+
+  
+
+
+
+  return {addViewCount, setFavVideo}
 })

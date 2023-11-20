@@ -44,4 +44,9 @@ public class VideoServiceImpl implements VideoService{
 	public List<Video> search(SearchCondition condition) {
 		return videoDao.search(condition);
 	}
+
+	@Override
+	public void addViewCnt(String videoID) {
+		videoDao.updateViewCnt(videoID);
+	}
 }

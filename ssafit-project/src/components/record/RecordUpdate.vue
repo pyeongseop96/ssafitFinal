@@ -56,7 +56,12 @@ const handleClose = () => {
 };
 
 const updateRecord = () => {
-    axios.put(store.RecordURL + `/record?recordDate=${store.recordDate}&userID=${store.userID}&tag=${tag.value}&weight=${weight.value}&eatCal=${eatCal.value}&burnCal=${burnCal.value}&text=${text.value}`)
+  const weightValue = weight.value === '' ? '' : `&weight=${weight.value}`;
+  const eatCalValue = eatCal.value === '' ? '' : `&eatCal=${eatCal.value}`;
+  const burnCalValue = burnCal.value === '' ? '' : `&burnCal=${burnCal.value}`;
+  const textValue = text.value === '' ? '' : `&text=${text.value}`;
+
+  axios.put(`${store.RecordURL}/record?recordDate=${store.recordDate}&userID=${store.userID}&tag=${tag.value}${weightValue}${eatCalValue}${burnCalValue}${textValue}`)
     .then(function (response) {
       console.log(response);
       store.showUpdate = false;
@@ -65,7 +70,7 @@ const updateRecord = () => {
       console.log(error);
       store.showUpdate = false;
     });
-  }
+}
 
   const clickUpdateButton = (()=>{
     updateRecord();

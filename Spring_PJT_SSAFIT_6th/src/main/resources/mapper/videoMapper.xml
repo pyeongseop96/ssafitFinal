@@ -34,7 +34,7 @@
 	</update>
 	
 	<!-- 조회수 증가 -->
-	<update id="updateVideoCnt" parameterType="String">
+	<update id="updateViewCnt" parameterType="String">
 		UPDATE videos
 		SET viewCnt = viewCnt+1
 		WHERE videoID = #{videoID};

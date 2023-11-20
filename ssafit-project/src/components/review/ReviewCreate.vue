@@ -13,12 +13,16 @@
         <input type="text" class="form-control" id="floatingInputGrid" placeholder="내용" v-model="content">
         <label for="floatingInputGrid">내용</label>
       </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="floatingInputGrid" placeholder="별점" v-model="rating">
+        <label for="floatingInputGrid">별점</label>
+      </div>
 
     <span class="border-bottom"></span>
     <div>
         <form action="#">
             <br>
-            <button @click="store.createReview(content, title, sessionStorage.data, store.videoID)" type="button" class="shadow btn btn-outline-primary">등록</button>
+            <button @click="clickRegister()" type="button" class="shadow btn btn-outline-primary">등록</button>
               <button @click="handleClose" type="button" class="shadow btn btn-outline-danger">취소</button>
         </form>
     </div>
@@ -31,19 +35,25 @@
 <script setup>
 import {useReviewStore} from '@/stores/review'
 import { ref } from 'vue';
+import { useUserStore } from '@/stores/user';
 
-//임시로 로그인한척
-import { useSessionStore } from '@/stores/store'
- const sessionStorage = useSessionStore();
- //임시끝
-
+const userStore = useUserStore();
+const loginID = ref(userStore.user.name);
 const store = useReviewStore()
 const title = ref('')
 const content = ref('')
+const rating = ref(0)
 
 const handleClose = () => {
   store.showModal=false
 };
+
+const clickRegister = () => {
+  store.createReview(content, title, loginID, store.videoID, rating);
+  store.updateRating(store.videoID);
+  
+  store.showModal = false;
+}
 </script>
 
 <style scoped>

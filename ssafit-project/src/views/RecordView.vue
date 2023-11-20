@@ -43,14 +43,13 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch, toRaw } from 'vue'; 
+import { ref, computed, onMounted, watch} from 'vue'; 
 import {useRecordStore} from '@/stores/record'
 import RecordUpdate from '../components/record/RecordUpdate.vue';
 import { useUserStore } from '@/stores/user';
 
 const id = useUserStore().user.userID;
 const recordStore = useRecordStore();
-
 const day = ref('')
 const weightInfo = ref('')
 const eatCalInfo = ref('')
@@ -59,19 +58,18 @@ const textInfo = ref('')
 
 const out = function(out){
     if(out<=0 || out > lastDate.value){
-        return
+        return; 
     }
-    if (out >= 1 && out <= 9) {
-    day.value = `0${out}`;
-  } else {
-    day.value = out;
-  }
-  if(recordStore.records.length>0){
-  weightInfo.value = recordStore.records.filter(record =>record.recordDate.split(' ')[0]==`${recordStore.month}-${day.value}`).map(record => record.weight)
-  eatCalInfo.value = recordStore.records.filter(record =>record.recordDate.split(' ')[0]==`${recordStore.month}-${day.value}`).map(record => record.eatCal)
- burnCalInfo.value = recordStore.records.filter(record =>record.recordDate.split(' ')[0]==`${recordStore.month}-${day.value}`).map(record => record.burnCal)
-  textInfo.value = recordStore.records.filter(record =>record.recordDate.split(' ')[0]==`${recordStore.month}-${day.value}`).map(record => record.text)
-  }
+
+    day.value = (out >= 1 && out <= 9) ? `0${out}` : out;
+
+    if(recordStore.records.length > 0){
+        const filteredRecords = recordStore.records.filter(record => record.recordDate.split(' ')[0] === `${recordStore.month}-${day.value}`);
+        weightInfo.value = filteredRecords.map(record => record.weight);
+        eatCalInfo.value = filteredRecords.map(record => record.eatCal);
+        burnCalInfo.value = filteredRecords.map(record => record.burnCal);
+        textInfo.value = filteredRecords.map(record => record.text);
+    }
 }
 
     const date = ref(new Date());
@@ -100,34 +98,6 @@ const clickDeleteButton = (()=>{
   }, 100);
 })
 
-//누른 날짜의 상세 기록, tagByDate로 모두 대체(기능 다 만들고 필요없어보이면 삭제)
-// const RecordByDate = ref('')
-
-// watch(() => day.value, (newDay) => {
-//     if(store.records==[]){
-//         RecordByDate.value = ''
-//     }
-//     else{
-//     RecordByDate.value = store.records.filter(record =>record.recordDate.split(' ')[0]==`${month.value}-${newDay}`)
-//     if(RecordByDate.value.length==0){
-//         RecordByDate.value = ''
-//     }
-//     console.log(RecordByDate.value)
-// }
-// })
-
-// watch(() => store.records, (newRecords) => {
-//     if(newRecords==[]){
-//         RecordByDate.value = ''
-//     }
-//     else{
-//     RecordByDate.value = store.records.filter(record =>record.recordDate.split(' ')[0]==`${month.value}-${day.value}`)
-//     if(RecordByDate.value.length==0){
-//         RecordByDate.value = ''
-//     }
-// }
-// })
-
 
 //캘린더에서 tag출력
 const tagByDate = ((num) => {
@@ -153,6 +123,14 @@ const tagByDate = ((num) => {
 
     return tag
 })
+
+watch(() => tagByDate(day), (newTag) => {
+    const filteredRecords = recordStore.records.filter(record => record.recordDate.split(' ')[0] === `${recordStore.month}-${day.value}`);
+    weightInfo.value = filteredRecords.map(record => record.weight);
+    eatCalInfo.value = filteredRecords.map(record => record.eatCal);
+    burnCalInfo.value = filteredRecords.map(record => record.burnCal);
+    textInfo.value = filteredRecords.map(record => record.text);
+});
 
 const openUpdate = (recordDate, userID) => {
     recordStore.recordDate = recordDate;
