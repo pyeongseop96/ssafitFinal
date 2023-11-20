@@ -39,7 +39,7 @@ export const useUserStore = defineStore('user', () => {
       })
   }
 
-  const user = ref({ // 현재 로그인한 유저
+  let user = ref({ // 현재 로그인한 유저
     userID: '',
     name: '',
     email: '',
