@@ -6,10 +6,7 @@
 	
 	<!-- 구독 채널 조회   -->
 	<select id="selectFavChannels" resultType="String" parameterType="String">
-		SELECT channelName
-		FROM videos
-		WHERE channelName
-		IN (SELECT channelName FROM favoriteChannels WHERE userID = #{userID});
+		SELECT channelName FROM favoriteChannels WHERE userID = #{userID};
 	</select>
 	
 	<!-- 구독 채널 추가 -->
@@ -21,8 +18,12 @@
 	<!-- 채널 구독 해제 -->
 	<delete id="deleteFavoriteChannel" parameterType="String">
 		DELETE FROM favoriteChannels
-		WHERE userID=#{userID}, channelName=#{channelName}
+		WHERE (userID=#{userID} AND channelName=#{channelName})
 	</delete>
 	
+	<select id="selectIsChannel" parameterType="String">
+		SELECT count(*) FROM favoriteChannels 
+		WHERE channelName = (SELECT channelName FROM videos WHERE videoID = #{videoID});
+	</select>
 
 </mapper>

@@ -49,4 +49,9 @@ public class VideoServiceImpl implements VideoService{
 	public void addViewCnt(String videoID) {
 		videoDao.updateViewCnt(videoID);
 	}
+
+	@Override
+	public List<Video> getChannelVideos(String channelName) {
+		return videoDao.selectChannelVideos(channelName);
+	}
 }
