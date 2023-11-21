@@ -21,7 +21,7 @@
             <th>수정</th>
             <th>삭제</th>
 
-            <tr v-for="(item, index) in store.reviews.slice(0, 10)" :key="index">
+            <tr v-for="(item, index) in store.reviews.slice(10*currentPage-10, 10*currentPage)" :key="index">
         <td>{{ item.title }}</td>
         <td>{{ item.content }}</td>
         <td>
@@ -39,23 +39,17 @@
      
     </table>
 
-    <footer>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-              <li class="page-item disabled">
-                <a class="page-link">Previous</a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-              </li>
-            </ul>
-          </nav>
-    </footer>
+    <!-- 페이지네이션 -->
+    <nav aria-label="Page navigation example">
+  <ul class="pagination d-flex justify-content-center">
+    <li class="page-item"><a class="page-link" :class="{disabled: currentPage <=1}" href="#" @click.prevent="currentPage--">&lt;</a></li>
+    <li :class="{active: currentPage===page}" v-for="page in pageRange" class="page-item">
+      <a class="page-link" href="#" @click.prevent="currentPage=page">{{ page }}</a></li>
 
-    <span class="border-bottom"></span>
+    <li class="page-item"><a class="page-link" :class="{disabled: currentPage >= pageCount}" href="#" @click.prevent="currentPage++">&gt;</a></li>
+  </ul>
+</nav>
+
     </div>
 </template>
 
@@ -68,6 +62,7 @@ import { useUserStore } from '@/stores/user';
 import {useVideoStore} from '@/stores/video';
 import axios from 'axios';
 import { watch } from 'vue';
+import { computed } from '@vue/reactivity';
 
 const userStore = useUserStore();
 const loginID = ref(userStore.user.name);
@@ -77,6 +72,25 @@ const store = useReviewStore()
 const videoStore = useVideoStore();
 const rating = ref('');
 const today = new Date();
+
+//페이지네이션
+const perReview = 10;
+const currentPage = ref(1);
+const pageCount = computed(() => {
+  return Math.ceil(store.reviews.length / perReview)
+})
+const pageRange = computed(() => {
+  const num1 = ref(Math.max(1,currentPage.value-2));
+  const num2 = ref(Math.min(num1.value+4, pageCount.value));
+  if(num2.value-num1.value+1 < perReview){
+    num1.value = Math.max(1, num2.value - 4);
+  }
+
+  return Array.from({length:num2.value-num1.value+1}, (_,index) => num1.value + index);
+})
+
+
+
 
 const clickDelete = (reviewID) => {
   store.deleteReview(reviewID);
