@@ -27,14 +27,16 @@ export const useFavoriteStore = defineStore('favorite', () => {
             }
         })
         .then((res) => {
-            console.log(res.data);
+            isFavChan.value = res.data;
         })
         .catch((err) => console.log(err));
     }
 
 
     const setFavChannel = (channelName, isFav) => {
-        console.log(channelName)
+        
+
+
         axios.post(API_FAVORITE + '/toggle/channel', null, {
            params: {            
                 userID: useUserStore().user.userID,
