@@ -126,8 +126,9 @@ public class FavoriteRestController {
 			} else { //  구독하지 않은 경우
 				favChanService.addFavChannel(userID, channelName);
 			}
-			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 		@GetMapping("/channel")
 		@ApiOperation(value = "구독 여부 조회", notes = "채널을 구독했으면 1, 아니면 0을 반환합니다.")
 		public ResponseEntity<?> isFavChan(@RequestParam String userID, @RequestParam String videoID) {
