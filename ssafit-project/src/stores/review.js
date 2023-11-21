@@ -49,6 +49,11 @@ export const useReviewStore = defineStore('review', () => {
     axios.get(`http://localhost:8080/api-video/review?videoID=${videoID}`)
   }
 
+  const updateRatingByZero = function (videoID) {
+    console.log(videoID)
+    axios.get(`http://localhost:8080/api-video/reviewZero?videoID=${videoID}`)
+  }
+
   const deleteReview = function (id) {
     axios.delete(ReviewURL+`/review/${id}`)
     .then(function (response) {
@@ -56,6 +61,6 @@ export const useReviewStore = defineStore('review', () => {
     })
   }
 
-  return { reviewID, reviews,showUpdate, selectedYoutube,deleteReview,updateReview,  getReviewList, videoID, showModal, createReview, updateRating}
+  return { reviewID, reviews,showUpdate, selectedYoutube,deleteReview,updateReview,  getReviewList, videoID, showModal, createReview, updateRating, updateRatingByZero}
 })
 

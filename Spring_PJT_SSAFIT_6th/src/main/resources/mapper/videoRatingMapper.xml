@@ -28,5 +28,13 @@
         averageRating = VALUES(averageRating),
         totalReviews = VALUES(totalReviews);
     </insert>
+    
+    <insert id="updateRatingByZero" parameterType="String">
+        INSERT INTO video_ratings (videoID, averageRating, totalReviews)
+		VALUES(#{videoID}, 0, 0)
+		ON DUPLICATE KEY UPDATE
+    	averageRating = VALUES(averageRating),
+    	totalReviews = VALUES(totalReviews);
+    </insert>
 
 </mapper>

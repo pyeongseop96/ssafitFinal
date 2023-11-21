@@ -4,9 +4,9 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">  
       <div class="form-floating mb-3">
-        태그
+        태그(필수)
         <div>
-        <input v-model="tag" type="radio" id="love" name="tag" value="src/img/record/love.png">
+        <input checked v-model="tag" type="radio" id="love" name="tag" value="src/img/record/love.png">
         <label for="love">
           <img src="src/img/record/love.png">
         </label> |
@@ -86,7 +86,7 @@ import axios from 'axios'
 import { useUserStore } from '@/stores/user';
 
 const id = useUserStore().user.userID;
-const tag = ref('')
+const tag = ref('src/img/record/love.png')
 const weight = ref('')
 const eatCal = ref('')
 const burnCal = ref('')
@@ -114,8 +114,19 @@ const updateRecord = () => {
 }
 
   const clickUpdateButton = (()=>{
+    if(isNaN(weight.value)==true){
+      alert('체중에 숫자를 입력해주세요.')
+      return;
+    }
+    if(isNaN(eatCal.value)==true){
+      alert('섭취 칼로리에 숫자를 입력해주세요.')
+      return;
+    }
+    if(isNaN(burnCal.value)==true){
+      alert('소모 칼로리에 숫자를 입력해주세요.')
+      return;
+    }
     updateRecord();
-    console.log(store.month)
     setTimeout(() => {
     store.getRecordList(`${store.month}-01`, id);
   }, 100);

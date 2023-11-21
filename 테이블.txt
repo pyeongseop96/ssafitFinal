@@ -1,0 +1,82 @@
+drop database ssafit;
+create DATABASE ssafit;
+use ssafit;
+
+CREATE TABLE if not exists users(
+  userID varchar(50) NOT NULL key,
+  password varchar(50) NOT NULL,
+  name varchar(50) NOT NULL,
+  email varchar(50) NOT NULL,
+  age int NOT NULL
+);
+
+CREATE TABLE if not exists `favoritechannels` (
+  `userID` varchar(50) NOT NULL,
+  `channelName` varchar(50) NOT NULL,
+  PRIMARY KEY (`userID`,`channelName`),
+  CONSTRAINT `favoritechannels_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`)
+);
+
+CREATE TABLE if not exists `favoritevideos` (
+  `userID` varchar(50) NOT NULL,
+  `videoID` varchar(50) NOT NULL,
+  PRIMARY KEY (`userID`,`videoID`),
+  CONSTRAINT `favoritevideos_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`)
+);
+
+CREATE TABLE if not exists videos (
+  videoID varchar(50) NOT NULL key,
+  title varchar(150) NOT NULL,
+  channelName varchar(50) NOT NULL,
+  viewCnt Integer NOT NULL DEFAULT 0,
+  partInfo varchar(50) NOT NULL
+);
+
+CREATE TABLE if not exists reviews (
+  reviewID int AUTO_INCREMENT key NOT NULL,
+  videoID varchar(50) NOT NULL,
+  userID varchar(50) NOT NULL,
+  title varchar(50) NOT NULL,
+  content varchar(50) NOT NULL,
+  regDate TIMESTAMP DEFAULT NOW() NOT NULL,
+  reviewCnt int DEFAULT 0
+);
+
+CREATE TABLE if not exists records(
+recordDate TIMESTAMP NOT NULL,
+userID varchar(50) NOT NULL,
+tag varchar(50) NOT NULL,
+weight INT ,
+eatCal INT,
+burnCal INT,
+text varchar(300),
+UNIQUE KEY (recordDate, userID)
+);
+
+CREATE TABLE if not exists foods 
+(
+    NUM	INT,
+    DESC_KOR	VARCHAR(512),
+    SERVING_SIZE VARCHAR(512) DEFAULT NULL,
+    NUTR_CONT1	VARCHAR(512) DEFAULT NULL,
+    NUTR_CONT2	VARCHAR(512) DEFAULT NULL,
+    NUTR_CONT3	VARCHAR(512) DEFAULT NULL,
+    NUTR_CONT4	VARCHAR(512) DEFAULT NULL,
+    NUTR_CONT5	VARCHAR(512) DEFAULT NULL,
+    NUTR_CONT6	VARCHAR(512) DEFAULT NULL,
+    NUTR_CONT7	VARCHAR(512) DEFAULT NULL,
+    NUTR_CONT8	VARCHAR(512) DEFAULT NULL,
+    NUTR_CONT9	VARCHAR(512) DEFAULT NULL
+);
+
+CREATE TABLE if not exists video_ratings (
+  videoID varchar(50) NOT NULL PRIMARY KEY,
+  averageRating DECIMAL(2, 1) DEFAULT 0.0 NOT NULL,
+  totalReviews int DEFAULT 0 NOT NULL
+);
+
+select * from video_ratings;
+select * from users;
+select * from records;
+select * from foods;
+select * from reviews;

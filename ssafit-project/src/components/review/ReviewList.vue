@@ -28,7 +28,7 @@
           <span v-for="i in item.reviewCnt" :key="i">⭐</span>
         </td>
         <td>{{ item.userID }}</td>
-        <td>{{ item.regDate.slice(5,10) }}</td>
+        <td>{{today.getMonth()+1+'-'+today.getDate()==item.regDate.slice(5,10)?item.regDate.slice(11,16):item.regDate.slice(5,10) }}</td>
         <td>
           <button v-if="userID==item.userID"  @click="openUpdate(item.reviewID)" type="button" class="shadow btn btn-outline-primary">수정</button>
         </td>
@@ -76,6 +76,7 @@ const userID = ref(userStore.user.userID);
 const store = useReviewStore()
 const videoStore = useVideoStore();
 const rating = ref('');
+const today = new Date();
 
 const clickDelete = (reviewID) => {
   store.deleteReview(reviewID);
@@ -84,7 +85,16 @@ const clickDelete = (reviewID) => {
   }, 50);
   setTimeout(() => {
     getVideoRating(store.videoID);
-  }, 150);
+    if(store.reviews.length==0){
+    setTimeout(() => {
+    store.updateRatingByZero(store.videoID);
+  }, 50);
+  setTimeout(() => {
+    getVideoRating(store.videoID);
+  }, 100);
+    return;
+  }
+  }, 100);
 }
 
 //영상 별점 가져오는 메서드

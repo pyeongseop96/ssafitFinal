@@ -13,4 +13,6 @@ public interface VideoRatingService {
     List<VideoRating> getRatingAll();
 
     void updateRating(String videoID);
+    
+    void updateRatingByZero(String videoID);
 }

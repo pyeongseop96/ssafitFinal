@@ -11,4 +11,6 @@ public interface VideoRatingDao {
     public List<VideoRating> selectRatingAll();
 
     public void updateRating(String videoID);
+    
+    public void updateRatingByZero(String videoID);
 }
