@@ -4,10 +4,6 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">  
       <div class="form-floating mb-3">
-<<<<<<< HEAD
-        <input type="text" class="form-control" id="floatingInput" placeholder="제목을 입력하세요" v-model="tag">
-        <label for="floatingInput">태그</label>
-=======
         태그
         <div>
         <input v-model="tag" type="radio" id="love" name="tag" value="src/img/record/love.png">
@@ -51,7 +47,6 @@
           </label>
           </div>
       
->>>>>>> 7a1450d546aa2cd4adff78b0e2a0c6e3b6255db8
       </div>
       <div class="form-floating">
         <input type="text" class="form-control" id="floatingTextarea" placeholder="내용을 입력하세요" v-model="weight">
@@ -131,11 +126,8 @@ const updateRecord = () => {
 p{ margin-top: 120px; }
         .form-floating { margin: 25px 35px 0px; }
         .btn-outline-primary {margin-left: 35px;}
-<<<<<<< HEAD
-=======
 img{
   width:20px
 
 }
->>>>>>> 7a1450d546aa2cd4adff78b0e2a0c6e3b6255db8
 </style>

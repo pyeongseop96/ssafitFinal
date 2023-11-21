@@ -20,11 +20,7 @@ export const useReviewStore = defineStore('review', () => {
   }
 
   const createReview = function (content, title, userID, videoID, rating) {
-<<<<<<< HEAD
-    axios.post(ReviewURL+`/review?content=${content.value}&regDate=0&reviewCnt=${rating.value}&reviewID=0&title=${title.value}&userID=${userID.value}&videoID=${videoID}`)
-=======
     axios.post(ReviewURL+`/review?content=${content.value}&regDate=0&reviewCnt=${rating.value}&reviewID=0&title=${title.value}&userID=${userID}&videoID=${videoID}`)
->>>>>>> 7a1450d546aa2cd4adff78b0e2a0c6e3b6255db8
     .then(function (response) {
       console.log(response);
       getReviewList();

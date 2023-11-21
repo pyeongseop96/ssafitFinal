@@ -70,8 +70,8 @@ import axios from 'axios';
 import { watch } from 'vue';
 
 
-const userID = ref(userStore.user.userID);
 const userStore = useUserStore();
+const userID = ref(userStore.user.userID);
 const loginID = ref(userStore.user.name);
 const store = useReviewStore()
 const videoStore = useVideoStore();
