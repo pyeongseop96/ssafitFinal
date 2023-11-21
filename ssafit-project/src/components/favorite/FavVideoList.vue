@@ -2,12 +2,14 @@
     <div>
         <h3>찜한 동영상 목록</h3>
         <ul>
-            <li v-for="video in favStore.favVideos">
-                <p @click="goToVideo(video.videoID)">동영상ID : {{ video.videoID }}</p>
+            <li v-for="(video, index) in favStore.favVideos">
+                <p @click="goToVideo(video.videoID)">동영상ID : {{ video.videoID }}
+                </p>
+                <button @click="unfollow(video), hideBtn(index)">구독 취소하기</button>
                 <div>
-        <!-- <iframe :src="`https://www.youtube.com/embed/${video.videoID}`"
-         width="400px" height="300px"></iframe> -->
-    </div>
+                    <!-- <iframe :src="`https://www.youtube.com/embed/${video.videoID}`"
+                    width="400px" height="300px"></iframe> -->
+                </div>
             </li>
         </ul>
     </div>
@@ -29,9 +31,19 @@ const goToVideo = (id) => {
     router.push('/review')
 }
 
+const unfollow = (video) => {
+    favStore.setFavVideo(video)
+}     
+
+const hideBtn = (index) => {
+    favStore.favVideos.splice(index, 1);
+}
+
+
 onMounted(() => {
     favStore.getFavVideos();
 })
+
 
 
 </script>
