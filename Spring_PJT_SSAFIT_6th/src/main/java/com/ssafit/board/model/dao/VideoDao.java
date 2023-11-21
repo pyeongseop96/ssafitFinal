@@ -28,6 +28,8 @@ public interface VideoDao {
 	// 검색 기능
 	public List<Video> search(SearchCondition condition);
 
+	// 채널 영상 조회
+	public List<Video> selectChannelVideos(String channelName);
 
 
 }

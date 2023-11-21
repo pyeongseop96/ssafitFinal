@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api-favorite")
 @Api(tags = "게시판 컨트롤러")
 @CrossOrigin("*")
-public class FavoriteRestContoller {
+public class FavoriteRestController {
 
 	@Autowired
 	private FavoriteVideoService favVideoService;
@@ -120,15 +120,28 @@ public class FavoriteRestContoller {
 	@ApiOperation(value = "채널 구독 및 해제", notes = "해당 유저의 구독 목록에서 채널을 구독하거나 해제합니다.")
 	public ResponseEntity<?> toggleFavChannel(@RequestParam String userID, @RequestParam String channelName, @RequestParam Boolean isFavorite) {
 		
-//		if (userID != null) {
-//			if (isFavorite) { // 구독한 경우
-//				favChanService.removeFavChannel(userID, channelName);
-//			} else { //  구독하지 않은 경우
-//				favChanService.addFavChannel(userID, channelName);
-//			}
-//			return new ResponseEntity<Void>(HttpStatus.OK);
-//		}
+		if (userID != null) {
+			if (isFavorite) { // 구독한 경우
+				favChanService.removeFavChannel(userID, channelName);
+			} else { //  구독하지 않은 경우
+				favChanService.addFavChannel(userID, channelName);
+			}
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+		@GetMapping("/channel")
+		@ApiOperation(value = "구독 여부 조회", notes = "채널을 구독했으면 1, 아니면 0을 반환합니다.")
+		public ResponseEntity<?> isFavChan(@RequestParam String userID, @RequestParam String videoID) {
+			int result = favChanService.isFavChannel(userID, videoID);
+			System.out.println(userID);
+			System.out.println(videoID);
+			if (result > 0) {
+				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+			}
+
 		
-		return new ResponseEntity<Void>(HttpStatus.SERVICE_UNAVAILABLE);
+//		return new ResponseEntity<Void>(HttpStatus.SERVICE_UNAVAILABLE);
+		
 	}
 }

@@ -12,4 +12,8 @@ public interface FavoriteChannelService {
 	
 	// 구독 채널 삭제
 	void removeFavChannel(String userID, String channelName);
+	
+	// 구독 채널 확인
+	int isFavChannel(String userID, String videoID);
+
 }

@@ -12,4 +12,8 @@ public interface FavoriteChannelDao {
 	
 	// 구독 채널 목록에서 삭제
 	public void deleteFavoriteChannel(String userID, String channelName);
+	
+	// 구독 채널인지 조회
+	public int selectIsChannel(String userID, String videoID);
+
 }
