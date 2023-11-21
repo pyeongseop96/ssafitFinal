@@ -5,7 +5,7 @@
      
         <div class="buttons">
         <form action="#">
-          <button v-if="loginID" @click="openModal" type="button" class="shadow btn btn-outline-primary">댓글 작성</button>
+          <button v-if="userStore.user.name" @click="openModal" type="button" class="shadow btn btn-outline-primary">댓글 작성</button>
         </form>
         <ReviewCreate v-if="store.showModal" @closeModal="closeModal" />
         <ReviewUpdate v-if="store.showUpdate" @closeModal="closeUpdate" />
@@ -30,10 +30,10 @@
         <td>{{ item.userID }}</td>
         <td>{{today.getMonth()+1+'-'+today.getDate()==item.regDate.slice(5,10)?item.regDate.slice(11,16):item.regDate.slice(5,10) }}</td>
         <td>
-          <button v-if="userID==item.userID"  @click="openUpdate(item.reviewID)" type="button" class="shadow btn btn-outline-primary">수정</button>
+          <button v-if="userStore.user.userID==item.userID"  @click="openUpdate(item.reviewID)" type="button" class="shadow btn btn-outline-primary">수정</button>
         </td>
         <td>
-          <button v-if="userID==item.userID" @click="clickDelete(item.reviewID)" type="button" class="shadow btn btn-outline-danger">삭제</button>
+          <button v-if="userStore.user.userID==item.userID" @click="clickDelete(item.reviewID)" type="button" class="shadow btn btn-outline-danger">삭제</button>
         </td>
       </tr>     
      
@@ -66,7 +66,6 @@ import { computed } from '@vue/reactivity';
 
 const userStore = useUserStore();
 const loginID = ref(userStore.user.name);
-const userID = ref(userStore.user.userID);
 
 const store = useReviewStore()
 const videoStore = useVideoStore();
@@ -140,8 +139,16 @@ watch(() => store.showUpdate, (neww, old) => {
 
 
 onMounted(() => {
+  if (sessionStorage.getItem("videoID") !== store.videoID && store.videoID !== '') {
+        sessionStorage.setItem("videoID", store.videoID);
+    }
+    if(store.videoID == ''){
+        store.videoID = sessionStorage.getItem("videoID");
+    }
+    store.selectedYoutube = `https://www.youtube.com/embed/${sessionStorage.getItem("videoID")}`
   store.getReviewList()
   getVideoRating(store.videoID)
+  
 })
 
 //댓글 작성창

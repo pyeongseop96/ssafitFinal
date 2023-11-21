@@ -6,6 +6,40 @@ import { useRouter } from 'vue-router'
 // const API_VIDEO = 'http://localhost:8080/api-video'
 const API_USER = 'http://localhost:8080/api-user'
 
+/////////////////////////////////////////////////////
+// 토큰 만료 응답 받아서 재발급하는 인터셉터
+axios.interceptors.response.use(
+  (response) => {console.log(response);
+    return response;
+  },
+  (error) => {console.log(error);
+    const { status, code, message } = error.response.data;
+    if (message) {
+      if (status === 401 && code === 'EXPIRED_TOKEN') {
+        tokenExpired();
+      }
+    }
+    return Promise.reject(error);
+  },
+)
+
+// 토큰 만료 시 실행 (로컬 스토리지)
+const tokenExpired = async () => {
+  try {
+    const { data } = await axios.put('/auth', null, {
+      headers: {
+        'Refresh-Token':
+        `${localStorage.getItem(REFRESH_KEY)}`,
+      },
+    });
+    localStorage.setItem(ACCESS_KEY, data.accessToken);
+  } catch (err) {
+    alert('세션이 만료되었습니다');
+  }
+};
+//////////////////////////////////////////////////
+
+
 export const useUserStore = defineStore('user', () => {
 
   // 한글 깨짐 수정하는 함수 ( BASE64 => UTF-8 변환)
@@ -20,11 +54,12 @@ export const useUserStore = defineStore('user', () => {
   const router = useRouter();
 
   const newUser = ref({ // 회원가입 정보 담을 객체
-    userID: '',
-    name: '',
-    email: '',
-    password: '',
-    age: 0,
+    userID: null,
+    name: null,
+    email: null,
+    password: null,
+    age: null,
+
   })
 
   const registUser = () => { // 유저 등록
@@ -40,35 +75,41 @@ export const useUserStore = defineStore('user', () => {
   }
 
   let user = ref({ // 현재 로그인한 유저
-    userID: '',
-    name: '',
-    email: '',
-    password: '',
-    age: 0,
+    userID: null,
+    name: null,
+    email: null,
+    password: null,
+    age: null,
+
   })
 
   const auth = (token) => {
     // 서버로 보내서 access토큰 검증하는 작업
-    console.log(token)
-    axios.put(API_USER + '/auth', token) 
+    axios.put(API_USER + '/auth', token)
       .then((res) => {
-        console.log(res)
-        console.log("통과")
+        console.log(res.data)
+
+
+        // if(res.data){
+
+          let payload = JSON.parse(atob(token.split('.')[1]))
+
+          user.value = {
+            userID: payload['id'],
+            password: '',
+            name: b64DecodeUnicode(payload['name']),
+            email: payload['email'],
+            age: payload['age'],
+          }
+        // }
+
+        // return res.data;
+
       })
       .catch((err) => {
+        router.push({name:"login"})
         console.log(err)
-        console.log("당신 누구야")
       })
-
-    let payload = JSON.parse(atob(token.split('.')[1]))
-
-    user.value = {
-      userID: payload['id'],
-      password: '',
-      name: b64DecodeUnicode(payload['name']),
-      email: payload['email'],
-      age: payload['age'],
-    }
   }
 
 
@@ -111,20 +152,36 @@ export const useUserStore = defineStore('user', () => {
       .then((res) => {
         sessionStorage.removeItem('access-token');
 
-        user = {
-          userID: '',
-          name: '',
-          email: '',
-          password: '',
-          age: 0,
+        user.value = {
+          userID: null,
+          name: null,
+          email: null,
+          password: null,
+          age: null,
+
         }
       }).catch((err) => {
         console.log(err)
       })
   }
-
+// 유저 프로필 수정
   const updateUser = (userInfo) => {
-    console.log(userInfo)
+    const result = auth(sessionStorage.getItem("access-token"))
+
+    if (result) {
+      userInfo.userID = user.value.userID;
+      console.log(userInfo)
+
+      axios.post(API_USER + "/update", userInfo)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+
+
   }
 
 
@@ -186,5 +243,5 @@ export const useUserStore = defineStore('user', () => {
 
 
 
-  return { newUser, registUser, user, loginUser, logoutUser, auth, updateUser }
+  return { newUser, registUser, user, loginUser, logoutUser, auth, updateUser,  }
 })

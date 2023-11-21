@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, ref, computed } from 'vue';
+import { onBeforeMount, onMounted, onUpdated ,ref, computed, onUnmounted } from 'vue';
 import { useReviewStore } from '../stores/review';
 import { RouterLink } from 'vue-router'
 import { useFavoriteStore } from '../stores/favorite';
@@ -27,8 +27,15 @@ const isFavorite = ref(false)
 
 
 onMounted(() => {
-    videoStore.getVideo(reviewStore.videoID);
-    favStore.isFavChannel(reviewStore.videoID);
+    if (sessionStorage.getItem("videoID") !== reviewStore.videoID && reviewStore.videoID !== '') {
+        sessionStorage.setItem("videoID", reviewStore.videoID);
+    }
+    if(reviewStore.videoID == ''){
+        reviewStore.videoID = sessionStorage.getItem("videoID");
+    }
+    reviewStore.selectedYoutube = `https://www.youtube.com/embed/${sessionStorage.getItem("videoID")}`
+    favStore.isFavChannel(sessionStorage.getItem("videoID"));
+    videoStore.getVideo(sessionStorage.getItem("videoID"));
 })
 
 const toggleFavChan = () => {
