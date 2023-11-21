@@ -45,8 +45,6 @@ onMounted(() => {
 
 const updateProfile = () => {
 
-    // userStore.auth() 비밀번호 검증하기
-
     let fix = confirm("정말 수정할거야?"
         + (newName.value ? ("\n이름 : " + newName.value) : "")
         + (newEmail.value ? ("\n이메일 : " + newEmail.value) : "")
@@ -56,10 +54,10 @@ const updateProfile = () => {
     if (fix) {
         userStore.updateUser({
             userID: null,
-            password: newPass.value,
-            name: newName.value,
-            email: newEmail.value,
-            age: newAge.value,
+            password: newPass.value ? newPass.value : null,
+            name: newName.value ? newName.value : null,
+            email: newEmail.value ? newEmail.value : null,
+            age: newAge.value ? newAge.value : null,
         });
     }
 }
