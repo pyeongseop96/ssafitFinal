@@ -17,8 +17,11 @@ import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
 public class JwtUtil {
-	private static final String SALT = "SSAFIT";
-	
+	private static final String SALT = "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS"
+			+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+			+ "FFFFFFFFFFFFFFFFF"
+			+ "IIIIIIIIIIIIIII"
+			+ "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
 	// 넣을 정보가 담긴 claims 선언
 	
 	
@@ -44,7 +47,7 @@ public class JwtUtil {
 	// 토큰 유효성 검사
 	public void valid(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException, UnsupportedEncodingException {
 		System.out.println(" 유효성 검사 진행 ");
+
 		Jwts.parser().setSigningKey(SALT.getBytes("UTF-8")).parseClaimsJws(token);
 	}
-	
 }

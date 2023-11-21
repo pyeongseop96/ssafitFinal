@@ -53,16 +53,6 @@
 			ORDER BY ${orderBy} ${orderByDir}
 		</if>
 	</select>
-<<<<<<< HEAD
-=======
-	
-	<!-- 채널의 모든 비디오 조회 -->
-	<select id="selectChannelVideos" resultType="Video" parameterType="String">
-		SELECT * FROM videos
-		WHERE channelName = #{channelName};
-	</select>
-	
->>>>>>> 7a1450d546aa2cd4adff78b0e2a0c6e3b6255db8
 
 	<!-- 채널의 모든 비디오 조회 -->
 	<select id="selectChannelVideos" resultType="Video" parameterType="String">

@@ -25,10 +25,5 @@
 		SELECT count(*) FROM favoriteChannels 
 		WHERE channelName = (SELECT channelName FROM videos WHERE videoID = #{videoID});
 	</select>
-<<<<<<< HEAD
-=======
-	
-	
->>>>>>> 7a1450d546aa2cd4adff78b0e2a0c6e3b6255db8
 
 </mapper>

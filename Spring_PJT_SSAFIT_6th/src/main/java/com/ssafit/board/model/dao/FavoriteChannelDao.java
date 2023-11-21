@@ -15,8 +15,5 @@ public interface FavoriteChannelDao {
 	
 	// 구독 채널인지 조회
 	public int selectIsChannel(String userID, String videoID);
-<<<<<<< HEAD
-=======
 
->>>>>>> 7a1450d546aa2cd4adff78b0e2a0c6e3b6255db8
 }

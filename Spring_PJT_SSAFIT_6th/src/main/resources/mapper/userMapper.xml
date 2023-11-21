@@ -24,6 +24,13 @@
 		WHERE userID = #{userID}
 	</select>
 	
-	
+	<update id="updateUser" parameterType="User">
+		UPDATE users
+		SET password = COALESCE(#{password}, password),
+			name = COALESCE(#{name}, name),
+			email = COALESCE(#{email}, email),
+			age = COALESCE(${age}, age)
+		WHERE userID = #{userID}
+	</update>
 	
 </mapper>

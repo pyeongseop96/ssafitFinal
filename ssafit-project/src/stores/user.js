@@ -15,7 +15,7 @@ axios.interceptors.response.use(
   (error) => {console.log(error);
     const { status, code, message } = error.response.data;
     if (message) {
-      if (status === 401 && code === 'EXPIRED_TOKEN') {
+      if (status >= 400 && code === 'EXPIRED_TOKEN') {
         tokenExpired();
       }
     }

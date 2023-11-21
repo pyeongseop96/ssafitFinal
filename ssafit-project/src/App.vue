@@ -2,7 +2,7 @@
 import {RouterLink, RouterView} from 'vue-router'
 import TheHeaderNav from './components/common/TheHeaderNav.vue';
 import { useUserStore } from './stores/user';
-import { onMounted } from 'vue';
+import { onMounted, onUpdated } from 'vue';
 
 const userStore = useUserStore();
 
