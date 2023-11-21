@@ -48,7 +48,7 @@
 	
 	<update id="updateReview" parameterType="Review">
 		UPDATE reviews
-		SET title = #{title}, content = #{content}, regDate = now()
+		SET title = #{title}, content = #{content}, regDate = now(), reviewCnt = #{reviewCnt}
 		WHERE reviewID = #{reviewID};
 	</update>
 	

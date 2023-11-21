@@ -17,18 +17,20 @@
         <tr v-for="row in [0,1,2,3,4,5]" :key="row">
     <td v-for="col in [0,1,2,3,4,5,6]" :key="col" @click="out(-start + row * 7 + col+1)">
         <div v-if="start<=row * 7 + col && -start + row * 7 + col+1 <= lastDate">
-            {{-start + row * 7 + col+1 }}
-            {{ tagByDate(-start + row * 7 + col+1) }}
+            <div>{{-start + row * 7 + col+1 }}</div>
+            <img :src="tagByDate(-start + row * 7 + col+1)">
+
         </div>
         </td>
   </tr>
         
     </table>
     <div>
+        <!-- {{ recordStore.records }} -->
         누른곳 출력공간<br>
         날짜:{{ recordStore.month }}-{{ day }}<br>
         <!-- smile값 나중에 바뀌면 따라 바꿀것 -->
-        <div v-if="tagByDate(day)!='smile'">
+        <div v-if="hasContent()">
         -내용-<br>
         <div v-if="weightInfo!=''">체중:{{ weightInfo[0] }}</div>
         <div v-if="eatCalInfo!=''">섭취 칼로리:{{ eatCalInfo[0] }}</div>
@@ -36,7 +38,7 @@
         <div v-if="textInfo!=''">내용:{{ textInfo[0] }}</div>
         </div>
         <!-- smile값 나중에 바뀌면 따라 바꿀것 -->
-        <div v-if="tagByDate(day)=='smile'">작성된 내용이 없어요!</div>
+        <div v-if="!hasContent()">작성된 내용이 없어요!</div>
         <button @click="openUpdate(`${recordStore.month}-${day}`,id)">내용 변경</button>
         <button @click="clickDeleteButton">내용 삭제</button>
 </div>
@@ -55,6 +57,14 @@ const weightInfo = ref('')
 const eatCalInfo = ref('')
 const burnCalInfo = ref('')
 const textInfo = ref('')
+
+const hasContent = function(){
+    const item = recordStore.records.filter(record =>record.recordDate.split(' ')[0]==`${recordStore.month}-${day.value}`);
+    if(item.length>0){
+        return true;
+    }
+    return false;
+}
 
 const out = function(out){
     if(out<=0 || out > lastDate.value){
@@ -110,10 +120,10 @@ const tagByDate = ((num) => {
 
      tag.value = recordStore.records.filter(record =>record.recordDate.split(' ')[0]==`${recordStore.month}-${tmp.value}`).map(record => record.tag)
     }
-
+    console.log(tag.value[0])
     //달력 표시, @@나중에 image경로로 바꿀 것@@
     if(tag.value==''){
-        return "smile"
+        return "src/img/record/default.png"
     }
     else if (tag.value=='bad') {
         return "sad"
@@ -121,7 +131,7 @@ const tagByDate = ((num) => {
         return "happy"
     }
 
-    return tag
+    return tag.value[0]
 })
 
 watch(() => tagByDate(day), (newTag) => {
@@ -149,5 +159,8 @@ const closeUpdate = () => {
     table{
         width: 400px;
         height: 400px;
+    }
+    img{
+        width: 40px;
     }
 </style>

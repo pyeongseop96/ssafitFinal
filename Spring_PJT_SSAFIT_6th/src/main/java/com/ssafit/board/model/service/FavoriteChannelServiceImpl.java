@@ -28,9 +28,17 @@ public class FavoriteChannelServiceImpl implements FavoriteChannelService {
 	public void removeFavChannel(String userID, String channelName) {
 		favChanDao.deleteFavoriteChannel(userID, channelName);
 	}
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 7a1450d546aa2cd4adff78b0e2a0c6e3b6255db8
 	@Override
 	public int isFavChannel(String userID, String videoID) {
 		return favChanDao.selectIsChannel(userID, videoID);
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7a1450d546aa2cd4adff78b0e2a0c6e3b6255db8
 }

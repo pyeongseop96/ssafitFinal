@@ -29,4 +29,8 @@ public interface VideoService {
 
 	// 채널 영상 조회
 	List<Video> getChannelVideos(String channelName);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7a1450d546aa2cd4adff78b0e2a0c6e3b6255db8
 }

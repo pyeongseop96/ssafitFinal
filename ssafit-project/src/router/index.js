@@ -25,6 +25,11 @@ import ReviewCreate from '@/components/review/ReviewCreate.vue'
 import ReviewList from '@/components/review/ReviewList.vue'
 import ReviewUpdate from '@/components/review/ReviewUpdate.vue'
 import ReviewView from '@/views/ReviewView.vue'
+
+// 채널 페이지
+import ChannelView from '@/views/ChannelView.vue'
+import ChannelVideoList from '@/components/channel/ChannelVideoList.vue'
+
 // 카카오맵
 import MapView from '@/views/MapView.vue'
 
@@ -114,7 +119,7 @@ const router = createRouter({
           component: MyProfile,
         },
         {
-          path: '',
+          path: 'update',
           name: 'updateProfile',
           component: UpdateProfile,
         },
@@ -127,6 +132,18 @@ const router = createRouter({
           path: 'favvideo',
           name: 'favoriteVideo',
           component: FavVideoList,
+        },
+      ]
+    },
+    { // 채널 페이지
+      path: '/channel',
+      name: 'channel',
+      component: ChannelView,
+      children: [
+        { 
+          path: ':channelName',
+          name: 'channelVideoList',
+          component: ChannelVideoList,
         },
       ]
     },

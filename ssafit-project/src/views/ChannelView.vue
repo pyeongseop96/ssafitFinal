@@ -2,10 +2,11 @@
     <div>
         <h3> 채널 페이지 </h3>
     </div>
-    <RouterView></RouterView>
+    <ChannelVideoList/>
 </template>
 
 <script setup>
+import ChannelVideoList from '../components/channel/ChannelVideoList.vue';
 
 </script>
 

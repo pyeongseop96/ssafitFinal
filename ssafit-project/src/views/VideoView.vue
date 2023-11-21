@@ -42,7 +42,7 @@
 
             <tr v-for="(video, index) in videos.slice(0, 10)" :key="index">
                 <td @click="goToVideo(video.videoID)">{{ video.title }}</td>
-                <td>{{ video.channelName }}</td>
+                <td @click="goToChannel(video.channelName)">{{ video.channelName }}</td>
                 <td>{{ video.partInfo }}</td>
                 <td>{{ video.viewCnt }}</td>
                 <td>⭐{{ video.averageRating !== null ? video.averageRating : '0.0' }}({{ video.totalReviews !== null ? video.totalReviews : '0' }})</td>
@@ -107,6 +107,11 @@ const goToVideo = (videoID) => {
     reviewStore.selectedYoutube = `https://www.youtube.com/embed/${videoID}`
     router.push('/review')
 }
+// 채널명 클릭 -> 채널 페이지로 이동
+const goToChannel = (channelName) => {
+    router.push(`/channel/${channelName}`)
+}
+
 
 //찜 클릭 -> 토글
 const toggleFav = (videoID, favorite) => {

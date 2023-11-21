@@ -30,7 +30,7 @@ const searchList = () => {
         <ul>
             <li v-for="video in store.videoList" :key="video.id">
                 <p>번호 : {{ video.videoID }}</p>
-                <p>제목 : {{ video.title}}</p>
+                <p>제목 : {{ video.title }}</p>
                 <p>채널 : {{ video.channelName }}</p>
                 <p>조회수 : {{ video.viewCnt }}</p>
                 <p>운동부위 : {{ video.partInfo }}</p>

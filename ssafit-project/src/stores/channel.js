@@ -13,6 +13,7 @@ export const useChannelStore = defineStore('channel', () => {
         axios.get(API_CHANNEL + '/' + channelName)
         .then((res) => {
             console.log(res)
+            videoList.value = res.data
         })
         .catch((err) => console.log(err));
     }
