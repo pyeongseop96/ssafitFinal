@@ -5,7 +5,7 @@
                 <RouterLink to="/">Home</RouterLink> | 
                 <RouterLink to="/video">비디오</RouterLink> |  
                 <RouterLink to="/calorie">칼로리계산기</RouterLink> | 
-                <span v-if="userStore.user.name == ''"> <!-- userStore.loginUser.id == null -->
+                <span v-if="userStore.user.name == null"> <!-- userStore.loginUser.id == null -->
                     <RouterLink :to="{name:'login'}">로그인</RouterLink> | 
                     <RouterLink :to="{name:'regist'}">회원가입</RouterLink> | 
                 </span>
@@ -16,7 +16,7 @@
                 </span>
                 <RouterLink :to="{name:'map'}">주변 헬스장 찾기</RouterLink> | 
             </nav>
-            <div v-if="userStore.user.name !== ''">
+            <div v-if="userStore.user.name !== null">
                 <h4 >{{ userStore.user.name }}님 환영합니다.</h4>
             </div>
         </header>

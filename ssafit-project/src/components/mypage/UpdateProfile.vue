@@ -6,7 +6,7 @@
         </div>
         <div>
             <label for="name">비밀번호 : </label>
-            <input id="name" v-model="userInfo.password" placeholder="필수 입력">
+            <input id="name" @input="event => newPass = event.target.value" v-model="userInfo.password" placeholder="필수 입력">
         </div>
         <div>
             <label for="name">이름 : </label>
@@ -34,9 +34,10 @@ import { ref, onMounted, } from 'vue';
 
 const userStore = useUserStore();
 const userInfo = ref({});
-const newName = ref();
-const newEmail = ref();
-const newAge = ref();
+const newPass = ref(null);
+const newName = ref(null);
+const newEmail = ref(null);
+const newAge = ref(null);
 
 onMounted(() => {
     userInfo.value = userStore.user;
@@ -47,13 +48,19 @@ const updateProfile = () => {
     // userStore.auth() 비밀번호 검증하기
 
     let fix = confirm("정말 수정할거야?"
-        + (newName.value? ("\n이름 : " + newName.value) : "")
-        + (newEmail.value? ("\n이메일 : " + newEmail.value) : "")
-        + (newAge.value > 0? ("\n나이 : " + newAge.value) : "")
+        + (newName.value ? ("\n이름 : " + newName.value) : "")
+        + (newEmail.value ? ("\n이메일 : " + newEmail.value) : "")
+        + (newAge.value > 0 ? ("\n나이 : " + newAge.value) : "")
     )
 
     if (fix) {
-        userStore.updateUser(userInfo);
+        userStore.updateUser({
+            userID: null,
+            password: newPass.value,
+            name: newName.value,
+            email: newEmail.value,
+            age: newAge.value,
+        });
     }
 }
 

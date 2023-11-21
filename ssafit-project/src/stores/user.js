@@ -20,11 +20,11 @@ export const useUserStore = defineStore('user', () => {
   const router = useRouter();
 
   const newUser = ref({ // 회원가입 정보 담을 객체
-    userID: '',
-    name: '',
-    email: '',
-    password: '',
-    age: 0,
+    userID: null,
+    name: null,
+    email: null,
+    password: null,
+    age: null,
   })
 
   const registUser = () => { // 유저 등록
@@ -40,11 +40,11 @@ export const useUserStore = defineStore('user', () => {
   }
 
   let user = ref({ // 현재 로그인한 유저
-    userID: '',
-    name: '',
-    email: '',
-    password: '',
-    age: 0,
+    userID: null,
+    name: null,
+    email: null,
+    password: null,
+    age: null,
   })
 
   const auth = (token) => {
@@ -111,20 +111,32 @@ export const useUserStore = defineStore('user', () => {
       .then((res) => {
         sessionStorage.removeItem('access-token');
 
-        user = {
-          userID: '',
-          name: '',
-          email: '',
-          password: '',
-          age: 0,
+        user.value = {
+          userID: null,
+          name: null,
+          email: null,
+          password: null,
+          age: null,
         }
       }).catch((err) => {
         console.log(err)
       })
   }
 
+  // 유저 프로필 수정
   const updateUser = (userInfo) => {
-    console.log(userInfo)
+    
+
+    userInfo.userID = user.value.userID;
+
+    axios.post(API_USER + "/update", userInfo)
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+
   }
 
 
