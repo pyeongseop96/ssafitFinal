@@ -7,8 +7,8 @@
                 </p>
                 <button @click="unfollow(video), hideBtn(index)">구독 취소하기</button>
                 <div>
-                    <!-- <iframe :src="`https://www.youtube.com/embed/${video.videoID}`"
-                    width="400px" height="300px"></iframe> -->
+                    <iframe :src="`https://img.youtube.com/vi/${video.videoID}/0.jpg`"
+                    width="400px" height="300px"></iframe>
                 </div>
             </li>
         </ul>
