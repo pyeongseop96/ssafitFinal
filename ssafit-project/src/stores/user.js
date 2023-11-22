@@ -166,9 +166,9 @@ export const useUserStore = defineStore('user', () => {
   // 유저 프로필 수정
   const updateUser = (userInfo) => {
 
-    const result = auth(sessionStorage.getItem("access-token"))
+    // const result = auth(sessionStorage.getItem("access-token"))
 
-    if (result) {
+    // if (result) {
       userInfo.userID = user.value.userID;
       console.log(userInfo)
 
@@ -179,7 +179,7 @@ export const useUserStore = defineStore('user', () => {
         .catch((err) => {
           console.log(err)
         })
-    }
+    // }
   }
 
 
