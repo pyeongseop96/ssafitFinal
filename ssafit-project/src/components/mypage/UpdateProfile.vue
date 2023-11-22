@@ -46,9 +46,10 @@ onMounted(() => {
 const updateProfile = () => {
 
     let fix = confirm("정말 수정할거야?"
-        + (newName.value ? ("\n이름 : " + newName.value) : "")
+    + (newName.value ? ("\n이름 : " + newName.value) : "")
         + (newEmail.value ? ("\n이메일 : " + newEmail.value) : "")
         + (newAge.value > 0 ? ("\n나이 : " + newAge.value) : "")
+
     )
 
     if (fix) {
@@ -58,7 +59,9 @@ const updateProfile = () => {
             name: newName.value ? newName.value : null,
             email: newEmail.value ? newEmail.value : null,
             age: newAge.value ? newAge.value : null,
+
         });
+
     }
 }
 

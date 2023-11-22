@@ -22,6 +22,8 @@ public class JwtUtil {
 			+ "FFFFFFFFFFFFFFFFF"
 			+ "IIIIIIIIIIIIIII"
 			+ "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
+
+	
 	// 넣을 정보가 담긴 claims 선언
 	
 	

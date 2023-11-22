@@ -108,20 +108,19 @@ public class UserRestController {
 		return new ResponseEntity<Void>(status);
 	}
 	
-	
 	// 5. 유저 정보 수정
-	@PostMapping("/update")
-	@ApiOperation(value = "프로필 수정하기", notes = "해당 유저의 개인정보를 수정합니다.")
-	public ResponseEntity<?> changeProfile(@RequestBody User user) {
-//	public ResponseEntity<?> changeProfile(@RequestParam String password, @RequestParam String name, @RequestParam String email, @RequestParam int age) {
-		System.out.println(user.toString());
-		
-		if (user != null) {
-			userService.changeInfo(user);
+		@PostMapping("/update")
+		@ApiOperation(value = "프로필 수정하기", notes = "해당 유저의 개인정보를 수정합니다.")
+		public ResponseEntity<?> changeProfile(@RequestBody User user) {
+//		public ResponseEntity<?> changeProfile(@RequestParam String password, @RequestParam String name, @RequestParam String email, @RequestParam int age) {
+			System.out.println(user.toString());
+			
+			if (user != null) {
+				userService.changeInfo(user);
+			}
+			
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
-		
-		return new ResponseEntity<Void>(HttpStatus.OK);
-	}
 
 
 }

@@ -13,4 +13,5 @@ public interface UserService {
 	User login(User user);
 	
 	void changeInfo(User user);
+	
 }

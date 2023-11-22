@@ -34,9 +34,6 @@ export const useFavoriteStore = defineStore('favorite', () => {
 
 
     const setFavChannel = (channelName, isFav) => {
-        
-
-
         axios.post(API_FAVORITE + '/toggle/channel', null, {
            params: {            
                 userID: useUserStore().user.userID,

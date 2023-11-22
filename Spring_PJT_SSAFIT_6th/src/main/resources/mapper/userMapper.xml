@@ -33,4 +33,5 @@
 		WHERE userID = #{userID}
 	</update>
 	
+	
 </mapper>

@@ -30,6 +30,9 @@ onMounted(() => {
     if (sessionStorage.getItem("videoID") !== reviewStore.videoID && reviewStore.videoID !== '') {
         sessionStorage.setItem("videoID", reviewStore.videoID);
     }
+    if(reviewStore.videoID == ''){
+        reviewStore.videoID = sessionStorage.getItem("videoID");
+    }
     reviewStore.selectedYoutube = `https://www.youtube.com/embed/${sessionStorage.getItem("videoID")}`
     favStore.isFavChannel(sessionStorage.getItem("videoID"));
     videoStore.getVideo(sessionStorage.getItem("videoID"));

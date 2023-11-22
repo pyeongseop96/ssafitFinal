@@ -8,35 +8,35 @@ const API_USER = 'http://localhost:8080/api-user'
 
 /////////////////////////////////////////////////////
 // 토큰 만료 응답 받아서 재발급하는 인터셉터
-axios.interceptors.response.use(
-  (response) => {console.log(response);
-    return response;
-  },
-  (error) => {console.log(error);
-    const { status, code, message } = error.response.data;
-    if (message) {
-      if (status >= 400 && code === 'EXPIRED_TOKEN') {
-        tokenExpired();
-      }
-    }
-    return Promise.reject(error);
-  },
-)
+// axios.interceptors.response.use(
+//   (response) => {console.log(response);
+//     return response;
+//   },
+//   (error) => {console.log(error);
+//     const { status, code, message } = error.response.data;
+//     if (message) {
+//       if (status >= 400 && code === 'EXPIRED_TOKEN') {
+//         tokenExpired();
+//       }
+//     }
+//     return Promise.reject(error);
+//   },
+// )
 
-// 토큰 만료 시 실행 (로컬 스토리지)
-const tokenExpired = async () => {
-  try {
-    const { data } = await axios.put('/auth', null, {
-      headers: {
-        'Refresh-Token':
-        `${localStorage.getItem(REFRESH_KEY)}`,
-      },
-    });
-    localStorage.setItem(ACCESS_KEY, data.accessToken);
-  } catch (err) {
-    alert('세션이 만료되었습니다');
-  }
-};
+// // 토큰 만료 시 실행 (로컬 스토리지)
+// const tokenExpired = async () => {
+//   try {
+//     const { data } = await axios.put('/auth', null, {
+//       headers: {
+//         'Refresh-Token':
+//         `${localStorage.getItem(REFRESH_KEY)}`,
+//       },
+//     });
+//     localStorage.setItem(ACCESS_KEY, data.accessToken);
+//   } catch (err) {
+//     alert('세션이 만료되었습니다');
+//   }
+// };
 //////////////////////////////////////////////////
 
 

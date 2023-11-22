@@ -18,7 +18,8 @@
 	<select id="selectAllReview" resultType="Review" parameterType="String">
 		SELECT *
 		FROM reviews
-		WHERE videoID = #{videoID};
+		WHERE videoID = #{videoID}
+		ORDER BY regDate DESC;
 	</select>
 
 	<!-- 상세글 조회 -->

@@ -11,13 +11,15 @@
         <input type="text" class="form-control" id="floatingTextarea" placeholder="내용을 입력하세요" v-model="content">
         <label for="floatingTextarea">내용</label>
       </div>
-      별점:<select v-model="rating">
-            <option value="1">⭐</option>
-            <option value="2">⭐⭐</option>
-            <option value="3">⭐⭐⭐</option>
-            <option value="4">⭐⭐⭐⭐</option>
-            <option value="5">⭐⭐⭐⭐⭐</option>
-        </select>
+   
+ 
+ 별점:<select v-model="rating">
+<option v-for="option in options" :value="option.value">
+{{ option.text }}
+</option>
+</select>
+
+
 
     <span class="border-bottom"></span>
     <div>
@@ -39,12 +41,27 @@ import {useReviewStore} from '@/stores/review'
 const store = useReviewStore()
 const title = ref('')
 const content = ref('')
-const rating = ref('0')
+const rating = ref(5)
+const options = ref([
+  { text: '⭐', value: 1 },
+  { text: '⭐⭐', value: 2 },
+  { text: '⭐⭐⭐', value: 3 },
+  { text: '⭐⭐⭐⭐', value: 4 },
+  { text: '⭐⭐⭐⭐⭐', value: 5 },
+])
 const handleClose = () => {
   store.showUpdate=false
 };
 
 const clickUpdate = () => {
+  if(title.value==''){
+    alert('제목을 입력해주세요.')
+    return;
+  }
+  if(content.value==''){
+    alert('내용을 입력해주세요.')
+    return;
+  }
   store.updateReview(content, title, store.reviewID, rating);
   setTimeout(() => {
     store.updateRating(store.videoID);

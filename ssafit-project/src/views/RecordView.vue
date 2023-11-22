@@ -59,6 +59,9 @@ const burnCalInfo = ref('')
 const textInfo = ref('')
 
 const hasContent = function(){
+    if(recordStore.records.length==0){
+        return false;
+    }
     const item = recordStore.records.filter(record =>record.recordDate.split(' ')[0]==`${recordStore.month}-${day.value}`);
     if(item.length>0){
         return true;
