@@ -17,7 +17,12 @@ import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
 public class JwtUtil {
-	private static final String SALT = "SSAFIT";
+	private static final String SALT = "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS"
+			+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+			+ "FFFFFFFFFFFFFFFFF"
+			+ "IIIIIIIIIIIIIII"
+			+ "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
+
 	
 	// 넣을 정보가 담긴 claims 선언
 	
