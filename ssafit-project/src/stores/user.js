@@ -85,13 +85,13 @@ export const useUserStore = defineStore('user', () => {
     // 서버로 보내서 access토큰 검증하는 작업
     axios.put(API_USER + '/auth', token)
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
 
 
         // if(res.data){
 
           let payload = JSON.parse(atob(token.split('.')[1]))
-
+          
           user.value = {
             userID: payload['id'],
             password: '',
@@ -100,7 +100,7 @@ export const useUserStore = defineStore('user', () => {
             age: payload['age'],
           }
         // }
-
+        router.push({name:"homeView"})
         // return res.data;
       })
       .catch((err) => {
@@ -132,9 +132,7 @@ export const useUserStore = defineStore('user', () => {
           age: payload['age'],
         }
 
-
         alert("로그인 성공")
-        router.push({ path: "/" })
       })
       // 에러 처리
       .catch((err) => {

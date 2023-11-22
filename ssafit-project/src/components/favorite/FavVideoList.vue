@@ -1,17 +1,23 @@
 <template>
     <div>
         <h3>찜한 동영상 목록</h3>
-        <ul>
-            <li v-for="(video, index) in favStore.favVideos">
-                <p @click="goToVideo(video.videoID)">동영상ID : {{ video.videoID }}
-                </p>
-                <button @click="unfollow(video), hideBtn(index)">구독 취소하기</button>
-                <div>
-                    <iframe :src="`https://img.youtube.com/vi/${video.videoID}/0.jpg`"
-                    width="400px" height="300px"></iframe>
+        <div id="app">
+            <div v-for="video in favStore.favVideos" class="card-deck">
+                <div class="card">
+                    <div class="card-img-top" alt="...">
+                        <img :src="`http://img.youtube.com/vi/${video.videoID}/0.jpg`" />
+                    </div>
+                    <div class="card-body">
+                        <p class="card-title">{{ video.title }}</p>
+                        <p> 채널명 : {{ video.channelName }}</p>
+                        <p> 조회 수 : {{ video.viewCnt }}</p>
+                        <p> 운동부위 : {{ video.partInfo }}</p>
+                        <a href="#" class="btn btn-primary" @click="goToVideo(video.videoID)">보러가기</a>
+                        <a href="#" class="btn btn-danger" @click="unfollow(video), hideBtn(index)">구독 취소</a>
+                    </div>
                 </div>
-            </li>
-        </ul>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -31,21 +37,43 @@ const goToVideo = (id) => {
     router.push('/review')
 }
 
+onMounted(() => {
+    favStore.getFavVideos();
+})
+
 const unfollow = (video) => {
     favStore.setFavVideo(video)
-}     
+}
 
 const hideBtn = (index) => {
     favStore.favVideos.splice(index, 1);
 }
 
-
-onMounted(() => {
-    favStore.getFavVideos();
-})
-
-
-
 </script>
 
-<style scoped></style>
+<style scoped>
+#app {
+    align-items: start;
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: repeat(auto-fit, 300px);
+    justify-content: center;
+}
+
+img {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.card {
+    width: 300px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.card-title {
+    font-size: 20px;
+}
+</style>

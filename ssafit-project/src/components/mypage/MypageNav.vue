@@ -14,9 +14,9 @@
                     <a @click="logout">로그아웃</a> | 
                 </span>
                 <RouterLink :to="{name:'map'}">주변 헬스장 찾기</RouterLink> |  -->
-                <RouterLink :to="{name:'favoriteVideo'}">찜한 영상</RouterLink> | 
+                <!-- <RouterLink :to="{name:'favoriteVideo'}">찜한 영상</RouterLink> | 
                 <RouterLink :to="{name:'favoriteChannel'}">구독 채널</RouterLink> | 
-                <RouterLink :to="{name:'updateProfile'}">프로필 변경</RouterLink>
+                <RouterLink :to="{name:'updateProfile'}">프로필 변경</RouterLink> -->
             </nav>
         </header>
     </div>

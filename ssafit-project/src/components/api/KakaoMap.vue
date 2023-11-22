@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <div id="map"></div>
-        <button @click="getLocation">내위치</button>
+        <!-- <button @click="getLocation">내위치</button> -->
     </div>
     <p id="result"></p>
 </template>
@@ -40,7 +40,7 @@ const initMap = () => {
     let marker = new kakao.maps.Marker({
         position: markerPosition,
         image: new kakao.maps.MarkerImage(
-            'https://i1.daumcdn.net/dmaps/apis/n_local_blit_04.png',
+            'src/components/api/map-pin.png',
             new kakao.maps.Size(31, 35)),
         zIndex: 1, 
     });
@@ -48,16 +48,17 @@ const initMap = () => {
     marker.setMap(map);
 
 
-    var iwContent = '<div style="padding:5px;">현재 위치</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    var iwContent = '<div class ="myPosition"><span class="left"></span><span class="center">현재 위치입니다.</span><span class="right"></span></div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 
     // 인포윈도우를 생성합니다
-    var infowindow = new kakao.maps.InfoWindow({
+    var customOverlay = new kakao.maps.CustomOverlay({
         position: markerPosition,
         content: iwContent,
+        zIndex: 1,
     });
 
     // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-    infowindow.open(map, marker);
+    customOverlay.setMap(map);
     setMarker();
     // 마우스 드래그로 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
     kakao.maps.event.addListener(map, 'dragend', resetMarker);
@@ -144,7 +145,8 @@ const displayMarker = function (place) {
     // // 인포윈도우를 생성합니다
     var infowindow = new kakao.maps.InfoWindow({
         position: marker.position,
-        content: iwContent
+        content: iwContent,
+        zIndex: 2,
     });
     // 마커 저장
     markerList.push(marker);
@@ -216,7 +218,18 @@ const getLocation = () => {
   
 <style>
 #map {
-    width: 800px;
-    height: 600px;
+    width: auto;
+    max-width: 800px;
+    aspect-ratio: 4/3;
+    margin: 25px;
+    display: block;
+    border-radius: 5%;
 }
+
+.myPosition {margin-bottom: 96px; }
+.myPosition * {display: inline-block;vertical-align: top;}
+.myPosition .left {background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_l.png") no-repeat;display: inline-block;height: 24px;overflow: hidden;vertical-align: top;width: 7px;}
+.myPosition .center {background: url(https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_bg.png) repeat-x;display: inline-block;height: 24px;font-size: 12px;line-height: 24px;}
+.myPosition .right {background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_r.png") -1px 0  no-repeat;display: inline-block;height: 24px;overflow: hidden;width: 6px;}
+
 </style>

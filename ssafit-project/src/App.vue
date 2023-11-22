@@ -23,5 +23,7 @@ onMounted(() => {
 </template>
 
 <style  scoped>
-
+    div {
+        background-color: whitesmoke;
+    }
 </style>

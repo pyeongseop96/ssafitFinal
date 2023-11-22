@@ -27,7 +27,7 @@ const hideBtn = (index) => {
         <ul>
             <li v-for="(channel, index) in favStore.favChannels">
                 <RouterLink :to="`/channel/${channel}`">채널명 : {{ channel }}</RouterLink>
-                <button @click="unfollow(channel), hideBtn(index)">구독 취소하기</button>
+                <a class="btn btn-danger" @click="unfollow(channel), hideBtn(index)">구독 취소하기</a>
             </li>
         </ul>
     </div>
