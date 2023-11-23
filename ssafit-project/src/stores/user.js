@@ -41,6 +41,8 @@ const API_USER = 'http://localhost:8080/api-user'
 
 
 export const useUserStore = defineStore('user', () => {
+  
+  const router = useRouter();
 
   // 한글 깨짐 수정하는 함수 ( BASE64 => UTF-8 변환)
   const b64DecodeUnicode = (str) => {
@@ -50,8 +52,6 @@ export const useUserStore = defineStore('user', () => {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
       }).join(''));
   }
-
-  const router = useRouter();
 
   const newUser = ref({ // 회원가입 정보 담을 객체
     userID: null,
@@ -65,7 +65,9 @@ export const useUserStore = defineStore('user', () => {
     axios.post(API_USER + '/signup', newUser.value)
       .then((res) => {
         alert("가입 성공! 가입한 아이디로 로그인해주세요.")
-        router.push({ name: "login" })
+        setTimeout(() => {
+          router.push({ name: "login" })
+        }, 500);
       })
       .catch((err) => {
         console.log(err)

@@ -29,8 +29,6 @@ onMounted(() => {
     channelStore.getVideoList(channelName);
 })
 
-
-
 </script>
 
 <style scoped></style>

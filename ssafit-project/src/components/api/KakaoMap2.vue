@@ -6,7 +6,7 @@
         <div class="option">
             <div>
                 <form onsubmit="searchPlaces(); return false;">
-                    키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
+                    키워드 : <input type="text" value="헬스장" id="keyword" size="15"> 
                     <button type="submit">검색하기</button> 
                 </form>
             </div>
@@ -16,28 +16,89 @@
         <div id="pagination"></div>
     </div>
 </div>
+<p id="result"></p>
 </template>
   
 <script setup>
+import { onMounted } from 'vue';
+
+let map = null;
+let ps = null;
+let infowindow = null;
 var markers = [];
 
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = {
-        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };  
+onMounted(() => {
+    if (window.kakao && window.kakao.maps) {
+        initMap();
+    } else {
+        const script = document.createElement('script');
+        /* global kakao */
+        script.onload = () => kakao.maps.load(initMap);
+        script.src = `http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${import.meta.env.VITE_KAKAO_API_KEY}&libraries=services`;
+        document.head.appendChild(script);
+    }
+})
 
-// 지도를 생성합니다    
-var map = new kakao.maps.Map(mapContainer, mapOption); 
+const initMap = () => {
+    
+    const multicapus = new kakao.maps.LatLng(37.5012942, 127.0396273);
+    
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+        mapOption = {
+            center: multicapus, // 지도의 중심좌표 (멀티캠퍼스)
+            level: 4 // 지도의 확대 레벨
+        };  
 
-// 장소 검색 객체를 생성합니다
-var ps = new kakao.maps.services.Places();  
+    // 지도를 생성합니다    
+    map = new kakao.maps.Map(mapContainer, mapOption); 
 
-// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
-var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+    // 마커를 생성합니다
+    let marker = new kakao.maps.Marker({
+        position: multicapus,
+        image: new kakao.maps.MarkerImage(
+            'src/components/api/map-pin.png',
+            new kakao.maps.Size(31, 35)),
+        zIndex: 1, 
+    });
+    // 마커가 지도 위에 표시되도록 설정합니다
+    marker.setMap(map);
 
-// 키워드로 장소를 검색합니다
-searchPlaces();
+    // 인포윈도우를 생성합니다
+    var customOverlay = new kakao.maps.CustomOverlay({
+        position: multicapus,
+        content: '<div class ="myPosition"><span class="left"></span><span class="center">현재 위치입니다.</span><span class="right"></span></div>',
+        zIndex: 1,
+    });
+    // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+    customOverlay.setMap(map);
+
+    // 장소 검색 객체를 생성합니다
+    ps = new kakao.maps.services.Places();
+
+    // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
+    infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
+    // 키워드로 장소를 검색합니다
+    searchPlaces();
+    // 마우스 드래그로 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
+    kakao.maps.event.addListener(map, 'dragend', resetMarker);
+    kakao.maps.event.addListener(map, 'zoom_changed', resetMarker);
+}
+
+// 지도 확대,축소,이동 시 마커 재설정하기
+const resetMarker = () => {
+    
+    var latlng = map.getCenter(); 
+
+    var message = '변경된 지도 중심좌표는 ' + latlng.getLat() + ' 이고, ';
+    message += '경도는 ' + latlng.getLng() + ' 입니다';
+
+    var resultDiv = document.getElementById('result');  
+    resultDiv.innerHTML = message;
+
+    searchPlaces();
+}
+
 
 // 키워드 검색을 요청하는 함수입니다
 function searchPlaces() {
@@ -132,7 +193,7 @@ function displayPlaces(places) {
     menuEl.scrollTop = 0;
 
     // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-    map.setBounds(bounds);
+    // map.setBounds(bounds);
 }
 
 // 검색결과 항목을 Element로 반환하는 함수입니다
@@ -274,4 +335,22 @@ function removeAllChildNods(el) {
 #pagination {margin:10px auto;text-align: center;}
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
+
+
+#map {
+    width: auto;
+    max-width: 800px;
+    aspect-ratio: 4/3;
+    margin: 20px auto;
+    display: block;
+    border-radius: 5%;
+}
+
+
+.myPosition {margin-bottom: 96px; }
+.myPosition * {display: inline-block;vertical-align: top;}
+.myPosition .left {background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_l.png") no-repeat;display: inline-block;height: 24px;overflow: hidden;vertical-align: top;width: 7px;}
+.myPosition .center {background: url(https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_bg.png) repeat-x;display: inline-block;height: 24px;font-size: 12px;line-height: 24px;}
+.myPosition .right {background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_r.png") -1px 0  no-repeat;display: inline-block;height: 24px;overflow: hidden;width: 6px;}
+
 </style>

@@ -12,8 +12,8 @@
                         <p> 채널명 : {{ video.channelName }}</p>
                         <p> 조회 수 : {{ video.viewCnt }}</p>
                         <p> 운동부위 : {{ video.partInfo }}</p>
-                        <a href="#" class="btn btn-primary" @click="goToVideo(video.videoID)">보러가기</a>
-                        <a href="#" class="btn btn-danger" @click="unfollow(video), hideBtn(index)">구독 취소</a>
+                        <a href="#" class="btn btn-primary" @click="goToVideo(video.videoID)">보러 가기</a>
+                        <a href="#" class="btn btn-danger" @click="unfollow(video), hideBtn(index)">좋아요 취소</a>
                     </div>
                 </div>
             </div>
@@ -75,5 +75,9 @@ img {
 
 .card-title {
     font-size: 20px;
+}
+
+.btn {
+    margin: 0 0.2rem;
 }
 </style>

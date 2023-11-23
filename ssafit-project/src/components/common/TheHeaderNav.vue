@@ -11,7 +11,7 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <ul class="navbar-nav me-auto mb-3 mb-md-0">
                             <li class="nav-item">
                                 <RouterLink class="nav-link active" aria-current="page" to="/">Home
                                 </RouterLink>
@@ -40,7 +40,7 @@
                                     </RouterLink>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
                                         aria-expanded="false">
                                         마이페이지
                                     </a>
@@ -65,10 +65,12 @@
                                 </RouterLink>
                             </li>
                         </ul>
-                        <span class="navbar-text">
-                            {{ userStore.user.name }}님 환영합니다.
-                        </span>
-                        <a class="nav-link active" aria-current="page" @click="logout">로그아웃</a>
+                        <template v-if="userStore.user.name !== null">
+                            <span class="navbar-text">
+                                {{ userStore.user.name }}님 환영합니다.
+                            </span>
+                            <a class="nav-link active" aria-current="page" @click="logout">로그아웃</a>
+                        </template>
                     </div>
                 </div>
             </nav>
@@ -93,7 +95,6 @@ const logout = () => {
 <style scoped>
 nav {
     padding: 10px;
-    background-color: rgb(219, 218, 218);
 }
 
 nav a {
@@ -102,9 +103,20 @@ nav a {
     color: black;
     margin: 5px 10px;
 }
-
+/* 
 nav a.router-link-exact-active {
     color: blue;
+} */
+
+ .dropdown-menu {
+    background-color: ghostwhite;
 }
 
+.dropdown-item:hover {
+  background-color: gainsboro;
+  color: grey;
+  margin: 2px;
+  width: calc(100% - 4px);
+  border-radius: 4px;
+}
 </style>

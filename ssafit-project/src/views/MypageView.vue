@@ -12,9 +12,9 @@ import MypageNav from '../components/mypage/MypageNav.vue';
 
 import { useRouter, RouterView } from 'vue-router';
 
-onMounted(() => {
-    useRouter().push("/mypage/favvideo")
-})
+// onMounted(() => {
+//     useRouter().push("/mypage/favvideo")
+// })
 
 </script>
 

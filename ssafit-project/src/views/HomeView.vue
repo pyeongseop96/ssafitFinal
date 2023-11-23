@@ -10,4 +10,10 @@
 
 </script>
 
-<style></style>
+<style scoped>
+div {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+</style>
