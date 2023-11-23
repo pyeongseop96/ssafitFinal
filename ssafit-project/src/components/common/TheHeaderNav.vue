@@ -20,9 +20,24 @@
                                 <RouterLink class="nav-link active" aria-current="page" to="/video">비디오
                                 </RouterLink>
                             </li>
-                            <li class="nav-item">
-                                <RouterLink class="nav-link active" aria-current="page" to="/calorie">칼로리 계산기
-                                </RouterLink>
+                            <li class="nav-item dropdown">
+                                <!-- <RouterLink class="nav-link active" aria-current="page" to="/calorie">칼로리 계산기
+                                </RouterLink> -->
+                                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        칼로리 계산기
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <RouterLink class="dropdown-item nav-link" aria-current="page"
+                                            to="/calorie">다이어트 칼로리 계산</RouterLink>
+                                        </li>
+                                        <li>
+                                            <RouterLink class="dropdown-item nav-link" aria-current="page"
+                                            to="/calorie/eat">음식 칼로리 계산</RouterLink>
+                                        </li>
+                                    </ul>
+
                             </li>
                             <template v-if="userStore.user.name == null"> <!-- userStore.loginUser.id == null -->
                                 <li class="nav-item">

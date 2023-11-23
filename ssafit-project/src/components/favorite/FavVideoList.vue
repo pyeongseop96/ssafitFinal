@@ -26,8 +26,9 @@ import { RouterLink } from 'vue-router'
 import { ref, onMounted } from 'vue';
 import { useFavoriteStore } from '../../stores/favorite';
 import { useReviewStore } from '../../stores/review';
-import router from '../../router';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const favStore = useFavoriteStore();
 const reviewStore = useReviewStore()
 
