@@ -26,4 +26,9 @@ public class VideoRatingServiceImpl implements  VideoRatingService {
     public void updateRating(String videoID) {
         videoRatingDao.updateRating(videoID);
     }
+    
+    @Override
+    public void updateRatingByZero(String videoID) {
+        videoRatingDao.updateRatingByZero(videoID);
+    }
 }

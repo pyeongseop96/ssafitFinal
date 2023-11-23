@@ -46,4 +46,11 @@ public class VideoRatingRestController {
     public void updateRating(@RequestParam String videoID) {
         videoRatingService.updateRating(videoID);
     }
+    
+    // 4. 댓글 없을 때 별점 업데이트
+    @GetMapping("/reviewZero")
+    @ApiOperation(value="댓글 없을 때 업데이트", notes="별점")
+    public void updateRatingByZero(@RequestParam String videoID) {
+        videoRatingService.updateRatingByZero(videoID);
+    }
 }

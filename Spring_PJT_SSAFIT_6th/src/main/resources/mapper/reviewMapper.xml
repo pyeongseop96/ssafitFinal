@@ -18,7 +18,8 @@
 	<select id="selectAllReview" resultType="Review" parameterType="String">
 		SELECT *
 		FROM reviews
-		WHERE videoID = #{videoID};
+		WHERE videoID = #{videoID}
+		ORDER BY regDate DESC;
 	</select>
 
 	<!-- 상세글 조회 -->
@@ -48,7 +49,7 @@
 	
 	<update id="updateReview" parameterType="Review">
 		UPDATE reviews
-		SET title = #{title}, content = #{content}, regDate = now()
+		SET title = #{title}, content = #{content}, regDate = now(), reviewCnt = #{reviewCnt}
 		WHERE reviewID = #{reviewID};
 	</update>
 	

@@ -13,7 +13,7 @@ import FavVideoList from '../components/favorite/FavVideoList.vue';
 </template>
 
 
-<style>
+<style scoped>
 
 
 </style>

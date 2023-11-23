@@ -10,18 +10,31 @@ onMounted(() => {
     favStore.getFavChannels();
 })
 
+const unfollow = (channel) => {
+    favStore.setFavChannel(channel, true)
+}                    
+
+const hideBtn = (index) => {
+    favStore.favChannels.splice(index, 1);
+}
+
 
 </script>
 
 <template>
     <div>
         <h3>구독한 채널 목록</h3>
-        <ul>
-            <li v-for="channel in favStore.favChannels">
-                <p>채널명 : {{ channel }}</p>
+        <ul class="list-group list-group-flush">
+            <li v-for="(channel, index) in favStore.favChannels" class="list-group-item d-flex justify-content-between">
+                <RouterLink :to="`/channel/${channel}`">채널명 : {{ channel }}</RouterLink>
+                <a class="btn btn-danger" @click="unfollow(channel), hideBtn(index)">구독 취소하기</a>
             </li>
         </ul>
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+    ul {
+        width: 50%;
+    }
+</style>

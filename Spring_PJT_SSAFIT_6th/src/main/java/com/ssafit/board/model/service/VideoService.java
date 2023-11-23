@@ -27,5 +27,7 @@ public interface VideoService {
 
 	void addViewCnt(String videoID);
 
-	
+	// 채널 영상 조회
+	List<Video> getChannelVideos(String channelName);
+
 }
