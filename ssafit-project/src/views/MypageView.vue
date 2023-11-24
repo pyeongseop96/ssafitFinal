@@ -1,7 +1,6 @@
 <template>
     <div>
         <MypageNav/>
-        <p>마이페이지입니다....</p>
         <RouterView/>
     </div>
 </template>

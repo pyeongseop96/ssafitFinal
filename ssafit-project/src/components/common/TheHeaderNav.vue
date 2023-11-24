@@ -4,7 +4,7 @@
             <nav class="navbar navbar-expand-xl bg-body-tertiary">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="/">
-                        <img style="height: 40px;" src="@/img/logo.png" alt="Description of the image">
+                        <img style="height: 40px;" src="@/img/logo_gray.png" alt="Description of the image">
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"

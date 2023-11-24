@@ -1,43 +1,56 @@
 <template>
-    <div>
-        <h2>비디오</h2>
+    <div style="margin-left: 50px;">
+        <v-row>
+        <v-col class="pa-4 cell" cols="12" md="3">
+            <v-card>
+                <div style="margin: 20px;">
         <h5> 트레이너 선택</h5>
-        <input checked @click="changeTrainer('ThankyouBuBu')" type="radio" name="partInfo" id="ThankyouBUBU"><label for="ThankyouBUBU"> ThankyouBUBU </label> |
-        <input @click="changeTrainer('GYM%EC%A2%85%EA%B5%AD')" type="radio" name="partInfo" id="GYM종국"><label for="GYM종국"> GYM종국 </label> |
-        <input @click="changeTrainer('SomiFit')" type="radio" name="partInfo" id="SomiFit"><label for="SomiFit"> SomiFit </label>
-        <h5> 운동 부위 선택 </h5>
-        <div id="radio-btn">
-            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input @click="changePart('%EC%A0%84%EC%8B%A0')" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked
-                   >
-                <label class="btn btn-outline-primary" for="btnradio1"> 전신 </label>
+        <v-select style="width: 90%;"
+        label="Select123213"
 
-                <input @click="changePart('%EC%83%81%EC%B2%B4')" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"
-                   >
-                <label class="btn btn-outline-primary" for="btnradio2"> 상체 </label>
+    v-model="trainer"
+    :items="trainers"
+    item-title="title"
+    item-value="value"
+    single-line
+  ></v-select>
+  <h5> 운동부위 선택</h5>
+        <v-select style="width: 90%;"
+        label="Select123213"
+    v-model="part"
+    :items="parts"
+    item-title="title"
+    item-value="value"
+    single-line
+  ></v-select>
 
-                <input @click="changePart('%ED%95%98%EC%B2%B4')" type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off"
-                    >
-                <label class="btn btn-outline-primary" for="btnradio3"> 하체 </label>
+  <h5> 정렬방법 선택</h5>
+        <v-select style="width: 90%;"
+        label="Select123213"
+    v-model="sort"
+    :items="sorts"
+    item-title="title"
+    item-value="value"
+    single-line
+  ></v-select>
+  
+        <v-btn @click="ultraPunch">검색</v-btn>
+</div>
+</v-card>
+</v-col>
 
-                <input @click="changePart('%EB%B3%B5%EB%B6%80')" type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off"
-                   >
-                <label class="btn btn-outline-primary" for="btnradio4"> 복부 </label>
-            </div>
-        </div>
-        정렬방법
-        <input checked @click="changeSort('vr.averageRating')" type="radio" name="sort" id="averageRating"><label for="averageRating"> 평점 </label> |
-        <input @click="changeSort('v.viewCnt')" type="radio" name="sort" id="viewCnt"><label for="viewCnt"> 조회수 </label> |
-        <input @click="changeSort('favorite')" type="radio" name="sort" id="favorite"><label for="favorite"> 찜 </label>
-        <table>
+<v-col class="pa-4 cell" cols="12" md="9">
+            <v-card style="margin-right: 30px;">
 
+        <table style="text-align: center; width: 100%;">
+            <br>
             <tr>
-                <th>제목</th>
-                <th>트레이너</th>
-                <th>운동부위</th>
-                <th>조회수</th>
-                <th>별점</th>
-                <th> --- 찜하기 --- </th>
+                <th>&nbsp;제목&nbsp;</th>
+                <th>&nbsp;트레이너&nbsp;</th>
+                <th>&nbsp;운동부위&nbsp;</th>
+                <th>&nbsp;조회수&nbsp;</th>
+                <th>&nbsp;별점&nbsp;</th>
+                <th v-show="userID!=null">&nbsp;찜하기&nbsp;</th>
             </tr>
 
             <tr v-for="(video, index) in videos.slice(0, 10)" :key="index">
@@ -46,10 +59,15 @@
                 <td>{{ video.partInfo }}</td>
                 <td>{{ video.viewCnt }}</td>
                 <td>⭐{{ video.averageRating !== null ? video.averageRating : '0.0' }}({{ video.totalReviews !== null ? video.totalReviews : '0' }})</td>
-                <td @click="toggleFav(video.videoID, video.favorite)">{{ video.favorite }}</td>
+                <td v-show="userID!=null" @click="toggleFav(video.videoID, video.favorite)">{{ video.favorite=='yes'?'❤️':'🤍' }}</td>
             </tr>
 
         </table>
+
+        </v-card>
+        </v-col>
+        
+        </v-row>
 
     </div>
 </template>
@@ -82,20 +100,8 @@ const ultraPunch = function () {
         .catch((err) => console.log(err));
     }
 
-const changeTrainer = ((newTrainer) => {
-    trainer.value = newTrainer;
-    ultraPunch()
-})
 
-const changePart = ((newPart) => {
-    part.value = newPart;
-    ultraPunch()
-})
 
-const changeSort = ((newSort) => {
-    sort.value = newSort;
-    ultraPunch()
-})
 
 //동영상 클릭 -> 조회수+1 -> reviewView 이동
 const reviewStore = useReviewStore();
@@ -149,7 +155,29 @@ const toggleFav = (videoID, favorite) => {
 // }
 
 
+const trainers = [
+          { title: 'ThankyouBuBu', value: 'ThankyouBuBu' },
+          { title: 'SomiFit', value: 'SomiFit' },
+          { title: 'GYM종국', value: 'GYM%EC%A2%85%EA%B5%AD' },
+        ]
+const parts = [
+          { title: '전신', value: '%EC%A0%84%EC%8B%A0' },
+          { title: '상체', value: '%EC%83%81%EC%B2%B4' },
+          { title: '하체', value: '%ED%95%98%EC%B2%B4' },
+          { title: '복부', value: '%EB%B3%B5%EB%B6%80' },
+        ]     
+        
+const sorts = [
+{ title: '평점순', value: 'vr.averageRating' },
+{ title: '조회수순', value: 'v.viewCnt' },
+{ title: '찜순', value: 'favorite' },
+]
+
 
 </script>
 
-<style scoped></style>
+<style scoped>
+td{
+    padding: 15px;
+}
+</style>

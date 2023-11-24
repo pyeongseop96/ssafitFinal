@@ -1,27 +1,30 @@
 <template>
+  <div style="margin-left: 5%;">
     <h3>댓글: {{ store.reviews.length }}개</h3>
     <h3>별점: ⭐{{ rating.averageRating }}점</h3>
+    </div>
     <div>
      
-        <div class="buttons">
+        <div class="buttons" style="margin-left: 5%;">
         <form action="#">
           <button v-if="userStore.user.name" @click="openModal" type="button" class="shadow btn btn-outline-primary">댓글 작성</button>
         </form>
         <ReviewCreate v-if="store.showModal" @closeModal="closeModal" />
         <ReviewUpdate v-if="store.showUpdate" @closeModal="closeUpdate" />
     </div>
+
     <hr>
-    <table class="table table-striped">
+    <v-table style="width: 90%; margin-left: 5%;text-align: center;"  class="table table-striped">
 
             <th>제목</th>
             <th>내용</th>
-            <th>별점</th>
-            <th>글쓴이</th>
-           <th>작성일</th>
-            <th>수정</th>
-            <th>삭제</th>
+            <th style="width: 150px;">별점</th>
+            <th style="width: 150px;">글쓴이</th>
+           <th style="width: 100px;">작성일</th>
+            <th style="width: 80px;">수정</th>
+            <th style="width: 80px;">삭제</th>
 
-            <tr v-for="(item, index) in store.reviews.slice(10*currentPage-10, 10*currentPage)" :key="index">
+            <tr style="height: 38px;" v-for="(item, index) in store.reviews.slice(5*currentPage-5, 5*currentPage)" :key="index">
         <td>{{ item.title }}</td>
         <td>{{ item.content }}</td>
         <td>
@@ -37,7 +40,7 @@
         </td>
       </tr>     
      
-    </table>
+    </v-table>
 
     <!-- 페이지네이션 -->
     <nav aria-label="Page navigation example">
@@ -74,7 +77,7 @@ const rating = ref('');
 const today = new Date();
 
 //페이지네이션
-const perReview = 10;
+const perReview = 5;
 const currentPage = ref(1);
 const pageCount = computed(() => {
   return Math.ceil(store.reviews.length / perReview)

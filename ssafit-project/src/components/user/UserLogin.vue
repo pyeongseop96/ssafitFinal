@@ -17,7 +17,7 @@ const login = () => {
 
 <template>
     <form>
-        <img class="mb-4" src="https://edu.ssafy.com/asset/images/header-logo.jpg" alt="" width="72" height="57">
+        <img class="mb-4" src="@/img/logo_gray.png" alt="" width="120" height="40">
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
         <div class="form-floating">

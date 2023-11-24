@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>찜한 동영상 목록</h3>
+        <h3 style="text-align: center;">찜한 동영상 목록</h3>
         <div id="app">
             <div v-for="video in favStore.favVideos" class="card-deck">
                 <div class="card">

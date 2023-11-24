@@ -95,7 +95,7 @@
 
       >
       주 3~5회 운동
-      </v-btn>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </v-btn>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <v-btn
         outlined
         color="primary"
@@ -124,8 +124,7 @@
 
   
 <div class="freqButton">
-        <br>섭취 영양소 비율 조절<br><br>
-        <v-btn @click="recom1">영양사 추천 비율</v-btn>&nbsp;&nbsp;
+        섭취 영양소 비율 조절&nbsp;&nbsp;<v-btn @click="recom1">영양사 추천 비율</v-btn>&nbsp;&nbsp;
         <v-btn @click="recom2">저탄수 고단백 비율</v-btn><br><br>
 </div>
         <v-card style="width: 50%; margin-left: 20px;">
@@ -188,14 +187,14 @@
     </div>
     </v-card>
 
-    <br><br><div style="margin-left: 20px;">결과</div><br>
+    <br><div style="margin-left: 20px;">결과</div><br>
   <v-table density="compact" style="width: 50%; margin-left: 20px;">
     <thead>
       <tr>
-        <th class="text-left">
+        <th class="text-left" style="font-weight: bold;">
           영양소
         </th>
-        <th class="text-left">
+        <th class="text-left" style="font-weight: bold;">
           섭취량
         </th>
       </tr>
